@@ -1,0 +1,10 @@
+[Black & White]
+R=(R+G+B)/3
+G=(R+G+B)/3
+B=(R+G+B)/3
+
+[Invert]
+R=255-R
+G=255-G
+B=255-B
+
