@@ -1,6 +1,6 @@
 unit Tiles;
 
-  { 
+  {
       Tile Studio
 
       Copyright (c) 2000-2017, Mike Wiering, Wiering Software
@@ -248,24 +248,17 @@ interface
   const
     AllowMultEmptyTiles: Boolean = FALSE;
 
-{$IFDEF PNGSUPPORT}
   procedure WriteBitmapToPNGFile (OutputFilename: string; Bitmap: TBitmap; TransparentColor: Integer);
   procedure ReadBitmapFromPNGFile (InputFilename: string; Bitmap: TBitmap);
-{$ENDIF}
 
 implementation
 
-{$IFDEF PNGSUPPORT}
-  uses
-    PNGUnit;
-{$ENDIF}
 
-{$IFDEF PNGSUPPORT}
+{$IFDEF HAS_UNIT_PNGIMAGE}
+  uses
+    PNGImage;
+
   procedure WriteBitmapToPNGFile (OutputFilename: string; Bitmap: TBitmap; TransparentColor: Integer);
-  begin
-    PNGUnit.WriteBitmapToPNGFile (OutputFilename, Bitmap, TransparentColor);
-  end;
-{
     var
       png: TPngObject;
       i, j: Integer;
@@ -276,50 +269,29 @@ implementation
     png.SaveToFile (OutputFilename);
     png.Free;
   end;
-{
-    var
-      png: TPngImage;
-  begin
-    png := TPngImage.Create;
-    try
-      if TransparentColor <> clNone then
-      begin
-        Bitmap.Transparent := TRUE;
-        Bitmap.TransparentColor := TransparentColor;
-      end;
-      png.CopyFromBmp (Bitmap);
-      png.SaveToFile (OutputFilename);
-    finally
-      png.Free;
-    end;
-}
 
+  procedure ReadBitmapFromPNGFile (InputFilename: string; Bitmap: TBitmap);
+    var
+      png: TPngObject;
+  begin
+    png := TPngObject.Create ();
+    png.AssignHandle(Bitmap.Handle, png.TransparentColor <> clNone, png.TransparentColor);
+    png.Free;
+  end;
+{$ELSE}
+  uses
+    PNGUnit;
+
+  procedure WriteBitmapToPNGFile (OutputFilename: string; Bitmap: TBitmap; TransparentColor: Integer);
+  begin
+    PNGUnit.WriteBitmapToPNGFile (OutputFilename, Bitmap, TransparentColor);
+  end;
 
   procedure ReadBitmapFromPNGFile (InputFilename: string; Bitmap: TBitmap);
   begin
     PNGUnit.ReadBitmapFromPngFile (InputFilename, Bitmap)
   end;
-
-{
-    var
-      png: TPngObject;
-  begin
-    png := TPngObject.Create ();
-    png.LoadFromFile (Filename);
-    Bitmap.Assign (png);
-    png.Free;
-  end;
-{
-    var
-      png: TPngObject;
-  begin
-    png := TPngObject.Create ();
-    png.AssignHandle(Bitmap.Handle, TransparentColor <> clNone, TransparentColor);
-    png.Free;
-  end;
-}
 {$ENDIF}
-
 
 
   procedure Msg (s: string);
@@ -852,11 +824,9 @@ implementation
     tbr.Filename := Filename;
     with tbr do
     begin
-    {$IFDEF PNGSUPPORT}
       if Uppercase (ExtractFileExt (Filename)) = '.PNG' then
         ReadBitmapFromPngFile (Filename, TempBitmap)
       else
-    {$ENDIF}
       begin
       //  if Uppercase (ExtractFileExt (Filename)) = '.PCX' then
         begin
@@ -1202,11 +1172,9 @@ implementation
       end;
 
       Ext := UpperCase (ExtractFileExt (Filename));
-    {$IFDEF PNGSUPPORT}
       if Ext = '.PNG' then
         WriteBitmapToPngFile (Filename, TempBitmap, TransColor)
       else
-    {$ENDIF}
         TempBitmap.SaveToFile (FileName);
     end;
     TempBitmap.Free;
@@ -1690,8 +1658,11 @@ implementation
     end;
 
     procedure SaveChar (c: Char);
+      var
+        ch: {$IFDEF UNICODE} AnsiChar {$ELSE} Char {$ENDIF};
     begin
-      BlockWrite (F, c, SizeOf (c));
+      ch := {$IFDEF UNICODE} AnsiChar {$ENDIF} (c);
+      BlockWrite (F, ch, SizeOf (ch));
     end;
 
     procedure SaveString (s: string);
@@ -1920,10 +1891,10 @@ implementation
 
     function ReadChar: Char;
       var
-        c: Char;
+        c: {$IFDEF UNICODE} AnsiChar {$ELSE} Char {$ENDIF};
     begin
       BlockRead (F, c, SizeOf (c));
-      ReadChar := c;
+      ReadChar := Char (c);
     end;
 
     function ReadString: string;

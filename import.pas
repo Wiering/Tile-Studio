@@ -95,7 +95,7 @@ var
 
 implementation
 
-uses Main, Tiles {$IFDEF PNGSUPPORT} {$ENDIF};
+uses Main, Tiles;
 
 {$R *.DFM}
 
@@ -103,9 +103,7 @@ procedure TImportTiles.FormShow(Sender: TObject);
   var
     Filename: string;
     id: string;
-  {$IFDEF PNGSUPPORT}
     png: TBitmap;
-  {$ENDIF}
 begin
   TransX := -1;
   TransY := -1;
@@ -123,7 +121,6 @@ begin
 
   with PreviewPicture do
   begin
-  {$IFDEF PNGSUPPORT}
     if UpperCase (ExtractFileExt (Filename)) = '.PNG' then
     begin
       png := TBitmap.Create;
@@ -132,7 +129,6 @@ begin
       png.Free;
     end
     else
-  {$ENDIF}
       Picture.LoadFromFile (Filename);
     Picture.Bitmap.PixelFormat := pf24bit;
     ImportTiles.Caption := 'Importing tiles from ' + Filename;

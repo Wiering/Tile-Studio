@@ -34,7 +34,6 @@ uses
   ListsForm in 'ListsForm.pas' {Lists},
   ReplaceColors in 'ReplaceColors.pas' {Replace},
   Settings in 'Settings.pas' {SettingsForm},
-  PNGImage in 'PNGImage.pas',
   RGBConvForm in 'RGBConvForm.pas' {RGBConv};
 
 {$R *.RES}

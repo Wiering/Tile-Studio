@@ -176,7 +176,7 @@ uses
 const
   APPL_NAME = 'Tile Studio';
   ApplPath: string = '';
-  VERSION_NUMBER: string[4] = '3.0';
+  VERSION_NUMBER: string = '3.0';
   DEFAULT_NAME = 'Untitled';
   DEFAULT_EXT = '.tsp';
   URL = 'http://tilestudio.sourceforge.net/';
@@ -1117,8 +1117,7 @@ implementation
 
 uses Import, Clipbrd, About, Create, TileCopy, MCEdit, Hex, CGSettings,
   SelectDir, Export, Scroll, Calc, PalMan, ImpPovAni, ReplaceColors,
-// {$IFDEF SCRIPTING} ifpscomp, ifps3, ifps3lib_std, ifps3lib_stdr, {$ENDIF}
- {$IFDEF PNGSUPPORT}  {$ENDIF} InfoForm, Settings, ListsForm, RGBConvForm;
+  InfoForm, Settings, ListsForm, RGBConvForm;
 
 {$R *.DFM}
 
@@ -7637,8 +7636,11 @@ procedure TMainForm.Save1Click(Sender: TObject);
   end;
 
   procedure SaveChar (c: Char);
+    var
+      ch: {$IFDEF UNICODE} AnsiChar {$ELSE} Char {$ENDIF};
   begin
-    BlockWrite (F, c, SizeOf (c));
+    ch := {$IFDEF UNICODE} AnsiChar {$ENDIF} (c);
+    BlockWrite (F, ch, SizeOf (ch));
   end;
 
   procedure SaveString (s: string);
@@ -7862,10 +7864,10 @@ procedure TMainForm.Open1Click(Sender: TObject);
 
   function ReadChar: Char;
     var
-      c: Char;
+      c: {$IFDEF UNICODE} AnsiChar {$ELSE} Char {$ENDIF};
   begin
     BlockRead (F, c, SizeOf (c));
-    ReadChar := c;
+    ReadChar := Char (c);
   end;
 
   function ReadString: string;
@@ -7940,8 +7942,8 @@ begin
 
           ProgressBar.Position := 0;
 
-          VersionHi := Chr (ReadInt + Ord ('0'));  // Version
-          VersionLo := Chr (ReadInt + Ord ('0'));
+          VersionHi := Char (ReadInt + Ord ('0'));  // Version
+          VersionLo := Char (ReadInt + Ord ('0'));
 
           n := 0;
           Done := FALSE;
@@ -12772,13 +12774,11 @@ procedure TMainForm.Generate1Click(Sender: TObject);
                       idat := -1;
                       bmpCurTile.PixelFormat := pfOutput;
 
-                   {$IFDEF PNGSUPPORT}
                       while (OutputFilename <> '') and (OutputFilename[Length (OutputFilename)] in [' ', #0]) do
                         Delete (OutputFilename, Length (OutputFilename), 1);
                       if UpperCase (ExtractFileExt (OutputFilename)) = '.PNG' then
                         WriteBitmapToPngFile ({OutputPath +} OutputFilename, bmpCurTile, TRANS_COLOR)
                       else
-                   {$ENDIF}
                       begin
                         bmpCurTile.SaveToFile ({OutputPath +} OutputFileName);
                      {$IFDEF PATCHBMP}
@@ -12864,13 +12864,11 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 
 
                     bmpCurTile.PixelFormat := pfOutput;
-                 {$IFDEF PNGSUPPORT}
                     while (OutputFilename <> '') and (OutputFilename[Length (OutputFilename)] in [' ', #0]) do
                       Delete (OutputFilename, Length (OutputFilename), 1);
                     if UpperCase (ExtractFileExt (OutputFilename)) = '.PNG' then
                       WriteBitmapToPngFile ({OutputPath +} OutputFilename, bmpCurTile, TRANS_COLOR)
                     else
-                 {$ENDIF}
                     begin
                       bmpCurTile.SaveToFile ({OutputPath +} OutputFileName);
                     {$IFDEF PATCHBMP}
@@ -12893,13 +12891,11 @@ procedure TMainForm.Generate1Click(Sender: TObject);
                     begin
                       CreatePath ({OutputPath +} OutputFileName);
                       bmpFinal[itab].PixelFormat := pfOutput;
-                   {$IFDEF PNGSUPPORT}
                       while (OutputFilename <> '') and (OutputFilename[Length (OutputFilename)] in [' ', #0]) do
                         Delete (OutputFilename, Length (OutputFilename), 1);
                       if UpperCase (ExtractFileExt (OutputFilename)) = '.PNG' then
                         WriteBitmapToPngFile ({OutputPath +} OutputFilename, bmpFinal[itab], TRANS_COLOR)
                       else
-                   {$ENDIF}
                       begin
                         bmpFinal[itab].SaveToFile ({OutputPath +} OutputFileName);
                       {$IFDEF PATCHBMP}
@@ -14048,9 +14044,7 @@ begin
            bmpTemp.PixelFormat := pf1bit;
         {   Mono := TRUE; }
          end;
-  {$IFDEF PNGSUPPORT}
       7: bmpTemp.PixelFormat := pf24bit;  // PNG
-  {$ENDIF}
     end;
     bmpTemp.Width := W;
     bmpTemp.Height := H;
@@ -14065,14 +14059,12 @@ begin
       }
           bmpTemp.Canvas.Pixels[i, j] := c;
       end;
-  {$IFDEF PNGSUPPORT}
     if UpperCase (ExtractFileExt (SavePictureDialog.Filename)) = '.PNG' then
     begin
       bmpTemp.TransparentColor := TRANS_COLOR;
       WriteBitmapToPngFile (SavePictureDialog.Filename, bmpTemp, TRANS_COLOR);
     end
     else
-  {$ENDIF}
       bmpTemp.SaveToFile (SavePictureDialog.FileName);
     bmpTemp.Free;
   end;
@@ -14829,6 +14821,9 @@ procedure TMainForm.ReadConfigFile;
   end;
 
 begin  { ReadConfigFile }
+  WinWidth := 800;
+  WinHeight := 600;
+
   if FileExists (ApplPath + CONFIG_FILE) then  // bugfix 2.55
   begin
     AssignFile (F, ApplPath + CONFIG_FILE);
@@ -14884,7 +14879,6 @@ begin
   GetRGB (TRANS_COLOR_REPLACEMENT, R, G, B);
   WriteLn (F, 'Replace=$', Hex2 (R and $FF), Hex2 (G and $FF), Hex2 (B and $FF));
   WriteLn (F);
-
 
   CloseFile (F);
 end;
@@ -15733,16 +15727,12 @@ begin
         4: bmpMapImage.PixelFormat := pf8bit;
         5: bmpMapImage.PixelFormat := pf4bit;
         6: bmpMapImage.PixelFormat := pf1bit;
-    {$IFDEF PNGSUPPORT}
         7: bmpMapImage.PixelFormat := pf24bit;  // PNG
-    {$ENDIF}
       end;
       if ExtractFileExt (SavePictureDialog.Filename) = '' then
-    {$IFDEF PNGSUPPORT}
         if SavePictureDialog.FilterIndex = 7 then
           SavePictureDialog.Filename := SavePictureDialog.Filename + '.png'
         else
-    {$ENDIF}
         SavePictureDialog.Filename := SavePictureDialog.Filename + '.bmp';
 
       DrawMap (Rect(0, 0, -1, -1), TRUE, FALSE, FALSE);
@@ -15790,14 +15780,12 @@ begin
         bmpMapImage.Height := HH div Scale;
       end;
 
-    {$IFDEF PNGSUPPORT}
       if UpperCase (ExtractFileExt (SavePictureDialog.Filename)) = '.PNG' then
       begin
         bmpMapImage.TransparentColor := TRANS_COLOR;
         WriteBitmapToPngFile (SavePictureDialog.Filename, bmpMapImage, TRANS_COLOR);
       end
       else
-    {$ENDIF}
         bmpMapImage.SaveToFile (SavePictureDialog.FileName);
       bmpMapImage.Free;
     end;

@@ -17,6 +17,11 @@ implementation
                      var Str: ShortString;
                      var Pos: Integer): Boolean;
 
+{$IFDEF UNICODE}
+    type
+      Char = AnsiChar;
+{$ENDIF}
+
     var
       error: Boolean;
 
