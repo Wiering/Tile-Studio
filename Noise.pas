@@ -1,5 +1,9 @@
 unit Noise;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
   {$G+}

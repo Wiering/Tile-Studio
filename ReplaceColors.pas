@@ -1,5 +1,9 @@
 unit ReplaceColors;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
   { 
       Tile Studio
 
@@ -27,7 +31,12 @@ unit ReplaceColors;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Spin;
 
 type
@@ -82,7 +91,11 @@ var
 
 implementation
 
-{$R *.dfm}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 
 procedure TReplace.CancelClick(Sender: TObject);
 begin

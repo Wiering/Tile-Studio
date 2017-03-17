@@ -22,9 +22,19 @@ ANY DAMAGE THIS CODE MAY CAUSE - YOU HAVE BEEN WARNED!
 }
 unit PngUnit;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
-uses Windows, SysUtils, Classes, Graphics, PngLib;
+uses
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  SysUtils, Classes, Graphics, PngLib;
 
 function WriteBitmapToPngFile( Filename : string; Bitmap : TBitmap; TransparentColor:TColor):boolean;
 function ReadBitmapFromPngFile( Filename : string; var Bitmap : TBitmap ):boolean;

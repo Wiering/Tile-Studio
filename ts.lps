@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="47">
+      <Unit0>
+        <Filename Value="ts.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TS"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos Y="50"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="Main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="1994"/>
+        <CursorPos Y="2002"/>
+        <UsageCount Value="50"/>
+        <Bookmarks Count="1">
+          <Item0 Y="5348" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="Tiles.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1195"/>
+        <CursorPos X="44" Y="1272"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="import.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="Import"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="About.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="82"/>
+        <CursorPos X="20" Y="110"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Create.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="TileCopy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="MCEdit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="CGSettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="SelectDir.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="29"/>
+        <CursorPos X="43" Y="35"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="Export.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="Scroll.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="Calc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="PalMan.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="ImpPovAni.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="InfoForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Info"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="27"/>
+        <CursorPos Y="58"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="ListsForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="ReplaceColors.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="Settings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="RGBConvForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="HEX.PAS"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="Noise.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="PngUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="SelectDir.lfm"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="22"/>
+        <CursorPos X="17" Y="49"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="D:\lazarus\lcl\themes.pas"/>
+        <UnitName Value="Themes"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2131"/>
+        <CursorPos X="41" Y="2156"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="311"/>
+        <CursorPos X="27" Y="331"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="D:\lazarus\lcl\include\brush.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos Y="37"/>
+        <UsageCount Value="12"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="D:\lazarus\lcl\include\spinedit.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="201"/>
+        <CursorPos Y="218"/>
+        <UsageCount Value="11"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="D:\lazarus\lcl\include\tabcontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="418"/>
+        <CursorPos Y="434"/>
+        <UsageCount Value="9"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="D:\lazarus\lcl\include\customnotebook.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="573"/>
+        <CursorPos Y="589"/>
+        <UsageCount Value="9"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="D:\lazarus\lcl\comctrls.pp"/>
+        <UnitName Value="ComCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="368"/>
+        <CursorPos X="5" Y="375"/>
+        <UsageCount Value="9"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="D:\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5369"/>
+        <CursorPos Y="5384"/>
+        <UsageCount Value="14"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="D:\lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2110"/>
+        <CursorPos Y="2125"/>
+        <UsageCount Value="14"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="D:\lazarus\lcl\interfaces\win32\win32pagecontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="641"/>
+        <CursorPos Y="666"/>
+        <UsageCount Value="9"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="D:\lazarus\lcl\include\menuitem.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="71"/>
+        <CursorPos Y="89"/>
+        <UsageCount Value="12"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="D:\lazarus\lcl\include\menu.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="252"/>
+        <CursorPos Y="269"/>
+        <UsageCount Value="12"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="D:\lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2465"/>
+        <CursorPos Y="2491"/>
+        <UsageCount Value="12"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="D:\lazarus\lcl\include\application.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1383"/>
+        <CursorPos Y="1399"/>
+        <UsageCount Value="12"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="D:\lazarus\lcl\lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="107"/>
+        <CursorPos Y="123"/>
+        <UsageCount Value="12"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="D:\lazarus\lcl\interfaces\win32\win32callback.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2579"/>
+        <CursorPos Y="2605"/>
+        <UsageCount Value="12"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="D:\lazarus\lcl\interfaces\win32\win32object.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="342"/>
+        <CursorPos Y="365"/>
+        <UsageCount Value="12"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="D:\lazarus\lcl\include\canvas.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="32"/>
+        <CursorPos Y="48"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="D:\lazarus\lcl\include\custombitmap.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="475"/>
+        <CursorPos Y="504"/>
+        <UsageCount Value="10"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="D:\lazarus\lcl\include\lclintf.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="451"/>
+        <CursorPos Y="469"/>
+        <UsageCount Value="10"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="D:\lazarus\lcl\interfaces\win32\win32winapi.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3666"/>
+        <CursorPos Y="3682"/>
+        <UsageCount Value="10"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="D:\lazarus\lcl\imglist.pp"/>
+        <UnitName Value="ImgList"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="D:\lazarus\lcl\include\customimage.inc"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="32"/>
+        <CursorPos Y="57"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit46>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="554" Column="51" TopLine="528"/>
+      </Position1>
+      <Position2>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="555" Column="38" TopLine="529"/>
+      </Position2>
+      <Position3>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="656" Column="16" TopLine="630"/>
+      </Position3>
+      <Position4>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="657" Column="37" TopLine="631"/>
+      </Position4>
+      <Position5>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="671" Column="37" TopLine="645"/>
+      </Position5>
+      <Position6>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="716" Column="40" TopLine="690"/>
+      </Position6>
+      <Position7>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="718" Column="13" TopLine="692"/>
+      </Position7>
+      <Position8>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="720" Column="38" TopLine="694"/>
+      </Position8>
+      <Position9>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="755" Column="49" TopLine="729"/>
+      </Position9>
+      <Position10>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="791" Column="15" TopLine="773"/>
+      </Position10>
+      <Position11>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="804" Column="15" TopLine="778"/>
+      </Position11>
+      <Position12>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+      </Position12>
+      <Position13>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="45" Column="26" TopLine="19"/>
+      </Position13>
+      <Position14>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="51" Column="18" TopLine="25"/>
+      </Position14>
+      <Position15>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="102" Column="27" TopLine="76"/>
+      </Position15>
+      <Position16>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="103" Column="38" TopLine="77"/>
+      </Position16>
+      <Position17>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="122" Column="55" TopLine="96"/>
+      </Position17>
+      <Position18>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="123" Column="42" TopLine="97"/>
+      </Position18>
+      <Position19>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="166" Column="27" TopLine="140"/>
+      </Position19>
+      <Position20>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="178" Column="16" TopLine="152"/>
+      </Position20>
+      <Position21>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="184" Column="25" TopLine="158"/>
+      </Position21>
+      <Position22>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="188" Column="69" TopLine="162"/>
+      </Position22>
+      <Position23>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="211" Column="29" TopLine="186"/>
+      </Position23>
+      <Position24>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="212" Column="43" TopLine="187"/>
+      </Position24>
+      <Position25>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="213" Column="46" TopLine="188"/>
+      </Position25>
+      <Position26>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="227" Column="16" TopLine="201"/>
+      </Position26>
+      <Position27>
+        <Filename Value="Main.pas"/>
+        <Caret Line="2028" Column="49" TopLine="2013"/>
+      </Position27>
+      <Position28>
+        <Filename Value="Main.pas"/>
+        <Caret Line="2027" Column="33" TopLine="2007"/>
+      </Position28>
+      <Position29>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="240" Column="18" TopLine="218"/>
+      </Position29>
+      <Position30>
+        <Filename Value="D:\lazarus\lcl\include\rasterimage.inc"/>
+        <Caret Line="248" Column="48" TopLine="222"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

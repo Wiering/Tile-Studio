@@ -24,20 +24,29 @@ unit SelectDir;
       SOFTWARE.
   }
 
-  {$I SETTINGS.INC}
+  {$I settings.inc}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages, ShellCtrls,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, FileCtrl;
 
 type
   TOutputDir = class(TForm)
     OkButton: TButton;
     CancelButton: TButton;
-    DirectoryListBox: TDirectoryListBox;
-    DriveComboBox: TDriveComboBox;
+    {$IFDEF FPC}
+      ShellTreeView: TShellTreeView;
+    {$ELSE}
+      DirectoryListBox: TDirectoryListBox;
+      DriveComboBox: TDriveComboBox;
+    {$ENDIF}
     L2: TLabel;
     L1: TLabel;
     procedure FormShow(Sender: TObject);
@@ -56,13 +65,20 @@ var
 
 implementation
 
-{$R *.DFM}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 
 procedure TOutputDir.FormShow(Sender: TObject);
 begin
   Result := FALSE;
-  DirectoryListBox.SetFocus;
-
+  {$IFDEF FPC}
+    ShellTreeView.SetFocus;
+  {$ELSE}
+    DirectoryListBox.SetFocus;
+  {$ENDIF}
 end;
 
 procedure TOutputDir.CancelButtonClick(Sender: TObject);

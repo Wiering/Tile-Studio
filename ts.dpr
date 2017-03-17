@@ -1,5 +1,9 @@
 program TS;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
   { TILE STUDIO
 
     Web site:    http://tilestudio.sourceforge.net/
@@ -15,6 +19,10 @@ program TS;
   }
 
 uses
+{$IFnDEF FPC}
+{$ELSE}
+  Interfaces,
+{$ENDIF}
   Forms,
   Main in 'Main.pas' {MainForm},
   Tiles in 'Tiles.pas',
@@ -36,7 +44,7 @@ uses
   Settings in 'Settings.pas' {SettingsForm},
   RGBConvForm in 'RGBConvForm.pas' {RGBConv};
 
-{$R *.RES}
+{$R *.res}
 
 begin
   Application.Initialize;

@@ -24,13 +24,18 @@ unit Tiles;
       SOFTWARE.
   }
 
-  {$I SETTINGS.INC}
+  {$I settings.inc}
 
 interface
 
   uses
-    Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-    Menus, ExtCtrls, ComCtrls, StdCtrls, Grids, jpeg, ToolWin, Buttons, SZPCX;
+{$IFnDEF FPC}
+  jpeg, Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+    Menus, ExtCtrls, ComCtrls, StdCtrls, Grids, ToolWin, Buttons, SZPCX;
 
 
   const
@@ -253,8 +258,25 @@ interface
 
 implementation
 
+{$IFDEF FPC}
+  procedure WriteBitmapToPNGFile (OutputFilename: string; Bitmap: TBitmap; TransparentColor: Integer);
+  begin
+    Bitmap.Transparent := True;
+    Bitmap.TransparentColor := TransparentColor;
+    try
+      Bitmap.SaveToFile(OutputFilename);
+    finally
+      Bitmap.Free;
+    end;
+  end;
 
-{$IFDEF HAS_UNIT_PNGIMAGE}
+  procedure ReadBitmapFromPNGFile (InputFilename: string; Bitmap: TBitmap);
+  begin
+    Bitmap.LoadFromFile(InputFilename);
+  end;
+
+{$ELSE}
+ {$IFDEF HAS_UNIT_PNGIMAGE}
   uses
     PNGImage;
 
@@ -278,9 +300,9 @@ implementation
     png.AssignHandle(Bitmap.Handle, png.TransparentColor <> clNone, png.TransparentColor);
     png.Free;
   end;
-{$ELSE}
+ {$ELSE}
   uses
-    PNGUnit;
+    PngUnit;
 
   procedure WriteBitmapToPNGFile (OutputFilename: string; Bitmap: TBitmap; TransparentColor: Integer);
   begin
@@ -291,6 +313,7 @@ implementation
   begin
     PNGUnit.ReadBitmapFromPngFile (InputFilename, Bitmap)
   end;
+ {$ENDIF}
 {$ENDIF}
 
 
@@ -1353,7 +1376,7 @@ implementation
   function GetChkSumChar (var tbr: TileBitmapRec; n: Integer): Char;
     var
       x, y: Integer;
-      chk: Integer;
+      chk, px: Integer;
   begin
     with tbr do
     begin
@@ -1365,7 +1388,8 @@ implementation
         for x := 0 to W - 1 do
         begin
           chk := chk xor (chk shr 1);
-          Inc (chk, TileBitmap.Canvas.Pixels[n * W + x, y]);
+          px := TileBitmap.Canvas.Pixels[n * W + x, y];
+          chk := Integer (chk + px);
         end;
     end;
     GetChkSumChar := Chr (chk and $FF);

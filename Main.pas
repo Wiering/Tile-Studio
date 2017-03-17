@@ -27,151 +27,41 @@ unit Main;
 
   {
 
-    To do:
+      Issues in Lazarus
 
-      - 256 colors
-
-      - variable tile sizes (for fonts)?
-      - font generator
-      - flag bits
-      - diagonal bounds (y=x/2 and y=2x)
-      - automatically detect mirror / upsidedown /rotate (#tile command)
-      - alpha layer in map editor
-      - update documentation and add more images
-
-
-      to do: update html tutorial:
-         - sequencedata --> bounds ???
+       - maps
 
 
 
-    History:
+      Version 3.1
 
-      - fixed: paste button was often disabled when trying to copy from external source
-      - fixed: when removing an animation sequence, the numbers of the others in the maps are now properly lowered
+       - ported to Lazarus
+       - ported to Delphi 10.1 Berlin
+       - fixed: paste button was often disabled when trying to copy from external source
+       - fixed: when removing an animation sequence, the numbers of the others in the maps are now properly lowered
 
-
-    Version 3.0
-
-      - select next/previous clips with Ctrl+Shift+Alt Left/Right
-      - added Tile->Replace color under cursor (Ctrl+R)
-      - added (simple) union skinning: show a vague image of a different tile while drawing a tile,
-        right-click on other tile (at the bottom)
-      - added 'text' quotes also allowed for strings in addition to "text", useful for '"'
-      - added option !StartWithEmptyTile
-      - added opacity slider (for most drawing tools)
-      - fixed import palette
-      - 256-color palette DEFAULT.PAL (F8 to switch)
-      - added <Counter1>..<Counter99>
-      - changed PNG unit to PNGImage ???
-      - RGB conversion scripts
-
-      - #readtextfile (<TextFileLine>, <TextFileLineValue>, <LineNumber>)
-      - #readbinfile (<BinFileChar>, <BinFileByte>, <BinFilePos>)
-      - project lists / #list <(Name)Item/Value(n)>
-      - added history panel for coordinates
-      - added (limited) .PCX support
-      - added <TileSetBitmapWidth>, <TileSetBitmapHeight>, <HorizontalTileCount>
-        and <VerticalTileCount> in case there are no maps (now refer to last #tstilebitmap)
-      - added Replace Current Tile Sequence (Ctrl+Shift+F7)
-      - added #sequenceframe ... #end sequencframe: same as #sequencedata, but goes through
-        each frame n+1 times (where n is the duration of each frame)
-
-
-
-    Version 2.55
-
-      - fixed: Edit, Replace Colors, Replace All was replacing complete tiles
-      - added: Quick keys 0-9 for tools
-      - starting a new selection in the map doesn't change the bounds anymore
-      - sequences can have bounds
-      - #sequencedata .. #end sequencedata can now contain variable <Bounds>
-        (the bounds of the tiles used to make the sequence)
-      - fixed <MapCount>
-      - fixed: config file not loaded when starting from other directory
-      - transparent color can be changed by editing the config file TS.TSC
-      - paste images half size
-      - fixed bug introduced in 2.54: #bitmapfile didn't use target directory
-
-
-    Version 2.54
-
-      - export separate tiles with #TILEBITMAP or #TSTILEBITMAP
-      - #file ...\\... now creates path
-      - Replace Colors - OtherFromToList
-      - fixed range check error when placing mirrored tile in map with 1234 tool
-      - View menu: show back/mid/front layer
-      - copy current tile combination to clipboard (to paste as new tile)
-      - TilesetBitmapWidth and TilesetBitmapHeight are updated directly after #TilesetBitmap
-      - Map grid guidelines
-
-
-    Version 2.53
-
-      - fixed: move tile left/right (range check error)
-      - added: scale down factor 1/2/4/8 for export map as image
-      - added: smart pattern selection / pick up pattern (Alt + RMB)
-      - fixed: delete tile messed up bounds
-      - fixed: <MapCount> included maps that weren't exported
-      - added: <TSBackTile1>, <TSMidTile1>, <TSFrontTile1> tile 0 = 1
-      - fixed: TileData: N parameter - check for compatibility!
-      - fixed: progressbar during generate code works better now
-
-
-    Version 2.52
-
-      - added: replace tiles in map
-      - added: replace color in tile: Ctrl + fill tool
-
-
-    Version 2.51
-
-      - added: tile grid (Ctrl+G to enable/disable)
-      - fixed: exporting map as image would only export the visible region
-      - added: pick up several colors to make a color pattern (Ctrl + right click)
-      - added: used color palette shows RGB values when moving the mouse
-
-
-    Version 2.5
-      - .tsd file in project directory
-      - added #TSTILEBITMAP keyword
-      - fixed access violation error (drawing small maps with overlap > 0)
-      - #uniquetextile
-      - export complete maps as images
-      - right-click in map selects tile
-      - lighting direction can be selected (shift+left mouse button on bound box)
-      - binary output files: #BINFILE
-      - tile rotation in maps (TSBackR, TSMidR, TSFrontR)
-      - rotate tiles right/left (tile editor)
-      - hide tile set panel
-      - show selection size in status bar
-      - scale down tilesets while generating code (anti-aliasing)
-
-
-
-    2.44 and before: see website
-
-      Modified by Rainer Deyke (rainerd@eldwood.com)  // 2.42
-
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of the
-    License, or (at your option) any later version.  See the file
-    COPYING included with this distribution for more information.
   }
 
-  {$I SETTINGS.INC}
+  {
+     NOTE: to avoid ugly black TabControls when compiling with Lazarus,
+           change clBackground to clBtnFace in lcl\Themes.pas, see
+           http://mantis.freepascal.org/view.php?id=25468
+  }
 
-  { PNG is now handled by PngImage instead of PngUnit }
 
-
+  {$I settings.inc}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  Menus, ExtCtrls, ComCtrls, StdCtrls, Grids, jpeg, ToolWin, Buttons, Tiles,
-  ExtDlgs, ShellAPI, ImgList, Spin, Math, Noise, SZPCX;
+{$IFnDEF FPC}
+  ShellAPI, jpeg, Windows,
+{$ELSE}
+  LCLIntf, LCLType,
+{$ENDIF}
+  SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Menus, ExtCtrls, ComCtrls, StdCtrls, Buttons, Tiles,
+  ExtDlgs, Spin, Math, Noise, SZPCX;
 
 const
   APPL_NAME = 'Tile Studio';
@@ -663,6 +553,7 @@ type
     DoubleSize1: TMenuItem;
     procedure Exit1Click(Sender: TObject);
     procedure PalettePaint(Sender: TObject);
+    procedure ResizeMainForm();
     procedure FormResize(Sender: TObject);
     procedure PaletteMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -736,6 +627,7 @@ type
     procedure NewTileCollection1Click(Sender: TObject);
     procedure CreateNewTileCollection (Name: string; BW, BH: Integer; AddNew: Boolean);
     procedure Properties1Click(Sender: TObject);
+    procedure ChangeTabIndexWithoutEvent(var TC: TTabControl; NewTabIndex: Integer);
     procedure TabChange(Sender: TObject);
     procedure Toolbar1Click(Sender: TObject);
     procedure ActualSize1Click(Sender: TObject);
@@ -1034,6 +926,8 @@ type
 
     ColorUnderMousePointer: Integer;
 
+    SkipTabChangeEvent: Boolean;
+
 
     procedure UpdateRecentFilesMenu;
     function ColorMatch (C: Integer): Integer;
@@ -1115,11 +1009,15 @@ var
 
 implementation
 
-uses Import, Clipbrd, About, Create, TileCopy, MCEdit, Hex, CGSettings,
+uses Import, Clipbrd, About, Create, TileCopy, MCEdit, HEX, CGSettings,
   SelectDir, Export, Scroll, Calc, PalMan, ImpPovAni, ReplaceColors,
   InfoForm, Settings, ListsForm, RGBConvForm;
 
-{$R *.DFM}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 
 
 
@@ -1571,6 +1469,17 @@ begin
   RearrangePalette1.Enabled := not SmoothPalette1.Checked;
 end;
 
+// when calling MainForm.Resize(), Delphi automatically fires FormResize event, Lazarus doesn't
+procedure TMainForm.ResizeMainForm();
+begin
+  {$IFDEF FPC}
+  MainForm.Resize();
+  FormResize(nil);
+  {$ELSE}
+  MainForm.Resize();
+  {$ENDIF}
+end;
+
 procedure TMainForm.FormResize(Sender: TObject);
   var
     Wd, Ht: Integer;
@@ -1896,6 +1805,8 @@ begin
   LastFromToLast := MAX_FROM_TO - 1;
   Zoom := ZOOM_FACTOR;
 
+  SkipTabChangeEvent := False;
+
   VisibleMapRegion := Rect(0, 0, 0, 0);
 
   ApplPath := ParamStr (0);
@@ -2086,8 +1997,11 @@ begin
 end;
 
 procedure TMainForm.UpdateTileBitmap;
+  var
+    i: Integer;
 begin
-  with TileTab[Tab.TabIndex] do
+  i := Tab.TabIndex;
+  with TileTab[i] do
   begin
     TileBitmap.Picture.Bitmap := tbr.TileBitmap;
     TileBitmap.Width := tbr.TileCount * tbr.W;
@@ -2101,7 +2015,6 @@ begin
       FillRect (Rect (0, 0, TileBitmap.Width, TileBitmap.Height));
       Draw (0, 0, tbr.TileBitmap);
     end;
-
   end;
 end;
 
@@ -2388,6 +2301,8 @@ begin
   with CursorImage do
   begin
     Picture.Bitmap.PixelFormat := pf24bit;
+    Picture.Bitmap.TransparentColor := clRed;
+    Picture.Bitmap.Transparent := True;
     Width := W;
     Height := H + 1;
     Picture.Bitmap.Width := W;
@@ -2454,6 +2369,10 @@ begin
         0: SelBmp.Picture.Bitmap.Canvas.Pixels[i, j] := clYellow;
         4: SelBmp.Picture.Bitmap.Canvas.Pixels[i, j] := clWhite;
       end;
+
+  {$IFDEF FPC}
+  Tab.BorderWidth := 3;
+  {$ENDIF}
 
   UpdateBmp (TRUE);
 end;
@@ -2646,6 +2565,9 @@ begin
 
   Background.Brush.Color := NewColor;
 //  TileScrollBox.Color := NewColor;
+
+
+
   UpdateBmp (TRUE);
 
 {
@@ -2659,6 +2581,7 @@ begin
   UpdateTileBitmap;
   Modified := TRUE;
 end;
+
 
 procedure TMainForm.RearrangePalette1Click(Sender: TObject);
 begin
@@ -2807,7 +2730,7 @@ begin
     if Scale < MAX_SCALE then
     begin
       Inc (Scale);
-      MainForm.Resize;
+      ResizeMainForm();
     end;
   if Mode = mMap then
     if Zoom > 1 then
@@ -2826,7 +2749,7 @@ begin
     if Scale > 1 then
     begin
       Dec (Scale);
-      MainForm.Resize;
+      ResizeMainForm();
     end;
   if Mode = mMap then
     if Zoom < MAX_ZOOM then
@@ -4369,7 +4292,7 @@ begin
       DrawCursor;
 
       if UpdateAll then
-        MainForm.Resize;
+        ResizeMainForm();
 
       if Mode = mTile then
       begin
@@ -4664,7 +4587,7 @@ begin
     end;
     n := ClipTab.Tabs.Count;
 
-    ClipTab.TabIndex := ClipTab.Tabs.Add (IntToStr (n));
+    ChangeTabIndexWithoutEvent (ClipTab, ClipTab.Tabs.Add (IntToStr (n)));
 
     clip := SelectClipMap (TileTab[Tab.TabIndex].tbr, n);
     with Area do
@@ -4814,9 +4737,9 @@ begin
             Tabs.Strings[i] := IntToStr (StrToInt (Tabs.Strings[i]) - 1);
 
           if j <= Tabs.Count - 1 then
-            TabIndex := j
+            ChangeTabIndexWithoutEvent (ClipTab, j)
           else
-            TabIndex := Tabs.Count - 1;
+            ChangeTabIndexWithoutEvent (ClipTab, Tabs.Count - 1);
         end;
         ClipTabChange (Sender);
         Modified := TRUE;
@@ -4923,11 +4846,12 @@ begin
 end;
 
 procedure TMainForm.Homepage1Click(Sender: TObject);
-  var
-    Param: string;
 begin
-  Param := URL;
-  ShellExecute (0, 'open', PChar (Param), Nil, Nil, SW_SHOWNORMAL);
+  {$IFDEF FPC}
+   OpenDocument(PChar (URL));
+  {$ELSE}
+   ShellExecute(0, 'OPEN', PChar(URL), '', '', SW_SHOWNORMAL);
+  {$ENDIF}
 end;
 
 procedure TMainForm.ExportTiles1Click(Sender: TObject);
@@ -5289,7 +5213,7 @@ begin
     cr := Length (TileTab);
     SetLength (TileTab, cr + 1);
     Tab.Tabs.Add (Name);
-    Tab.TabIndex := cr;
+    ChangeTabIndexWithoutEvent(Tab, cr);
   end;
 
   SetTileSize (BW, BH);
@@ -5383,7 +5307,7 @@ begin
         begin
           CreateNewTileCollection (Identifier.Text, NewW, NewH, FALSE);
 
-          MainForm.Resize;
+          ResizeMainForm();
           StartEdit (TRUE);
         end;
         SetEditorMode (mTile);
@@ -5423,40 +5347,59 @@ begin
       MessageDlg ('The identifier "' + id + '" contains invalid characters.', mtError, [mbOk], 0);
 end;
 
+// when changing TabIndex in code, Delphi doesn't fire OnChange, but Lazarus does
+procedure TMainForm.ChangeTabIndexWithoutEvent(var TC: TTabControl; NewTabIndex: Integer);
+begin
+  SkipTabChangeEvent := TRUE;
+  TC.TabIndex := NewTabIndex;
+  SkipTabChangeEvent := FALSE;
+end;
+
 procedure TMainForm.TabChange(Sender: TObject);
   var
     Cur: Integer;
+    i: Integer;
 begin
-//  UpdateBmp (TRUE);
-
-//  if Mode <> mTile then
-//    SetEditorMode (mTile);
-
-  with TileTab[Tab.TabIndex] do
+  if not (SkipTabChangeEvent) then
   begin
-    Cur := tbr.Current;
-    Background.Brush.Color := BackGrColor;
-    TileScrollBox.HorzScrollBar.Position := lastscrollpos;
-    Scale := lastscale;
-    tbr.Current := tbr.TileCount; // avoid clearing current tile
 
-    SetTileSize (tbr.W, tbr.H);
+  //  UpdateBmp (TRUE);
 
-    tbr.Current := Cur;
+  //  if Mode <> mTile then
+  //    SetEditorMode (mTile);
+
+    i := Tab.TabIndex;
+    if (i >= 0) and (i < Length (TileTab)) then
+    begin
+
+      with TileTab[i] do
+      begin
+        Cur := tbr.Current;
+        Background.Brush.Color := BackGrColor;
+        TileScrollBox.HorzScrollBar.Position := lastscrollpos;
+        Scale := lastscale;
+        tbr.Current := tbr.TileCount; // avoid clearing current tile
+
+        SetTileSize (tbr.W, tbr.H);
+
+        tbr.Current := Cur;
+      end;
+
+      UpdateTileBitmap;
+
+
+     // MainForm.ScrollBox.SetFocus;
+      if Mode = mMap then
+      begin
+        MapDisplay.Visible := FALSE;
+        SetEditorMode (mMap);
+      end;
+
+      StartEdit (TRUE);
+      HideUsedColors;
+
+    end;
   end;
-
-  UpdateTileBitmap;
-
-
- // MainForm.ScrollBox.SetFocus;
-  if Mode = mMap then
-  begin
-    MapDisplay.Visible := FALSE;
-    SetEditorMode (mMap);
-  end;
-
-  StartEdit (TRUE);
-  HideUsedColors;
 end;
 
 procedure TMainForm.Toolbar1Click(Sender: TObject);
@@ -5464,7 +5407,7 @@ begin
 
   Toolbar1.Checked := not Toolbar1.Checked;
   ToolBar.Visible := Toolbar1.Checked;
-  MainForm.Resize;
+  ResizeMainForm();
 end;
 
 procedure TMainForm.ActualSize1Click(Sender: TObject);
@@ -5472,7 +5415,7 @@ begin
   if Mode = mTile then
   begin
     Scale := 1;
-    MainForm.Resize;
+    ResizeMainForm();
   end;
   if Mode = mMap then
   begin
@@ -5495,7 +5438,7 @@ begin
                 and (Scale <= MAX_SCALE) do
     Inc (Scale);
   Dec (Scale);
-  MainForm.Resize;
+  ResizeMainForm();
 end;
 
 procedure TMainForm.SetPaletteDepth(Sender: TObject);
@@ -5649,15 +5592,15 @@ begin  { SetEditorMode - switch Tile/Map mode }
     begin
       for i := 0 to Length (tbr.Maps.aMaps) - 1 do
         MapTab.Tabs.Add (tbr.Maps.aMaps[i].id);
-      MapTab.TabIndex := tbr.Maps.CurMap;
+      ChangeTabIndexWithoutEvent (MapTab, tbr.Maps.CurMap);
 
       for i := 0 to Length (tbr.Clip.aMaps) - 1 do
         ClipTab.Tabs.Add (IntToStr (i));
-      ClipTab.TabIndex := tbr.Clip.CurMap;
+      ChangeTabIndexWithoutEvent (ClipTab, tbr.Clip.CurMap);
 
       for i := 0 to Length (tbr.Seq.aMaps) - 1 do
         SeqTab.Tabs.Add (IntToStr (i));
-      SeqTab.TabIndex := tbr.Seq.CurMap;
+      ChangeTabIndexWithoutEvent (SeqTab, tbr.Seq.CurMap);
 
       Selection := FALSE;
       Area := Rect (0, 0, 0, 0);
@@ -5962,7 +5905,7 @@ begin
 
         MainForm.ProgressPanel.Visible := FALSE;
 
-        Tab.TabIndex := j;
+        ChangeTabIndexWithoutEvent(Tab, j);
         TabChange (Sender);
         StartEdit (TRUE);
         Modified := TRUE;
@@ -6662,7 +6605,7 @@ begin
       begin
         NewMap (TileTab[Tab.TabIndex].tbr, Identifier.Text, NH.Value, NV.Value);
 
-        MapTab.TabIndex := MapTab.Tabs.Add (Identifier.Text);
+        ChangeTabIndexWithoutEvent (MapTab, MapTab.Tabs.Add (Identifier.Text));
         MapTabChange (Sender);
 
         with TileTab[Tab.TabIndex].tbr do
@@ -6750,7 +6693,7 @@ begin
       bmp.Free;
       UsedColorsImage.Stretch := TRUE;
       UsedColors.Visible := TRUE;
-      MainForm.Resize;
+      ResizeMainForm();
     end
     else
       HideUsedColors;
@@ -6765,7 +6708,7 @@ begin
     UsedColors.Visible := FALSE;
     ShowUsedColors1.Checked := FALSE;
     ShowCurrentPalette1.Checked := FALSE;
-    MainForm.Resize;
+    ResizeMainForm();
   end;
   UsedColorSelect := FALSE;
 end;
@@ -7148,7 +7091,7 @@ begin
                    // if (not ShowMapCodes1.Checked) and (mcr.Bounds = $FF) then  // 2.55
                     if (not ShowMapCodes1.Checked) and (mcr.Bounds and $40 <> 0) then
                     begin
-                      SeqTab.TabIndex := mcr.MapCode;
+                      ChangeTabIndexWithoutEvent (SeqTab, mcr.MapCode);
                       SkipDraw := FALSE;
                       SeqTabChange (nil);
                       SkipDraw := TRUE;
@@ -7221,37 +7164,42 @@ procedure TMainForm.MapTabChange(Sender: TObject);
   var
     tw, th: integer;
 begin
- // SeqTimer.Enabled := FALSE;
-  if MapTab.TabIndex >= 0 then
+  if not SkipTabChangeEvent then
   begin
-    MapDisplay.Visible := TRUE;
 
-    // 2.42
-    with TileTab[Tab.TabIndex].tbr.Maps.aMaps[MapTab.TabIndex] do
+  // SeqTimer.Enabled := FALSE;
+    if MapTab.TabIndex >= 0 then
     begin
-      CurMapH := Length (Map);
-      CurMapW := Length (Map[0]);
-    end;
-    with TileTab[Tab.TabIndex].tbr do
-    begin
-      tw := W * ZOOM_FACTOR div Zoom;
-      th := (H - Overlap) * ZOOM_FACTOR div Zoom;
-    end;
-    MapDisplay.Width := tw * CurMapW;
-    MapDisplay.Height := th * CurMapH;
+      MapDisplay.Visible := TRUE;
 
-    ZoomIn1.Enabled := (Zoom > 1);
-    ZoomOut1.Enabled := (Zoom < MAX_ZOOM);
+      // 2.42
+      with TileTab[Tab.TabIndex].tbr.Maps.aMaps[MapTab.TabIndex] do
+      begin
+        CurMapH := Length (Map);
+        CurMapW := Length (Map[0]);
+      end;
+      with TileTab[Tab.TabIndex].tbr do
+      begin
+        tw := W * ZOOM_FACTOR div Zoom;
+        th := (H - Overlap) * ZOOM_FACTOR div Zoom;
+      end;
+      MapDisplay.Width := tw * CurMapW;
+      MapDisplay.Height := th * CurMapH;
 
-    UpdateMap;
-  end
-  else
-    MapDisplay.Visible := FALSE;
+      ZoomIn1.Enabled := (Zoom > 1);
+      ZoomOut1.Enabled := (Zoom < MAX_ZOOM);
 
-  ShowStatusInfo;  // 2.53
+      UpdateMap;
+    end
+    else
+      MapDisplay.Visible := FALSE;
 
-  Selection := FALSE;
-  Area := Rect (0, 0, 0, 0);
+    ShowStatusInfo;  // 2.53
+
+    Selection := FALSE;
+    Area := Rect (0, 0, 0, 0);
+
+  end;
 end;
 
 procedure TMainForm.ShowGrid1Click(Sender: TObject);
@@ -7511,42 +7459,47 @@ procedure TMainForm.ClipTabChange(Sender: TObject);
     i: Integer;
     ov: Integer;
 begin
-  if ClipTab.TabIndex < 0 then
+  if not SkipTabChangeEvent then
   begin
-    clip := nil;
-    ClipBitmap.Visible := FALSE;
 
-    Exit;
-  end;
-  ov := TileTab[Tab.TabIndex].tbr.Overlap;
-  clip := SelectClipMap (TileTab[Tab.TabIndex].tbr, ClipTab.TabIndex);
-  if clip <> nil then
-  begin
-    ClipH := Length (clip^.map);
-    if ClipH > 0 then
+    if ClipTab.TabIndex < 0 then
     begin
-      ClipW := Length (clip^.map[0]);
+      clip := nil;
+      ClipBitmap.Visible := FALSE;
 
-      ClipBitmap.Visible := TRUE;
-      ClipBitmap.Width := ClipW * W;
-      ClipBitmap.Height := ClipH * (H - ov);
-      ResizeBitmap (ClipBitmap);
-
-      { RD: draw clipped map }
-      DrawMap (Rect (0, 0, ClipW - 1, ClipH - 1), FALSE, TRUE, FALSE);
-
-      ClipBitmap.Stretch := TRUE;
-      i := 1;
-      repeat
-        ClipBitmap.Width := ClipW * W div i;
-        ClipBitmap.Height := ClipH * (H - ov) div i;
-        Inc (i);
-      until (i >= 5) or
-        ((ClipBitmap.Width < ClipScrollBox.ClientWidth) and
-         (ClipBitmap.Height < ClipScrollBox.ClientHeight));
-
-     // ClipBitmap.Repaint;
+      Exit;
     end;
+    ov := TileTab[Tab.TabIndex].tbr.Overlap;
+    clip := SelectClipMap (TileTab[Tab.TabIndex].tbr, ClipTab.TabIndex);
+    if clip <> nil then
+    begin
+      ClipH := Length (clip^.map);
+      if ClipH > 0 then
+      begin
+        ClipW := Length (clip^.map[0]);
+
+        ClipBitmap.Visible := TRUE;
+        ClipBitmap.Width := ClipW * W;
+        ClipBitmap.Height := ClipH * (H - ov);
+        ResizeBitmap (ClipBitmap);
+
+        { RD: draw clipped map }
+        DrawMap (Rect (0, 0, ClipW - 1, ClipH - 1), FALSE, TRUE, FALSE);
+
+        ClipBitmap.Stretch := TRUE;
+        i := 1;
+        repeat
+          ClipBitmap.Width := ClipW * W div i;
+          ClipBitmap.Height := ClipH * (H - ov) div i;
+          Inc (i);
+        until (i >= 5) or
+          ((ClipBitmap.Width < ClipScrollBox.ClientWidth) and
+           (ClipBitmap.Height < ClipScrollBox.ClientHeight));
+
+       // ClipBitmap.Repaint;
+      end;
+    end;
+
   end;
 end;
 
@@ -7584,9 +7537,9 @@ begin
       i := TabIndex;
       Tabs.Delete (i);
       if i <= Tabs.Count - 1 then
-        TabIndex := i
+        ChangeTabIndexWithoutEvent (MapTab, i)
       else
-        TabIndex := Tabs.Count - 1;
+        ChangeTabIndexWithoutEvent (MapTab, Tabs.Count - 1);
     end;
     MapTabChange (Sender);
     Modified := TRUE;
@@ -7609,9 +7562,9 @@ begin
     i := Tab.TabIndex;
     Tab.Tabs.Delete (Tab.TabIndex);
     if i <= Tab.Tabs.Count - 1 then
-      Tab.TabIndex := i
+      ChangeTabIndexWithoutEvent(Tab, i)
     else
-      Tab.TabIndex := Tab.Tabs.Count - 1;
+      ChangeTabIndexWithoutEvent(Tab, Tab.Tabs.Count - 1);
 
     if Sender <> nil then
     begin
@@ -7962,13 +7915,13 @@ begin
                          Delete (TmpStr, 1, 1);
 
                          i := Pos (#0, TmpStr);
-                         Author.Text := Copy (TmpStr, 1, i);
+                         Author.Text := Copy (TmpStr, 1, i - 1);
                          Delete (TmpStr, 1, i);
                          i := Pos (#0, TmpStr);
-                         Notes.Text := Copy (TmpStr, 1, i);
+                         Notes.Text := Copy (TmpStr, 1, i - 1);
                          Delete (TmpStr, 1, i);
                          i := Pos (#0, TmpStr);
-                         Copyright.Text := Copy (TmpStr, 1, i);
+                         Copyright.Text := Copy (TmpStr, 1, i - 1);
                          Delete (TmpStr, 1, i);
                          Startup.Checked := TmpStr <> #0;
                        end;
@@ -7986,7 +7939,7 @@ begin
                      if Tab.Tabs.IndexOf (ID) > -1 then
                        ID := NewTCName;
                      Tab.Tabs.Add (ID);
-                     Tab.TabIndex := Tab.Tabs.IndexOf (ID);
+                     ChangeTabIndexWithoutEvent (Tab, Tab.Tabs.IndexOf (ID));
                      SetLength (TileTab, Length (TileTab) + 1);
                      TileTab[Tab.TabIndex].tbr := tbr;
                      TileTab[Tab.TabIndex].id := ID;
@@ -8130,7 +8083,7 @@ begin
 
       if Tab.Tabs.Count = 0 then
         CreateNewTileCollection (NewTCName, 32, 32, TRUE);
-      Tab.TabIndex := 0;
+      ChangeTabIndexWithoutEvent (Tab, 0);
       TabChange (nil);
       UpdateTileBitmap;
       SetEditorMode (mTile);
@@ -8419,7 +8372,7 @@ begin
     NewSeqMap (TileTab[Tab.TabIndex].tbr, SeqW, SeqH);
 
     n := SeqTab.Tabs.Count;
-    SeqTab.TabIndex := SeqTab.Tabs.Add (IntToStr (n));
+    ChangeTabIndexWithoutEvent (SeqTab, SeqTab.Tabs.Add (IntToStr (n)));
     seq := SelectSeqMap (TileTab[Tab.TabIndex].tbr, n);
 
     n := 0;
@@ -8450,49 +8403,54 @@ end;
 
 procedure TMainForm.SeqTabChange(Sender: TObject);
 begin
-  SeqTimer.Enabled := FALSE;
-
-  if SeqTab.TabIndex < 0 then
+  if not SkipTabChangeEvent then
   begin
-    seq := nil;
-    SeqBitmap.Visible := FALSE;
+
     SeqTimer.Enabled := FALSE;
 
-    Exit;
-  end;
-  seq := SelectSeqMap (TileTab[Tab.TabIndex].tbr, SeqTab.TabIndex);
-  if seq <> nil then
-  begin
-
-    SeqH := Length (seq^.map);
-    if SeqH > 0 then
+    if SeqTab.TabIndex < 0 then
     begin
-      SeqW := Length (seq^.map[0]);
+      seq := nil;
+      SeqBitmap.Visible := FALSE;
+      SeqTimer.Enabled := FALSE;
 
-      SeqBitmap.Width := W;
-      SeqBitmap.Height := H;
-      ResizeBitmap (SeqBitmap);
-      SeqBitmap.Left := (SeqTab.ClientWidth - W) div 2;
-      SeqBitmap.Top := 8; // (SeqTab.ClientHeight - H) div 2;
-
-      SeqBitmap.Visible := TRUE;
-
-    (*
-      { RD: draw sequence map }
-      DrawMap (Rect (0, 0, -1, -1), FALSE, FALSE, TRUE);
-    *)
-
-      // 2.5 draw first frame right away
-      SeqFrame := SeqW;
-      SeqTimerTimer (nil);
-
-      SeqTimer.Interval := Seq^.map[0, 0].MapCode * 10 + 1;
-      SeqTimer.Enabled := TRUE;
+      Exit;
     end;
-  end;
+    seq := SelectSeqMap (TileTab[Tab.TabIndex].tbr, SeqTab.TabIndex);
+    if seq <> nil then
+    begin
 
-  Modified := TRUE;
-  MapTab.SetFocus;
+      SeqH := Length (seq^.map);
+      if SeqH > 0 then
+      begin
+        SeqW := Length (seq^.map[0]);
+
+        SeqBitmap.Width := W;
+        SeqBitmap.Height := H;
+        ResizeBitmap (SeqBitmap);
+        SeqBitmap.Left := (SeqTab.ClientWidth - W) div 2;
+        SeqBitmap.Top := 8; // (SeqTab.ClientHeight - H) div 2;
+
+        SeqBitmap.Visible := TRUE;
+
+      (*
+        { RD: draw sequence map }
+        DrawMap (Rect (0, 0, -1, -1), FALSE, FALSE, TRUE);
+      *)
+
+        // 2.5 draw first frame right away
+        SeqFrame := SeqW;
+        SeqTimerTimer (nil);
+
+        SeqTimer.Interval := Seq^.map[0, 0].MapCode * 10 + 1;
+        SeqTimer.Enabled := TRUE;
+      end;
+    end;
+
+    Modified := TRUE;
+    MapTab.SetFocus;
+
+  end;
 end;
 
 procedure TMainForm.SeqTimerTimer(Sender: TObject);
@@ -8594,9 +8552,9 @@ begin
       for i := j to Tabs.Count - 1 do
         Tabs.Strings[i] := IntToStr (StrToInt (Tabs.Strings[i]) - 1);
       if j <= Tabs.Count - 1 then
-        TabIndex := j
+        ChangeTabIndexWithoutEvent (SeqTab, j)
       else
-        TabIndex := Tabs.Count - 1;
+        ChangeTabIndexWithoutEvent (SeqTab, Tabs.Count - 1);
     end;
     SeqTabChange (Sender);
     UpdateMapRegion (Rect(0, 0, -1, -1));
@@ -10367,20 +10325,25 @@ procedure TMainForm.Generate1Click(Sender: TObject);
                 if bits < 0 then  // 2.52 - big endian
                 begin
                   bits := Abs (bits);
-                  asm
-                    push ebx
-                    mov eax, Number
-                    mov ecx, bits
-                    mov ebx, 0
-                  @@1:
-                    shr eax, 1
-                    rcl ebx, 1
-                    dec ecx
-                    jnz @@1
 
-                    mov Number, ebx
-                    pop ebx
-                  end;
+                  {$IFDEF FPC}
+                      Number := SwapEndian(Number);
+                  {$ELSE}
+                      asm
+                        push ebx
+                        mov eax, Number
+                        mov ecx, bits
+                        mov ebx, 0
+                      @@1:
+                        shr eax, 1
+                        rcl ebx, 1
+                        dec ecx
+                        jnz @@1
+
+                        mov Number, ebx
+                        pop ebx
+                      end;
+                  {$ENDIF}
                 end;
 
                 v := '';
@@ -13793,17 +13756,26 @@ begin
     if f <> '' then
       s := f + s;
 
-  try
-    OutputDir.DirectoryListBox.Directory := s;
-  except
-    OutputPath := '';
-    OutputDir.DirectoryListBox.Directory := '';
-  end;
+
+  {$IFDEF FPC}
+    OutputDir.ShellTreeView.Path := s;
+  {$ELSE}
+    try
+      OutputDir.DirectoryListBox.Directory := s;
+    except
+      OutputPath := '';
+      OutputDir.DirectoryListBox.Directory := '';
+    end;
+  {$ENDIF}
 
   OutputDir.ShowModal;
   if OutputDir.Result then
   begin
-    s := OutputDir.DirectoryListBox.Directory;
+    {$IFDEF FPC}
+        s := OutputDir.ShellTreeView.Path;
+    {$ELSE}
+        s := OutputDir.DirectoryListBox.Directory;
+    {$ENDIF}
 
     if Copy (s, 1, Length (f)) = f then
       Delete (s, 1, Length (f));
@@ -13968,9 +13940,9 @@ begin
             g := LimitRGB (g);
             b := LimitRGB (b);
 
-            r := ColorMatch (r);
-            g := ColorMatch (g);
-            b := ColorMatch (b);
+            //r := ColorMatch (r);
+            //g := ColorMatch (g);
+            //b := ColorMatch (b);
 
             Pixels[TileAreaX + i, TileAreaY + j] := ColorMatch (RGB (r, g, b));
           end;
@@ -14172,7 +14144,7 @@ begin
 
   for i := 0 to Tab.Tabs.Count - 1 do
   begin
-    Tab.TabIndex := i;
+    ChangeTabIndexWithoutEvent (Tab, i);
     TabChange (nil);
     RemoveDuplicateTiles1Click(nil);
   end;
@@ -14469,7 +14441,7 @@ begin  { ImportLevelMap }
     begin
       NewMap (TileTab[Tab.TabIndex].tbr, name, HSize, VSize);
 
-      MapTab.TabIndex := MapTab.Tabs.Add (name);
+      ChangeTabIndexWithoutEvent (MapTab, MapTab.Tabs.Add (name));
       MapTabChange (nil);
 
       with TileTab[Tab.TabIndex].tbr.Maps do
@@ -14708,10 +14680,14 @@ end;
 
 procedure TMainForm.Tutorial1Click(Sender: TObject);
   var
-    Param: string;
+    URL: string;
 begin
-  Param := ApplPath + 'Tutorial\tutor.html';
-  ShellExecute (0, 'open', PChar (Param), Nil, Nil, SW_SHOWNORMAL);
+   URL := ApplPath + 'Tutorial\tutor.html';
+  {$IFDEF FPC}
+   OpenDocument (PChar (URL));
+  {$ELSE}
+   ShellExecute (0, 'OPEN', PChar(URL), '', '', SW_SHOWNORMAL);
+  {$ENDIF}
 end;
 
 procedure TMainForm.OutputtoProjectDirectory1Click(Sender: TObject);
@@ -15069,7 +15045,7 @@ begin
           bmp.Free;
           UsedColorsImage.Stretch := TRUE;
           UsedColors.Visible := TRUE;
-          MainForm.Resize;
+          ResizeMainForm();
         end;
     end
     else
@@ -15876,7 +15852,6 @@ procedure TMainForm.ReplaceColors2Click(Sender: TObject);
     DF1R, DF1G, DF1B: Real;
     DF2R, DF2G, DF2B: Real;
     DF1, DF2, DF: Real;
-    Avg: Integer;
 
   function Check (x, P, L, Tol: Integer; var DF1: Real; var DF2: Real): Boolean;
   begin
@@ -16031,7 +16006,11 @@ begin
   begin
     Grid.Picture.Bitmap.Transparent := TRUE;
     Grid.Picture.Bitmap.TransparentMode := tmFixed;
+    {$IFDEF FPC}
+    Grid.Picture.Bitmap.TransparentColor := clBlack;
+    {$ELSE}
     Grid.Picture.Bitmap.TransparentColor := TRANS_COLOR;
+    {$ENDIF}
 
     w := tbr.W + 2 * BORDER_W;
     h := tbr.H + 2 * BORDER_H;
@@ -16140,7 +16119,7 @@ begin
       aMaps[CurMap - 1] := lm;
       MapTab.Tabs.Move(CurMap, CurMap - 1);
       Dec (CurMap);
-      MapTab.TabIndex := CurMap;
+      ChangeTabIndexWithoutEvent (MapTab, CurMap);
       Modified := TRUE;
       UpdateMap;
       ShowStatusInfo;
@@ -16159,7 +16138,7 @@ begin
       aMaps[CurMap + 1] := lm;
       MapTab.Tabs.Move(CurMap, CurMap + 1);
       Inc (CurMap);
-      MapTab.TabIndex := CurMap;
+      ChangeTabIndexWithoutEvent (MapTab, CurMap);
       Modified := TRUE;
       UpdateMap;
       ShowStatusInfo;
@@ -16175,7 +16154,7 @@ begin
         Inc (CurMap)
       else
         CurMap := 0;
-      MapTab.TabIndex := CurMap;
+      ChangeTabIndexWithoutEvent (MapTab, CurMap);
       UpdateMap;
       ShowStatusInfo;
     end;
@@ -16190,7 +16169,7 @@ begin
         Dec (CurMap)
       else
         CurMap := Length (aMaps) - 1;
-      MapTab.TabIndex := CurMap;
+      ChangeTabIndexWithoutEvent (MapTab, CurMap);
       UpdateMap;
       ShowStatusInfo;
     end;
@@ -16638,14 +16617,14 @@ end;
 procedure TMainForm.SelectNextClip1Click(Sender: TObject);
 begin
   if ClipTab.Tabs.Count > 0 then
-    ClipTab.TabIndex := (ClipTab.TabIndex + 1) mod ClipTab.Tabs.Count;
+    ChangeTabIndexWithoutEvent (ClipTab, (ClipTab.TabIndex + 1) mod ClipTab.Tabs.Count);
   ClipTabChange (Sender);
 end;
 
 procedure TMainForm.SelectPreviousClip1Click(Sender: TObject);
 begin
   if ClipTab.Tabs.Count > 0 then
-    ClipTab.TabIndex := (ClipTab.TabIndex - 1 + ClipTab.Tabs.Count) mod ClipTab.Tabs.Count;
+    ChangeTabIndexWithoutEvent (ClipTab, (ClipTab.TabIndex - 1 + ClipTab.Tabs.Count) mod ClipTab.Tabs.Count);
   ClipTabChange (Sender);
 end;
 
@@ -16732,14 +16711,14 @@ begin
       Checked := TRUE;
 
       ColorPatternsPanel.Visible := TRUE;
-      MainForm.Resize;
+      ResizeMainForm();
     end
     else
     begin
       Checked := FALSE;
 
       ColorPatternsPanel.Visible := FALSE;
-      MainForm.Resize;
+      ResizeMainForm();
     end;
   UsedPatternSelect := FALSE;
 end;

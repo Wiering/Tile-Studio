@@ -1,0 +1,53 @@
+object OutputDir: TOutputDir
+  Left = 194
+  Top = 107
+  BorderStyle = bsDialog
+  Caption = 'Select Output Directory'
+  ClientHeight = 271
+  ClientWidth = 274
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poDesktopCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object L1: TLabel
+    Left = 8
+    Top = 8
+    Width = 45
+    Height = 13
+    Caption = 'Directory:'
+  end
+  object OkButton: TButton
+    Left = 64
+    Top = 235
+    Width = 73
+    Height = 25
+    Caption = 'OK'
+    Default = True
+    TabOrder = 2
+    OnClick = OkButtonClick
+    OnKeyDown = KeyDown
+  end
+  object CancelButton: TButton
+    Left = 144
+    Top = 235
+    Width = 73
+    Height = 25
+    Caption = 'Cancel'
+    TabOrder = 3
+    OnClick = CancelButtonClick
+    OnKeyDown = KeyDown
+  end
+  object ShellTreeView: TShellTreeView
+    Left = 8
+    Top = 24
+    Width = 257
+    Height = 200
+    TabOrder = 0
+    OnKeyDown = KeyDown
+  end
+end

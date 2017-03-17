@@ -1,4 +1,8 @@
-unit Hex;
+unit HEX;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
 
   { 
       Tile Studio

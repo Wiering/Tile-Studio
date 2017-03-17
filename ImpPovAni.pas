@@ -25,14 +25,19 @@ unit ImpPovAni;
   }
 
 
-  {$I SETTINGS.INC}
+  {$I settings.inc}
 
   { BMP bitmaps only! }
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Spin, ExtDlgs;
 
 type
@@ -75,7 +80,11 @@ implementation
 
 uses Main, Tiles;
 
-{$R *.DFM}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 
 var
   Digits: Integer;

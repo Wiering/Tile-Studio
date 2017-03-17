@@ -24,12 +24,17 @@ unit About;
       SOFTWARE.
   }
 
-  {$I SETTINGS.INC}
+  {$I settings.inc}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, StdCtrls;
 
 type
@@ -59,10 +64,19 @@ var
 
 implementation
 
-{$R *.DFM}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 
 uses
-  Main, ShellApi;
+{$IFnDEF FPC}
+  ShellApi,
+{$ELSE}
+
+{$ENDIF}
+  Main;
 
 
 procedure TAboutForm.OKButtonClick(Sender: TObject);
@@ -94,7 +108,11 @@ procedure TAboutForm.WebSiteClick(Sender: TObject);
 begin
   Param := URL;
   URL := WebSite.Caption;
-  ShellExecute (0, 'open', @URL[1], Nil, Nil, SW_SHOWNORMAL);
+  {$IFDEF FPC}
+   OpenDocument(URL);
+  {$ELSE}
+   ShellExecute(0, 'OPEN', PChar(URL), '', '', SW_SHOWNORMAL);
+  {$ENDIF}
 end;
 
 end.
