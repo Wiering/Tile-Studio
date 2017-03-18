@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 260
+  Left = 286
   Height = 683
-  Top = 223
+  Top = 194
   Width = 818
   Caption = 'Tile Studio'
   ClientHeight = 663
@@ -565,10 +565,10 @@ object MainForm: TMainForm
       Height = 85
       Top = 317
       Width = 118
-      ActivePage = RGBTab
+      ActivePage = PosTab
       Align = alBottom
       MultiLine = True
-      TabIndex = 0
+      TabIndex = 1
       TabOrder = 8
       TabPosition = tpBottom
       Options = [nboMultiLine]
@@ -637,22 +637,22 @@ object MainForm: TMainForm
       end
       object PosTab: TTabSheet
         Caption = 'Pos'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 59
+        ClientWidth = 110
         ImageIndex = 1
         object HistoryPanel: TPanel
           Left = 0
-          Height = 57
+          Height = 59
           Top = 0
           Width = 110
           Align = alClient
-          ClientHeight = 57
+          ClientHeight = 59
           ClientWidth = 110
           TabOrder = 0
           object HistoryControlPanel: TPanel
             Left = 1
             Height = 17
-            Top = 39
+            Top = 41
             Width = 108
             Align = alBottom
             BevelOuter = bvNone
@@ -708,7 +708,7 @@ object MainForm: TMainForm
           end
           object HistoryListBox: TListBox
             Left = 1
-            Height = 38
+            Height = 40
             Top = 1
             Width = 108
             Align = alClient

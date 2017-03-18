@@ -160,6 +160,9 @@ const
 function WithoutExt (Name: string; Ext: string): string;
 
 type
+
+  { TMainForm }
+
   TMainForm = class(TForm)
     TilePanel: TPanel;
     RightPanel: TPanel;
@@ -2013,8 +2016,14 @@ begin
     begin
       Brush.Color := BackGround.Brush.Color;
       FillRect (Rect (0, 0, TileBitmap.Width, TileBitmap.Height));
+    {$IFDEF FPC}
+      tbr.TileBitmap.Mask(TRANS_COLOR);
+    {$ENDIF}
       Draw (0, 0, tbr.TileBitmap);
     end;
+
+
+
   end;
 end;
 
@@ -2133,6 +2142,9 @@ begin  { UpdateBMP }
     begin
       Brush.Color := Background.Brush.Color;
       FillRect (MakeRect (BORDER_W, BORDER_H, W, H));
+    {$IFDEF FPC}
+      TmpBmp.Mask(TRANS_COLOR);
+    {$ENDIF}
       Draw (BORDER_W, BORDER_H, TmpBmp);
     end;
 
@@ -2205,7 +2217,6 @@ begin  { UpdateBMP }
           tbr.TileBitmap.Canvas.CopyRect (MakeRect (tbr.Current * W, 0, W, H),
               TmpBmp.Canvas, Rect (0, 0, W, H));
 
-
           TileBitmap.Picture.Bitmap.Canvas.CopyRect
              (MakeRect (tbr.Current * W, 0, W, H),
              // TmpBmp.Canvas, Rect (0, 0, W, H));
@@ -2240,7 +2251,9 @@ begin  { UpdateBMP }
 
       if (not Pattern1.Checked) or (not UpdateAll) then
       begin
-       { if ov > 0 then }
+      {$IFDEF FPC}
+        TmpBmp.Mask(TRANS_COLOR);
+      {$ENDIF}
         Draw (x + OfsX, y + OfsY, TmpBmp);
         TmpBmp.Canvas.CopyRect (Rect (0, ov, W, H - ov), VisualBmp.Canvas,
                  MakeRect (BORDER_W, BORDER_H + ov, W, H - ov));
@@ -2259,7 +2272,12 @@ begin  { UpdateBMP }
           i := 0;
           repeat
             if ov > 0 then
+            begin
+            {$IFDEF FPC}
+              TmpBmp.Mask(TRANS_COLOR);
+            {$ENDIF}
               Draw (x + i, y, TmpBmp);
+            end;
             Pattern.Canvas.CopyRect (MakeRect (x + i, y + ov, W, H - ov),
                    VisualBmp.Canvas, MakeRect (BORDER_W, BORDER_H + ov, W, H - ov));
 
@@ -2830,7 +2848,7 @@ begin
   begin
     if DrawingTool in FirstSaveUndoTools then
       SaveUndo (ActName (DrawingTool));
-    if  (ssShift in ShiftState) or
+    if (ssShift in ShiftState) or
        LightButton.Down or
        DarkButton.Down or
        PlusButton.Down or
@@ -4616,8 +4634,11 @@ begin
     if Clipboard.HasFormat(CF_BITMAP) then
     begin
       SaveUndo ('Paste');
-      ClipBmp.Assign(Clipboard);
-      ClipBmp.Canvas.Draw(0, 0, ClipBmp);
+    {$IFDEF FPC}
+      ClipBmp.Mask(TRANS_COLOR);
+    {$ENDIF}
+      ClipBmp.Assign (Clipboard);
+      ClipBmp.Canvas.Draw (0, 0, ClipBmp);
 
       with ClipBmp do
       begin
@@ -5988,6 +6009,9 @@ begin
       end;
 
       SaveUndo ('Paste');
+    {$IFDEF FPC}
+      ClipBmp.Mask(TRANS_COLOR);
+    {$ENDIF}
       ClipBmp.Assign(Clipboard);
       ClipBmp.Canvas.Draw(0, 0, ClipBmp);
       SetStretchBltMode(Bmp.Canvas.Handle, HALFTONE);
@@ -6204,6 +6228,9 @@ begin
           for j := 0 to Height - 1 do
             for i := 0 to Width - 1 do
               Canvas.Pixels[i, j] := TRANS_COLOR;
+        {$IFDEF FPC}
+          TmpBmp1.Mask(TRANS_COLOR);
+        {$ENDIF}
           Canvas.StretchDraw (Rect (0, 0, H, W), TmpBmp1);
         end;
         for j := 0 to H - 1 do
@@ -6213,6 +6240,9 @@ begin
         TmpBmp2.Free;
       end;
 
+    {$IFDEF FPC}
+      bmp.Picture.Bitmap.Mask(TRANS_COLOR);
+    {$ENDIF}
       FullBMP.Canvas.Draw (0, 0, bmp.Picture.Graphic);
     end;
   end;
@@ -6261,9 +6291,15 @@ begin
         ty := H div 2 - th div 2;
         Font.Color := clBlack;
         TextOut (tx, ty, s);
+      {$IFDEF FPC}
+        bmp1.Picture.Bitmap.Mask(TRANS_COLOR);
+      {$ENDIF}
         bmpPreview.Picture.Bitmap.Canvas.Draw (0, 0, bmp1.Picture.Bitmap);
         Font.Color := clWhite;
         TextOut (tx, ty, s);
+      {$IFDEF FPC}
+        bmp1.Picture.Bitmap.Mask(TRANS_COLOR);
+      {$ENDIF}
         bmpPreview.Picture.Bitmap.Canvas.Draw (-1, -1, bmp1.Picture.Bitmap);
       end;
     end;
@@ -7053,6 +7089,9 @@ begin
                  // if mcr.Bounds <> 0 then
               //     if mcr.Bounds and $40 = 0 then   // allow bounds with sequences
                   begin
+                  {$IFDEF FPC}
+                    SelBmp.Picture.Bitmap.Mask(TRANS_COLOR);
+                  {$ENDIF}
                     if CellSelected then
                       if MapDrawingTool in [mdtRect] then
                         bmp2.Picture.Bitmap.Canvas.Draw (0, 0, SelBmp.Picture.Bitmap);
@@ -7074,8 +7113,14 @@ begin
                         th := TextHeight (s);
                         tx := W div 2 - tw div 2;
                         ty := ov + (H - ov) div 2 - th div 2;
+
+                        Font.Quality := fqNonAntialiased;
+
                         Font.Color := clBlack;
                         TextOut (tx, ty, s);
+                      {$IFDEF FPC}
+                        bmp1.Picture.Bitmap.Mask(TRANS_COLOR);
+                      {$ENDIF}
                         bmp2.Picture.Bitmap.Canvas.Draw (0, 0, bmp1.Picture.Bitmap);
                         Font.Color := clWhite;
                        // if mcr.Bounds = $FF then
@@ -7083,6 +7128,9 @@ begin
                         if mcr.Bounds and $40 <> 0 then
                           Font.Color := clRed;
                         TextOut (tx, ty, s);
+                      {$IFDEF FPC}
+                        bmp1.Picture.Bitmap.Mask(TRANS_COLOR);
+                      {$ENDIF}
                         bmp2.Picture.Bitmap.Canvas.Draw (-1, -1, bmp1.Picture.Bitmap);
                       end;
                     end;
@@ -7095,6 +7143,9 @@ begin
                       SkipDraw := FALSE;
                       SeqTabChange (nil);
                       SkipDraw := TRUE;
+                    {$IFDEF FPC}
+                      seqBitmap.Picture.Bitmap.Mask(TRANS_COLOR);
+                    {$ENDIF}
                       bmp2.Picture.Bitmap.Canvas.Draw (0, 0, SeqBitmap.Picture.Bitmap);
                     end;
 
@@ -7103,6 +7154,9 @@ begin
                      bmp2.Picture.Bitmap.Canvas,
                        Rect (0, 0, W, H));
 
+                {$IFDEF FPC}
+                  bmp1.Picture.Bitmap.Mask(TRANS_COLOR);
+                {$ENDIF}
                   FillBitmap (bmp2, BackGround.Brush.Color);
                   bmp2.Picture.Bitmap.Canvas.Draw (0, 0, bmp1.Picture.Bitmap);
 
@@ -7120,6 +7174,9 @@ begin
                         tmph := Height;
                         Width := W;
                         Height := ov;
+                      {$IFDEF FPC}
+                        bmp1.Picture.Bitmap.Mask(TRANS_COLOR);
+                      {$ENDIF}
                         bmpBitmap.Canvas.Draw
                           ((i - min_i) * W, (j - min_j) * (H - ov) - ov,
                            bmp1.Picture.Graphic);
@@ -15619,6 +15676,9 @@ begin
     VisibleMapRegion := r;
     DrawMap(Rect(0, 0, -1, -1), false, false, false);
   end;
+{$IFDEF FPC}
+  bmpMap.Mask(TRANS_COLOR);
+{$ENDIF}
   MapDisplay.Canvas.StretchDraw(Rect(r.Left * tw, r.Top * th,
    (r.Right + 1) * tw - 1, (r.Bottom + 1) * th - 1), bmpMap);
 end;
@@ -16263,6 +16323,9 @@ begin
       end;
 
       SaveUndo ('Scaled Paste');
+    {$IFDEF FPC}
+      ClipBmp.Mask(TRANS_COLOR);
+    {$ENDIF}
       ClipBmp.Assign(Clipboard);
       ClipBmp.Canvas.Draw(0, 0, ClipBmp);
 
@@ -16798,6 +16861,9 @@ begin
     begin
 
       SaveUndo ('Scaled Paste');
+    {$IFDEF FPC}
+      ClipBmp.Mask(TRANS_COLOR);
+    {$ENDIF}
       ClipBmp.Assign(Clipboard);
       ClipBmp.Canvas.Draw(0, 0, ClipBmp);
 
