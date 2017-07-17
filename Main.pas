@@ -153,11 +153,6 @@ unit Main;
 
       Modified by Rainer Deyke (rainerd@eldwood.com)  // 2.42
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of the
-    License, or (at your option) any later version.  See the file
-    COPYING included with this distribution for more information.
   }
 
   {$I SETTINGS.INC}
@@ -2388,6 +2383,8 @@ begin
   with CursorImage do
   begin
     Picture.Bitmap.PixelFormat := pf24bit;
+    Picture.Bitmap.TransparentColor := clRed;
+    Picture.Bitmap.Transparent := True;
     Width := W;
     Height := H + 1;
     Picture.Bitmap.Width := W;
@@ -5920,7 +5917,7 @@ end;
 procedure TMainForm.CopyTiles1Click(Sender: TObject);
   var
     i, j: Integer;
-    ovr, str, bnds: Boolean;
+    ovr, str, scaler, bnds: Boolean;
 begin
   with CopyTilesForm do
   begin
@@ -5944,6 +5941,7 @@ begin
 
         ovr := Overwrite.Enabled and Overwrite.Checked;
         str := Stretch.Enabled and Stretch.Checked;
+        scaler := UseScaler.Enabled and UseScaler.Checked;
         bnds := CopyBounds.Enabled and CopyBounds.Checked;
 
         if (i = j) and (StartTile.Value = DstStartTile.Value) then
@@ -5954,7 +5952,7 @@ begin
                      StartTile.Value - 1,
                      TileCount.Value,
                      DstStartTile.Value - 1,
-                     ovr, str, bnds,
+                     ovr, str, scaler, bnds,
                      i = j,
                      ProgressBar);
 

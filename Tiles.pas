@@ -232,6 +232,7 @@ interface
                       DstStart: Integer;
                       Overwrite,
                       Stretch,
+                      UseScaler,
                       CopyBounds,
                       Same: Boolean;
                       ProgressBar: TProgressBar): Integer;
@@ -1475,12 +1476,46 @@ implementation
     end;
   end;
 
+
+
+  procedure Scale2X (SrcCanvas: TCanvas; SR: TRect; DstCanvas: TCanvas; DR: TRect; EdgeColor: TColor);
+  // en.wikipedia.org/wiki/Pixel_art_scaling_algorithms
+    var
+      i, j: Integer;
+      P, A, B, C, D: TColor;
+      P1, P2, P3, P4: TColor;
+  begin
+    for j := 0 to SR.Bottom - 1 do
+      for i := 0 to SR.Right - 1 do
+      begin
+        P := SrcCanvas.Pixels[SR.Left + i, SR.Top + j];
+        A := EdgeColor;  B := EdgeColor;  C := EdgeColor;  D := EdgeColor;
+        if (i > 0)             then C := SrcCanvas.Pixels[SR.Left + i - 1, SR.Top + j];
+        if (j > 0)             then A := SrcCanvas.Pixels[SR.Left + i,     SR.Top + j - 1];
+        if (i < SR.Right - 1)  then B := SrcCanvas.Pixels[SR.Left + i + 1, SR.Top + j];
+        if (j < SR.Bottom - 1) then D := SrcCanvas.Pixels[SR.Left + i,     SR.Top + j + 1];
+        P1 := P;  P2 := P;  P3 := P;  P4 := P;
+        if (C = A) and (C <> D) and (A <> B) then P1 := A;
+        if (A = B) and (A <> C) and (B <> D) then P2 := B;
+        if (D = C) and (D <> B) and (C <> A) then P3 := C;
+        if (B = D) and (B <> A) and (D <> C) then P4 := D;
+        DstCanvas.Pixels[DR.Left + 2 * i,     DR.Top + 2 * j] := P1;
+        DstCanvas.Pixels[DR.Left + 2 * i + 1, DR.Top + 2 * j] := P2;
+        DstCanvas.Pixels[DR.Left + 2 * i,     DR.Top + 2 * j + 1] := P3;
+        DstCanvas.Pixels[DR.Left + 2 * i + 1, DR.Top + 2 * j + 1] := P4;
+      end;
+
+  end;
+
+
+
   function CopyTiles (var src: TileBitmapRec;
                       var dst: TileBitmapRec;
                       SrcStart, SrcCount: Integer;
                       DstStart: Integer;
                       Overwrite,
                       Stretch,
+                      UseScaler,
                       CopyBounds,
                       Same: Boolean;
                       ProgressBar: TProgressBar): Integer;
@@ -1616,6 +1651,12 @@ implementation
       end;
       Dst.TileBitmap.Canvas.CopyRect (d, Src.TileBitmap.Canvas, s);
 
+      if UseScaler then
+      begin
+        if (d.Right = 2 * s.Right) and (d.Bottom = 2 * s.Bottom) then
+          Scale2X (Src.TileBitmap.Canvas, s, Dst.TileBitmap.Canvas, d, TRANS_COLOR);
+      end;
+
       SwapCur;
       i := Dst.Current;
       SwapCur;
@@ -1640,7 +1681,7 @@ implementation
         else
           Dst.OffsetY[i] := Src.OffsetY[Src.Current];
       end;
-      
+
     end;
 
     Src.Current := SrcCur;
@@ -1648,6 +1689,7 @@ implementation
     Dst.Current := DstStart;
     CopyTiles := DstCount;
   end;
+
 
 
   function SaveTBR (var F: File; ID: string; var TBR: TileBitmapRec): Boolean;

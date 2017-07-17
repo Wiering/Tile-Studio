@@ -51,6 +51,7 @@ type
     Overwrite: TCheckBox;
     Stretch: TCheckBox;
     CopyBounds: TCheckBox;
+    UseScaler: TCheckBox;
     procedure OkButtonClick(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -140,7 +141,12 @@ begin
       j := Src.Items.IndexOf (Src.Text);
       if j >= 0 then
         with MainForm.TileTab[j] do
+        begin
           Stretch.Enabled := (tbr.W <> W) or (tbr.H <> H);
+          UseScaler.Enabled := ((W = 2 * tbr.W) and (H = 2 * tbr.H)) or
+                               ((W = 3 * tbr.W) and (H = 3 * tbr.H)) or
+                               ((W = 4 * tbr.W) and (H = 4 * tbr.H));
+        end;
     end;
   end;
 
