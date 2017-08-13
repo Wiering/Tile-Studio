@@ -11552,12 +11552,20 @@ procedure TMainForm.Generate1Click(Sender: TObject);
         i: Integer;
         Copying: Boolean;
         s, t: string;
+        lines: TStringList;
     begin
       str.Clear;
       Copying := FALSE;
-      for i := 0 to Lists.Notes.Lines.Count - 1 do
+
+      // avoid strange bug (delphi 5): Lists.Notes.Lines.Count returns 0 if ListsForm hasn't been shown yet
+      lines := TStringList.Create();
+      lines.Text := Lists.Notes.Lines.Text;
+
+      //for i := 0 to Lists.Notes.Lines.Count - 1 do
+      for i := 0 to lines.Count - 1 do
       begin
-        s := Lists.Notes.Lines.Strings[i];
+        //s := Lists.Notes.Lines.Strings[i];
+        s := lines.Strings[i];
         t := Trim (s);
         if t = '' then
           Copying := FALSE
