@@ -1653,7 +1653,7 @@ implementation
 
       if UseScaler then
       begin
-        if (d.Right = 2 * s.Right) and (d.Bottom = 2 * s.Bottom) then
+        if (d.Bottom = 2 * s.Bottom) then
           Scale2X (Src.TileBitmap.Canvas, s, Dst.TileBitmap.Canvas, d, TRANS_COLOR);
       end;
 

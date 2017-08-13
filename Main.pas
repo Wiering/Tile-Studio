@@ -16667,10 +16667,13 @@ begin
 end;
 
 procedure TMainForm.Edit1Click(Sender: TObject);
+  var
+    map: Boolean;
 begin
-  Paste1.Enabled := ClipBoard.HasFormat (CF_BITMAP);
-  StretchPaste1.Enabled := ClipBoard.HasFormat (CF_BITMAP);
-  ScaledPaste1.Enabled := ClipBoard.HasFormat (CF_BITMAP);
+  map := ((Mode = mMap) and (Selection and (ClipTab.TabIndex > -1) and (clip <> nil)));
+  Paste1.Enabled := ClipBoard.HasFormat (CF_BITMAP) or map;
+  StretchPaste1.Enabled := ClipBoard.HasFormat (CF_BITMAP) or map;
+  ScaledPaste1.Enabled := ClipBoard.HasFormat (CF_BITMAP) or map;
 end;
 
 procedure TMainForm.UseAsAlphaChannel1Click(Sender: TObject);
