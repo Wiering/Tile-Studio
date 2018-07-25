@@ -811,7 +811,7 @@ implementation
     var
       WW, HH, BW, BH: Integer;
       TempBitmap: TBitmap;
-      i, x, y, z: Integer;
+      i, j, x, y, z: Integer;
       Src, Dst: TRect;
       bnd: Integer;
       bResult: Boolean;
@@ -819,6 +819,12 @@ implementation
       Img: TImage;
       ChkSum: string;
       MapTiles: array of Integer;
+      MapW, MapH: Integer;
+      a, b: Integer;
+
+    const
+      BLOCK_W = 64;
+      BLOCK_H = 64;
 
     function NewTileIsUnique: Boolean;
       var
@@ -955,8 +961,11 @@ implementation
         WW := TempBitmap.Width - SkipX;
         HH := TempBitmap.Height - SkipY;
 
+        MapW := WW div BW;
+        MapH := HH div BH;
+
         if Progressbar <> nil then
-          ProgressBar.Max := (HH div BH) * (WW div BW);
+          ProgressBar.Max := MapW * MapH;
 
         if (WW >= W) and (HH >= H) then
         begin
@@ -1025,7 +1034,7 @@ implementation
               TransparentColor := Trans;
             end;
 
-            i := (HH div BH) * (WW div BW);
+            i := MapW * MapH;
             while (i * W) * 3 > 65536 - 16 do
               Dec (i);
 
@@ -1047,8 +1056,8 @@ implementation
             ChkSum := '';
             SetLength (MapTiles, 0);
 
-            for y := 0 to HH div BH - 1 do
-              for x := 0 to WW div BW - 1 do
+            for y := 0 to MapH - 1 do
+              for x := 0 to MapW - 1 do
               begin
                 if Progressbar <> nil then
                   with ProgressBar do
@@ -1112,15 +1121,36 @@ implementation
             for i := Length (tbr.Clip.aMaps) - 1 downto 0 do
               RemoveClip (tbr, i);
 
-            i := 0;
-            NewClipMap (tbr, WW div BW, HH div BH);
-            tbr.Clip.CurMap := Length (tbr.Clip.aMaps) - 1;
-            tbr.Clip.aMaps[tbr.Clip.CurMap].Id := '0';
-            for y := 0 to HH div BH - 1 do
-              for x := 0 to WW div BW - 1 do
+            z := 0;
+            b := MapH;
+            for y := 0 to (MapH - 1) div BLOCK_H do
+            begin
+              j := BLOCK_H;
+              Dec (b, j);
+              if (b < 0) then
+                j := MapH mod BLOCK_H;
+
+              a := MapW;
+              for x := 0 to (MapW - 1) div BLOCK_W do
               begin
+                i := BLOCK_W;
+                Dec (a, i);
+                if (a < 0) then
+                  i := MapW mod BLOCK_W;
+                NewClipMap (tbr, i, j);
+                tbr.Clip.aMaps[z].Id := Chr (Ord ('0') + z);
+                Inc (z);
+              end;
+            end;
+
+            i := 0;
+            tbr.Clip.CurMap := 0;
+            for y := 0 to MapH - 1 do
+              for x := 0 to MapW - 1 do
+              begin
+                z := (y div BLOCK_H) * (MapW div BLOCK_W) + (x div BLOCK_W);
                 if (i <= Length (MapTiles)) then
-                  tbr.Clip.aMaps[tbr.Clip.CurMap].Map[y, x].Mid := MapTiles[i];
+                  tbr.Clip.aMaps[z].Map[y mod BLOCK_H, x mod BLOCK_W].Mid := MapTiles[i];
                 Inc (i);
               end;
           end;
