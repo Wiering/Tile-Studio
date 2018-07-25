@@ -115,6 +115,7 @@ interface
         OrgSkipX, OrgSkipY,
         OrgSkipW, OrgSkipH: Integer;
         OrgReadBounds: Boolean;
+        OrgRemoveDuplicates: Boolean;
       end;
 
   type
@@ -194,6 +195,7 @@ interface
                            SkipX, SkipY, SkipW, SkipH: Integer;
                            var ProgressBar: TProgressBar;
                            ReadBounds: Boolean;
+                           RemoveDuplicates: Boolean;
                            bRefresh: Boolean;
                            tbr: TileBitmapRec): TileBitmapRec;
 
@@ -746,6 +748,56 @@ implementation
     end;
   end;
 
+
+  function GetChkSumChar (var tbr: TileBitmapRec; n: Integer): Char;
+    var
+      x, y: Integer;
+      chk: Integer;
+  begin
+    with tbr do
+    begin
+      chk := Bounds[n];
+
+      chk := chk xor (OffsetX[n] xor OffsetY[n]);  // 2.4
+
+      for y := 0 to H - 1 do
+        for x := 0 to W - 1 do
+        begin
+          chk := chk xor (chk shr 1);
+          Inc (chk, TileBitmap.Canvas.Pixels[n * W + x, y]);
+        end;
+    end;
+    GetChkSumChar := Chr (chk and $FF);
+  end;
+
+  function CompareTiles (var tbr: TileBitmapRec; n1, n2: Integer): Boolean;
+    var
+      x, y: Integer;
+  begin
+    CompareTiles := FALSE;
+    with tbr do
+    begin
+      if Bounds[n1] <> Bounds[n2] then
+        Exit;
+
+      if OffsetX[n1] <> OffsetX[n2] then
+        Exit;
+      if OffsetY[n1] <> OffsetY[n2] then
+        Exit;
+
+      n1 := n1 * W;
+      n2 := n2 * W;
+      for y := 0 to H - 1 do
+        for x := 0 to W - 1 do
+          with TileBitmap.Canvas do
+            if Pixels[n1 + x, y] <> Pixels[n2 + x, y] then
+              Exit;
+    end;
+    CompareTiles := TRUE;
+  end;
+
+
+
   function ReadTileBitmap (Filename: string;
                            BlockWidth, BlockHeight: Integer;
                            TransX, TransY: Integer;
@@ -753,6 +805,7 @@ implementation
                            SkipX, SkipY, SkipW, SkipH: Integer;
                            var ProgressBar: TProgressBar;
                            ReadBounds: Boolean;
+                           RemoveDuplicates: Boolean;
                            bRefresh: Boolean;
                            tbr: TileBitmapRec): TileBitmapRec;
     var
@@ -764,6 +817,40 @@ implementation
       bResult: Boolean;
       Error: Boolean;
       Img: TImage;
+      ChkSum: string;
+      MapTiles: array of Integer;
+
+    function NewTileIsUnique: Boolean;
+      var
+        c: Char;
+        i: Integer;
+        tile: Integer;
+        FoundAt: Integer;
+    begin
+      with tbr do
+      begin
+        c := GetChkSumChar (tbr, TileCount);
+        while (TileCount + 1 > length (ChkSum)) do
+          ChkSum := ChkSum + c;
+        ChkSum[TileCount + 1] := c;
+
+        tile := TileCount;
+        FoundAt := -1;
+        for i := 0 to TileCount - 1 do
+          if c = ChkSum[i + 1] then
+              if CompareTiles (tbr, i, TileCount) then
+              begin
+                FoundAt := i;
+                tile := i;
+              end;
+      end;
+
+      i := Length (MapTiles);
+      SetLength (MapTiles, i + 1);
+      MapTiles[i] := tile;
+
+      Result := FoundAt = -1;
+    end;
 
   begin
 
@@ -784,6 +871,7 @@ implementation
         SkipW := OrgSkipW;
         SkipH := OrgSkipH;
         ReadBounds := OrgReadBounds;
+        RemoveDuplicates := OrgRemoveDuplicates;
       end;
     end
     else
@@ -804,6 +892,7 @@ implementation
         OrgSkipW := SkipW;
         OrgSkipH := SkipH;
         OrgReadBounds := ReadBounds;
+        OrgRemoveDuplicates := RemoveDuplicates;
       end;
     end;
 
@@ -955,6 +1044,9 @@ implementation
               Height := H;
 
             TileCount := 0;
+            ChkSum := '';
+            SetLength (MapTiles, 0);
+
             for y := 0 to HH div BH - 1 do
               for x := 0 to WW div BW - 1 do
               begin
@@ -1009,9 +1101,30 @@ implementation
                   end;
 
                 if not Error then
-                  Inc (TileCount);
+                  if (not RemoveDuplicates) or NewTileIsUnique then
+                    Inc (TileCount);
               end;
           end;
+
+          if Length (MapTiles) > 0 then   // import map as clip
+          begin
+
+            for i := Length (tbr.Clip.aMaps) - 1 downto 0 do
+              RemoveClip (tbr, i);
+
+            i := 0;
+            NewClipMap (tbr, WW div BW, HH div BH);
+            tbr.Clip.CurMap := Length (tbr.Clip.aMaps) - 1;
+            tbr.Clip.aMaps[tbr.Clip.CurMap].Id := '0';
+            for y := 0 to HH div BH - 1 do
+              for x := 0 to WW div BW - 1 do
+              begin
+                if (i <= Length (MapTiles)) then
+                  tbr.Clip.aMaps[tbr.Clip.CurMap].Map[y, x].Mid := MapTiles[i];
+                Inc (i);
+              end;
+          end;
+
           RemoveEmptyTiles (tbr);
           Current := 0;
         end
@@ -1023,6 +1136,9 @@ implementation
       MessageDlg ('Error reading ' + Filename, mtError, [mbOk], 0);
     ReadTileBitmap := tbr;
     TempBitmap.Free;
+
+
+
   end;
 
   function WriteTileBitmap (Filename: string;
@@ -1349,53 +1465,6 @@ implementation
     end;
 
     AllowMultEmptyTiles := LastAllowMultEmpty;
-  end;
-
-  function GetChkSumChar (var tbr: TileBitmapRec; n: Integer): Char;
-    var
-      x, y: Integer;
-      chk: Integer;
-  begin
-    with tbr do
-    begin
-      chk := Bounds[n];
-
-      chk := chk xor (OffsetX[n] xor OffsetY[n]);  // 2.4
-
-      for y := 0 to H - 1 do
-        for x := 0 to W - 1 do
-        begin
-          chk := chk xor (chk shr 1);
-          Inc (chk, TileBitmap.Canvas.Pixels[n * W + x, y]);
-        end;
-    end;
-    GetChkSumChar := Chr (chk and $FF);
-  end;
-
-  function CompareTiles (var tbr: TileBitmapRec; n1, n2: Integer): Boolean;
-    var
-      x, y: Integer;
-  begin
-    CompareTiles := FALSE;
-    with tbr do
-    begin
-      if Bounds[n1] <> Bounds[n2] then
-        Exit;
-
-      if OffsetX[n1] <> OffsetX[n2] then
-        Exit;
-      if OffsetY[n1] <> OffsetY[n2] then
-        Exit;
-
-      n1 := n1 * W;
-      n2 := n2 * W;
-      for y := 0 to H - 1 do
-        for x := 0 to W - 1 do
-          with TileBitmap.Canvas do
-            if Pixels[n1 + x, y] <> Pixels[n2 + x, y] then
-              Exit;
-    end;
-    CompareTiles := TRUE;
   end;
 
   function RemoveDuplicates (var tbr: TileBitmapRec;
@@ -1891,7 +1960,7 @@ implementation
         SaveInt (OrgSkipY);
         SaveInt (OrgSkipW);
         SaveInt (OrgSkipH);
-        SaveInt (Integer (OrgReadBounds));
+        SaveInt (Integer (OrgReadBounds) + 2 * Integer (OrgRemoveDuplicates));
       end;
 
     SaveInt (Ord ('K'));  // 2.2
@@ -2117,7 +2186,11 @@ implementation
                OrgSkipY := ReadInt;
                OrgSkipW := ReadInt;
                OrgSkipH := ReadInt;
-               OrgReadBounds := Boolean (ReadInt);
+
+               i := ReadInt;  { options }
+               OrgReadBounds := Boolean (i and 1);
+               OrgRemoveDuplicates := Boolean (i and 2);
+
                if tmpVer > 1 then
                begin
                  { nop }

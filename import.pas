@@ -60,6 +60,7 @@ type
     AutoDetectButton: TButton;
     Trans: TPanel;
     Mult: TImage;
+    RemoveDuplicates: TCheckBox;
     procedure FormShow(Sender: TObject);
     procedure PreviewPictureMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -393,8 +394,6 @@ procedure TImportTiles.AutoDetectButtonClick(Sender: TObject);
     UseLines: Boolean;
 begin
   // try to find tile size automatically
-
-
 
   UseLines := FALSE;
   if BmpW < 32 then

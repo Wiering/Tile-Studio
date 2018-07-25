@@ -47,6 +47,7 @@ unit Main;
 
     History:
 
+      - added: 'remove duplicate tiles' option for import tiles to avoid 'too many tiles' error
       - fixed: paste button was often disabled when trying to copy from external source
       - fixed: when removing an animation sequence, the numbers of the others in the maps are now properly lowered
 
@@ -55,7 +56,7 @@ unit Main;
 
       - select next/previous clips with Ctrl+Shift+Alt Left/Right
       - added Tile->Replace color under cursor (Ctrl+R)
-      - added (simple) union skinning: show a vague image of a different tile while drawing a tile,
+      - added (simple) onion skinning: show a vague image of a different tile while drawing a tile,
         right-click on other tile (at the bottom)
       - added 'text' quotes also allowed for strings in addition to "text", useful for '"'
       - added option !StartWithEmptyTile
@@ -656,6 +657,7 @@ type
     N40: TMenuItem;
     ShowUsedColorPatterns1: TMenuItem;
     DoubleSize1: TMenuItem;
+    HideOnionSkin1: TMenuItem;
     procedure Exit1Click(Sender: TObject);
     procedure PalettePaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -907,6 +909,7 @@ type
     procedure DoubleSize1Click(Sender: TObject);
     procedure Edit1DrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; Selected: Boolean);
+    procedure HideOnionSkin1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -922,10 +925,10 @@ type
     VisualBmp,
     ClipBmp: TBitmap;
     bmpMapImage: TBitmap;  // 2.5 - export map
-    UnionSkinBmp: TBitmap;  // 2.5 - union skin
+    OnionSkinBmp: TBitmap;  // 2.5 - onion skin
     AlphaBmp: TBitmap;  // 2.5 - use tile as alpha channel
     LastTileEdited: Integer;
-    UnionSkinTile: Integer;
+    OnionSkinTile: Integer;
     TileTab: array of TileTabRec;
     // tbr: TileBitmapRec;
     // IgnorePaletteMouseDown: Boolean;
@@ -1989,11 +1992,11 @@ begin
   ClipBmp.TransparentColor := TRANS_COLOR;
   SetStretchBltMode(ClipBmp.Canvas.Handle, HALFTONE);
 
-  UnionSkinBmp := TBitmap.Create;
-  UnionSkinBmp.PixelFormat := pf24bit;
-  UnionSkinBmp.TransparentColor := TRANS_COLOR;
-  SetStretchBltMode(UnionSkinBmp.Canvas.Handle, HALFTONE);
-  UnionSkinTile := -1;
+  OnionSkinBmp := TBitmap.Create;
+  OnionSkinBmp.PixelFormat := pf24bit;
+  OnionSkinBmp.TransparentColor := TRANS_COLOR;
+  SetStretchBltMode(OnionSkinBmp.Canvas.Handle, HALFTONE);
+  OnionSkinTile := -1;
   LastTileEdited := -1;
 
   AlphaBmp := TBitmap.Create;
@@ -2195,7 +2198,6 @@ begin  { UpdateBMP }
             end;
         end;
 
-
     TmpBmp := TBitmap.Create;
     SetStretchBltMode(TmpBmp.Canvas.Handle, HALFTONE);
     with TmpBmp do
@@ -2218,17 +2220,18 @@ begin  { UpdateBMP }
       Draw (BORDER_W, BORDER_H, TmpBmp);
     end;
 
-    if UnionSkinTile <> -1 then
-    begin
-      for tmpY1 := 0 to H - 1 do
-        for tmpX1 := 0 to W - 1 do
-        begin
-          newRGB := UnionSkinBmp.Canvas.Pixels[tmpX1 + BORDER_W, tmpY1 + BORDER_H];
-          oldRGB := VisualBmp.Canvas.Pixels[tmpX1 + BORDER_W, tmpY1 + BORDER_H];
-          if (newRGB <> TRANS_COLOR) and (oldRGB <> TRANS_COLOR) then
-            VisualBmp.Canvas.Pixels[tmpX1 + BORDER_W, tmpY1 + BORDER_H] := Blend (oldRGB, newRGB, 125, 50);
-        end;
-    end;
+    if OnionSkinTile <> -1 then
+      if not HideOnionSkin1.Checked then
+      begin
+        for tmpY1 := 0 to H - 1 do
+          for tmpX1 := 0 to W - 1 do
+          begin
+            newRGB := OnionSkinBmp.Canvas.Pixels[tmpX1 + BORDER_W, tmpY1 + BORDER_H];
+            oldRGB := VisualBmp.Canvas.Pixels[tmpX1 + BORDER_W, tmpY1 + BORDER_H];
+            if (newRGB <> TRANS_COLOR) and (oldRGB <> TRANS_COLOR) then
+              VisualBmp.Canvas.Pixels[tmpX1 + BORDER_W, tmpY1 + BORDER_H] := Blend (oldRGB, newRGB, 125, 50);
+          end;
+      end;
 
     if Drawing then
       if DrawingShape then
@@ -2427,7 +2430,7 @@ begin
     Width := BW;
     Height := BH;
   end;
-  with UnionSkinBmp do
+  with OnionSkinBmp do
   begin
     Width := BW;
     Height := BH;
@@ -4093,6 +4096,7 @@ procedure TMainForm.ImportTiles1Click(Sender: TObject);
     SkipW, SkipH: Integer;
     ai: array of Integer;
     i: Integer;
+    Unique: Boolean;
 begin
 
   if OpenPictureDialog.Execute then
@@ -4109,6 +4113,7 @@ begin
         SkipY := ClipTop.Value;
         SkipW := HorzSpace.Value;
         SkipH := VertSpace.Value;
+        Unique := RemoveDuplicates.Checked;
 
         if (BlockW >= 4) and (BlockH >= 4) and
            (SkipX >= 0) and (SkipY >= 0) and
@@ -4135,7 +4140,9 @@ begin
                   ai,
                   SkipX, SkipY,
                   SkipW, SkipH,
-                  ProgressBar, FALSE,
+                  ProgressBar,
+                  FALSE,
+                  Unique,
                   FALSE,
                   TileTab[Tab.TabIndex].tbr);
 
@@ -4398,19 +4405,19 @@ procedure TMainForm.TileBitmapMouseDown(Sender: TObject;
 begin
   if Button = mbRight then
   begin
-    if UnionSkinTile = X div W then
-      UnionSkinTile := -1
+    if OnionSkinTile = X div W then
+      OnionSkinTile := -1
     else
     begin
-      UnionSkinTile := X div W;
+      OnionSkinTile := X div W;
       with TileTab[Tab.TabIndex] do
-        UnionSkinBmp.Canvas.CopyRect (MakeRect (BORDER_W, BORDER_H, W, H),
-                  tbr.TileBitmap.Canvas, MakeRect (UnionSkinTile * W, 0, W, H));
+        OnionSkinBmp.Canvas.CopyRect (MakeRect (BORDER_W, BORDER_H, W, H),
+                  tbr.TileBitmap.Canvas, MakeRect (OnionSkinTile * W, 0, W, H));
     end;
     UpdateBMP (TRUE);
     Exit;
   end;
-  UnionSkinTile := -1;
+  OnionSkinTile := -1;
 
   if Sender = TileBitmap then
     TileTab[Tab.TabIndex].tbr.Current := X div W;
@@ -14089,6 +14096,16 @@ procedure TMainForm.ImportEdlevClick(Sender: TObject);
 begin
 {
   SetEditorMode (mTile);
+  ImportLevelTiles ('d:\dos\old\ch3\', 'MainChar', 40, 48, 'c');
+
+  SetEditorMode (mTile);
+  ImportLevelTiles ('d:\dos\old\ch3\', 'W1', 32, 24);
+  SetEditorMode (mMap);
+  ImportLevelMap   ('d:\dos\old\ch3\', 'L1', 'L1');
+}
+
+{
+  SetEditorMode (mTile);
   ImportLevelTiles ('c:\ch2\', 'W1', 20, 14);
   SetEditorMode (mMap);
   ImportLevelMap   ('c:\ch2\', 'TITLE', 'Title');
@@ -14321,8 +14338,11 @@ begin
       ReadTileBitmap (TmpBmpName,
           ww, hh,  0, 0,
           ai,  0, 0,  0, 0,
-          ProgressBar, FALSE,
-          FALSE, TileTab[Tab.TabIndex].tbr);
+          ProgressBar,
+          FALSE,
+          FALSE,
+          FALSE,
+          TileTab[Tab.TabIndex].tbr);
 
   SetLength (ai, 0);
   MainForm.ProgressPanel.Visible := FALSE;
@@ -15267,7 +15287,9 @@ begin
                     ai,
                     0, 0,
                     0, 0,
-                    ProgressBar, FALSE,
+                    ProgressBar,
+                    FALSE,
+                    FALSE,
                     TRUE,
                     TileTab[Tab.TabIndex].tbr);
 
@@ -16860,6 +16882,12 @@ begin
   Paste1.Enabled := ClipBoard.HasFormat (CF_BITMAP);
   StretchPaste1.Enabled := ClipBoard.HasFormat (CF_BITMAP);
   ScaledPaste1.Enabled := ClipBoard.HasFormat (CF_BITMAP);
+end;
+
+procedure TMainForm.HideOnionSkin1Click(Sender: TObject);
+begin
+  HideOnionSkin1.Checked := not HideOnionSkin1.Checked;
+  UpdateBMP (FALSE);
 end;
 
 end.
