@@ -8,3 +8,7 @@ R=255-R
 G=255-G
 B=255-B
 
+[Swap Blue and Green]
+G=B
+B=G
+

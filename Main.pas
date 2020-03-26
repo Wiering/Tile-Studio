@@ -161,7 +161,6 @@ unit Main;
   { PNG is now handled by PngImage instead of PngUnit }
 
 
-
 interface
 
 uses
@@ -1380,6 +1379,7 @@ procedure TMainForm.PalettePaint(Sender: TObject);
     Wd, Ht: Integer;
     i, j, l, m, n, p: Integer;
     OldShowCurPal: Boolean;
+    Bmp: TBitmap;
 
   function GetColorCircle (i, j: Integer): Integer;
     var
@@ -1558,9 +1558,23 @@ begin
       end
       else
       begin  // smooth palette
+
+        //for j := 0 to Ht - 1 do
+        //  for i := 0 to Wd - 1 do
+        //    Pixels[i, j] := GetColorCircle (i, j);   // very slow for some reason
+
+        Bmp := TBitmap.Create();
+        Bmp.Width := Wd;
+        Bmp.Height := Ht;
+
         for j := 0 to Ht - 1 do
           for i := 0 to Wd - 1 do
-            Pixels[i, j] := GetColorCircle (i, j);
+            Bmp.Canvas.Pixels[i, j] := GetColorCircle (i, j);
+
+        Draw(0, 0, Bmp);
+
+        Bmp.FreeImage();
+
       end;
     end;
 
