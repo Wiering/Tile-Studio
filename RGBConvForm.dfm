@@ -1,8 +1,8 @@
 object RGBConv: TRGBConv
   Left = 192
   Top = 107
-  Width = 450
-  Height = 429
+  Width = 545
+  Height = 497
   Anchors = [akLeft, akBottom]
   Caption = 'Color Conversion Scripts'
   Color = clBtnFace
@@ -17,22 +17,23 @@ object RGBConv: TRGBConv
   TextHeight = 13
   object lblFilename: TLabel
     Left = 8
-    Top = 376
+    Top = 428
     Width = 39
-    Height = 13
+    Height = 18
+    Anchors = [akLeft, akBottom]
     Caption = 'filename'
   end
   object Script: TMemo
     Left = 8
     Top = 8
-    Width = 425
-    Height = 351
+    Width = 513
+    Height = 405
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
   end
   object btnSave: TButton
-    Left = 248
-    Top = 368
+    Left = 335
+    Top = 424
     Width = 89
     Height = 25
     Anchors = [akRight, akBottom]
@@ -42,8 +43,8 @@ object RGBConv: TRGBConv
     OnClick = btnSaveClick
   end
   object btnCancel: TButton
-    Left = 344
-    Top = 368
+    Left = 431
+    Top = 424
     Width = 89
     Height = 25
     Anchors = [akRight, akBottom]

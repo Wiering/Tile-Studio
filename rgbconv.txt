@@ -8,7 +8,24 @@ R=255-R
 G=255-G
 B=255-B
 
+[Swap Red and Green]
+G=R
+R=G
+
 [Swap Blue and Green]
 G=B
 B=G
 
+[Swap Red and Blue]
+R=B
+B=R
+
+[More Saturation]
+R=(12*R-((R+G+B)/3))/11
+G=(12*G-((R+G+B)/3))/11
+B=(12*B-((R+G+B)/3))/11
+
+[Less Saturation]
+R=(11*R+((R+G+B)/2))/12
+G=(11*G+((R+G+B)/2))/12
+B=(11*B+((R+G+B)/2))/12

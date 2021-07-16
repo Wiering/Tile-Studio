@@ -16573,11 +16573,13 @@ begin
       Delete (s, 1, 1);
       Delete (s, Length (s), 1);
       RGBConvListBox.Items.Add (s);
-      if (s = LastSelected) then
-        RGBConvListBox.Selected[RGBConvListBox.Items.Count - 1] := TRUE;
 
       Inc (j);
       SetLength (RGBConvScripts, j + 1);
+
+      if (s = LastSelected) then
+        RGBConvListBox.ItemIndex := j;
+      
       RGBConvScripts[j] := TStringList.Create;
     end
     else
