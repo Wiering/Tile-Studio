@@ -1,6 +1,6 @@
 unit PalMan;
 
-  { 
+  {
       Tile Studio
 
       Copyright (c) 2000-2017, Mike Wiering, Wiering Software
@@ -30,7 +30,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, ComCtrls, Spin;
+  StdCtrls, ExtCtrls, ComCtrls, Spin, PNGUnit;
 
 const
   DEFAULT_PAL_SIZE = 256;
@@ -111,6 +111,7 @@ var
   aiOrig: array of Integer;
   aiUsedColors: array of Integer;
   aiClip: array of Integer;
+  bmp: TBitmap;
 
 const
   DefaultPalette: Integer = -1;
@@ -604,7 +605,7 @@ procedure TPaletteManager.ExportButtonClick(Sender: TObject);
   var
     R, G, B, c: Integer;
     tab: Integer;
-    n: Integer;
+    i, j, n: Integer;
     F: file of Byte;
     C0, C1: Byte;
 begin
@@ -612,40 +613,66 @@ begin
   if tab >= 0 then
     if SaveDialog1.Execute then
     begin
-      AssignFile (F, SaveDialog1.Filename);
-      try
-        ReWrite (F);
-        for n := 0 to aiPalSize[tab] - 1 do
-        begin
-          GetRGB (aaiPal[tab, n], R, G, B);
-          case SaveDialog1.FilterIndex of
-            1: begin
-                 Write (F, R);
-                 Write (F, G);
-                 Write (F, B);
-               end;
-            2: begin
-                 R := R shr 2;
-                 G := G shr 2;
-                 B := B shr 2;
-                 Write (F, R);
-                 Write (F, G);
-                 Write (F, B);
-               end;
-            3: begin
-                 c := (R shr 3) and $1F +
-                     ((G shr 3) and $1F) shl 5 +
-                     ((B shr 3) and $1F) shl 10;
-                 C0 := Lo (c);
-                 C1 := Hi (c);
+      if (SaveDialog1.FilterIndex = 4) then
+      begin
 
-                 Write (F, C0);
-                 Write (F, C1);
-               end;
+        bmp := TBitmap.Create();
+        bmp.PixelFormat := pf32bit;
+        bmp.Width := 16;
+        bmp.Height := 16;
+
+        for j := 0 to 15 do
+          for i := 0 to 15 do
+          begin
+            n := j * 16 + i;
+            GetRGB (aaiPal[tab, n], R, G, B);
+
+            bmp.Canvas.Pixels[i, j] := RGB(R, G, B);
           end;
+
+        PNGUnit.WriteBitmapToPNGFile (SaveDialog1.FileName, bmp, RGB(0, 0, 0));
+
+        bmp.free();
+
+      end
+      else
+      begin
+
+        AssignFile (F, SaveDialog1.Filename);
+        try
+          ReWrite (F);
+          for n := 0 to aiPalSize[tab] - 1 do
+          begin
+            GetRGB (aaiPal[tab, n], R, G, B);
+            case SaveDialog1.FilterIndex of
+              1: begin
+                   Write (F, R);
+                   Write (F, G);
+                   Write (F, B);
+                 end;
+              2: begin
+                   R := R shr 2;
+                   G := G shr 2;
+                   B := B shr 2;
+                   Write (F, R);
+                   Write (F, G);
+                   Write (F, B);
+                 end;
+              3: begin
+                   c := (R shr 3) and $1F +
+                       ((G shr 3) and $1F) shl 5 +
+                       ((B shr 3) and $1F) shl 10;
+                   C0 := Lo (c);
+                   C1 := Hi (c);
+
+                   Write (F, C0);
+                   Write (F, C1);
+                 end;
+              end;
+            end;
+        finally
+          CloseFile (F);
         end;
-      finally
-        CloseFile (F);
       end;
       PaletteColors.Repaint;
     end;
