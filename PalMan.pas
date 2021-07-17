@@ -608,6 +608,23 @@ procedure TPaletteManager.ExportButtonClick(Sender: TObject);
     i, j, n: Integer;
     F: file of Byte;
     C0, C1: Byte;
+
+  function NumStr4 (n: Integer): string;
+    var
+      s: string;
+  begin
+    Str (n: 4, s);
+    result := s;
+  end;
+
+  procedure WriteString (s: string);
+    var
+      i: Integer;
+  begin
+    for i := 1 to Length (s) do
+      Write (F, Byte (s[i]));
+  end;
+
 begin
   tab := PaletteTab.TabIndex;
   if tab >= 0 then
@@ -637,10 +654,10 @@ begin
       end
       else
       begin
-
         AssignFile (F, SaveDialog1.Filename);
         try
           ReWrite (F);
+
           for n := 0 to aiPalSize[tab] - 1 do
           begin
             GetRGB (aaiPal[tab, n], R, G, B);
@@ -667,6 +684,11 @@ begin
 
                    Write (F, C0);
                    Write (F, C1);
+                 end;
+              5: begin
+                   if (n = 0) then
+                     WriteString ('GIMP Palette'#13#10'#'#13#10);
+                   WriteString (NumStr4 (R) + NumStr4 (G) + NumStr4 (B) + ' Untitled'#13#10);
                  end;
               end;
             end;
