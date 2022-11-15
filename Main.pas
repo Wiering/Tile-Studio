@@ -1001,9 +1001,9 @@ type
     Sessions: Integer;
     History: string;
     CDROM: Boolean;
-    ReadParamFile: Boolean;//CMDLINE_OP
+    ReadParamFile: Boolean;
     resultCMD: Integer;//CMDLINE_OP
-    ReadParamCMD: string;
+    ReadParamCMD: string;//CMDLINE_OP
     RecentFiles: TStringList;
     WinLeft, WinTop, WinWidth, WinHeight: Integer;  // 2.55
     TileSelX1, TileSelY1,          // 2.0
