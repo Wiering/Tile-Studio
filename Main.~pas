@@ -1001,8 +1001,8 @@ type
     Sessions: Integer;
     History: string;
     CDROM: Boolean;
-    ReadParamFile: Boolean;//CMDLINE_OP
-    resultCMD: Integer;//CMDLINE_OP
+    ReadParamFile: Boolean; //CMDLINE-OPS
+    resultCMD: Integer; //CMDLINE-OPS
     ReadParamCMD: string;
     RecentFiles: TStringList;
     WinLeft, WinTop, WinWidth, WinHeight: Integer;  // 2.55
@@ -13688,19 +13688,23 @@ begin
       H := LastH;
     end;
 
-// CMDLINE_OP
-	 if ReadParamCMD <> 'F10' then
-		  begin	 
-		  if ErrMsg <> '' then
-			ShowMessage (ErrMsg)
-		  else
-		  begin
-			with ProgressBar do
-			  Position := Max;
-			  ShowMessage ('Code generated successfully');
-		  end;
-	  end;
-// CMDLINE_OP
+    
+    if ReadParamCMD <> 'F10' then
+       begin
+         if ErrMsg <> '' then
+              ShowMessage (ErrMsg)
+         else
+           begin
+             with ProgressBar do
+             Position := Max;
+          // mgarcia removed    CMDLINE-OPS
+             ShowMessage ('Code generated successfully');
+          end;
+       end;
+    end;
+
+
+
 
   // clean up and release memory
 
@@ -14747,7 +14751,7 @@ begin
   begin
     Modified := FALSE;
     Open1Click (nil);
-  //CMDLINE_OP
+  {CMDLINE-OPS}
   ReadParamFile := ParamCount > 1;
   if ReadParamFile then
   begin
@@ -14762,7 +14766,7 @@ begin
                          Exit1Click(Self);
                    end;
   end;
-  //CMDLINE_OP
+  {CMDLINE-OPS}
   end;
   ReadParamFile := FALSE;
 end;
