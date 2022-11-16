@@ -1,0 +1,1115 @@
+<HTML>
+  <HEAD>
+    <TITLE>Tile Studio Tutorial</TITLE>
+
+    <LINK REL="SHORTCUT ICON" HREF="favicon.ico">
+  </HEAD>
+
+  <BODY BGCOLOR="#000000" TEXT="#ffffff" LINK="#a0a0ef" VLINK="#e0a0e0" BACKGROUND="back4.jpg">
+<?php include_once("analyticstracking.php") ?>
+
+<CENTER>
+<BR>
+
+<TABLE WIDTH="92%" BACKGROUND="back3.jpg" BORDERCOLOR="#c0d0e0" BORDER="1">
+<TR><TD>
+
+<BR>
+<P ALIGN="CENTER"><IMG SRC="logo.gif" WIDTH=48 HEIGHT=48></P>
+
+<CENTER>
+
+<FONT COLOR="#fff8b8">
+
+<H1>TILE STUDIO TUTORIAL</H1>
+</FONT>
+<I>by Mike Wiering, <A HREF="http://www.wieringsoftware.nl/" TARGET="_blank">Wiering Software</A></I>
+<BR><BR>
+
+<TABLE WIDTH="94%" BORDER="0">
+<TR><TD>
+
+<FONT COLOR="#fff8b8">
+<H3>Contents</H3>
+</FONT>
+<UL>
+   <A HREF="#WhenToUseTS">When to use Tile Studio</A><BR>
+   <A HREF="#ImportingTiles">Importing Tiles</A><BR>
+   <A HREF="#Colors">Selecting Colors</A><BR>
+   <A HREF="#PalMan">The Palette Manager</A><BR>
+   <A HREF="#DrawingTools">Drawing Tools</A><BR>
+   <A HREF="#MapEditor">The Map Editor</A><BR>
+   <A HREF="#BoundsAndMapCodes">Bounds and Map Codes</A><BR>
+   <A HREF="#Animation">Animation</A><BR>
+   <A HREF="#PovRay">Importing PovRay animations</A><BR>
+   <A HREF="#CreateTSD">Creating a Tile Studio Definition (.tsd) file</A><BR>
+   <A HREF="#GeneratingCode">Generating Code</A><BR>
+</UL>
+
+<FONT COLOR="#fff8b8">
+<A NAME="WhenToUseTS"><H3>When to use Tile Studio</H3></A>
+</FONT>
+<UL>
+  Tile Studio is a combination of a <I>tile editor</I> and a <I>map
+  editor</I> and was made to design games. The program was not designed
+  to edit large bitmaps like normal drawing programs. Tile Studio works best
+  with small bitmaps (tiles) from 16x16 to about 128x128 pixels. However,
+  larger or smaller sizes can also be used.
+<P>
+  With Tile Studio, you can only design graphics and levels, not complete
+  games. You will need a real programming language to write your actual
+  game. In order to use the graphics and levels you create, you will also
+  need (to create) an interface between Tile Studio and your programming
+  language (.tsd file). Besides, you will also need (to write) code
+  that can actually run your game. There are several examples of .tsd files
+  in the </i>Examples</i> section of the 
+  <A HREF="http://tilestudio.sourceforge.net/">Tile Studio Homepage</A>.
+<!-- At the moment, the
+  most complete library that can easily be used with Tile Studio is the
+  <A HREF="http://tilestudio.sf.net/cgl/">Clean Game Library</A>. -->
+</UL>
+
+<FONT COLOR="#fff8b8">
+<A NAME="ImportingTiles"><H3>Importing Tiles</H3>
+</FONT>
+<UL>
+  With Tile Studio, you can easily <I>Import Tiles</I> from existing .BMP or
+  .PNG bitmaps (File | Import Tiles). This way, you can easily reuse tiles you
+  made before in other programs or use tiles from screenshots of other games.
+
+<P>
+<CENTER>
+<A HREF="tut-imp1.jpg"><IMG SRC="tut-imp1-s.jpg" WIDTH="217" HEIGHT="175"
+     BORDER="0" ALT="Import dialog"></A><BR>
+  <FONT COLOR="#e0d0b8">
+    <I>Import tiles from any .BMP bitmap</I>
+  </FONT>
+</CENTER>
+<P>
+
+
+  There is an auto-detect button that can often find the size of the tiles
+  automatically once the transparent color has been set properly. You can set
+  the transparent color by clicking anywhere in the bitmap. Hold shift down to
+  select more than one color (as in the example). To see if your parameters
+  are correct, move the mouse pointer over the image and you will see the
+  separate tiles appear in the box at the bottom-right.
+<P>
+  Each set of tiles (called <I>tile set</I> here) must have a unique
+  identifier (name). This identifier is used when you generate code for your
+  game. While programming your game, you can refer to identifiers you define
+  here.
+<P>
+  If want to import tiles from several bitmaps, just import them one by one,
+  then copy all these tiles to a new tile set using the <I>Copy Tiles</I>
+  (Edit | Copy Tiles...). Finally, remove all the duplicate tiles with
+  <I>Remove Duplicates</I> from the <I>Tile</I> menu. 
+<P>
+  If you import tiles and then modify your original bitmap, you can re-import
+  the tiles into your current tile set by pressing F5 (<I>Refresh imported tiles</I>). This only works for
+  the tile set you imported, not for copies of it. Be careful: all changes
+  you have made to your tile set after importing it the first time will be
+  lost! Besides, if you add tiles, remove (duplicate) tiles, move tiles in
+  your tile set or change the dimensions of your imported bitmap, your maps
+  can be screwed up! So either edit your tiles inside Tile Studio or with your
+  external program, but not with both!
+
+</UL>
+
+<FONT COLOR="#fff8b8">
+<A NAME="Colors"><H3>Selecting Colors</H3>
+</FONT>
+<UL>
+  By default, Tile Studio uses a smooth RGB palette. However, by pressing
+  Shift-P, you can switch to a different type of palette, which contains
+  horizontal and vertical shades of red, green and blue. This palette may
+  look a bit strange, it is formed by colors that have an equal RGB distance
+  to each other. The order of the colors can be changed at any time
+  by pressing Ctrl+P (<I>Rearrange Palette</I>). The color depth can also
+  be changed from 6 to 10 with Ctrl+6, Ctrl+7, Ctrl+8, Ctrl+9 and Ctrl+0.
+  At depth 6, only 6x6x6=216 colors are used, making your bitmaps suitable
+  for 256 color mode. At any time, tiles can be matched to the current
+  palette (Tile | Match Colors).
+
+<P>
+<CENTER>
+<IMG SRC="tut-pal1.jpg" WIDTH="61" HEIGHT="123"
+     BORDER="0" ALT="Palette"> &nbsp;&nbsp;&nbsp;
+<IMG SRC="tut-col1.jpg" WIDTH="118" HEIGHT="32"
+     BORDER="0" ALT="Color pattern">
+<BR>
+  <FONT COLOR="#e0d0b8">
+    <I>The color palette at depth 6 (left) and a color pattern (right)</I>
+  </FONT>
+</CENTER>
+<P>
+
+  To select a color, click the palette with the left button. The selected
+  color is displayed in the box under the palette at the left. By clicking
+  in this box you can select any RGB color from a color dialog. You can
+  also select a color with the right mouse button. This color will then be
+  displayed as the transparent color. To reset it, click in the (transparent)
+  box at the center.
+<P>
+  Whenever you select a color (with the left mouse button) a color pattern
+  appears in the box at the right. If you click again without moving your
+  mouse pointer, the colors will slightly change. Click several times to find
+  the colors you need. Then you make a selection in this box to indicate
+  which colors you want to use. An arrow appears at the top of this box.
+  You can move this arrow to the left and right by pressing the keys - and =.
+  Most of the drawing tools can work with such color patterns. Color patterns
+  you have used in your tiles are saved and can be selected with [ and ].
+<P>
+  Normally, color patterns are based on one color (from dark to light). However,
+  you can create a color pattern from the color you have selected to a new color
+  by holding shift down.
+<P>
+  When drawing, you can select a color from your bitmap by clicking with
+  the right button. Its also possible to get a separate palette of all the
+  colors used in your tiles by pressing Ctrl+U. 
+
+</UL>
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="PalMan"><H3>The Palette Manager</H3>
+</FONT>
+<UL>
+
+  Note: <a href="http://www.wieringsoftware.eu/2006/12/tile-studio-to-support-256-color-palettes/">256-color support coming soon</a>
+  <p>
+
+  Tile Studio can be used for projects with palette based graphics. Palettes
+  may contain up to 256 entries. Part of a palette may be left undefined (so
+  you can reserve those non-preset entries for other things). 
+  Each tile set can have it's own palette, but one palette can be used for
+  several tile sets. You can create palettes with the palette manager
+  (Ctrl+F9). You can edit each color separately and make smooth transitions
+  between colors (hold Shift down). But you can also import your palette,
+  generated it or create it from the colors you have used in your tile set
+  so far.
+
+<P>
+<CENTER>
+<A HREF="tut-palman.jpg"><IMG SRC="tut-palman-s.jpg" WIDTH="200" HEIGHT="246"
+     BORDER="0" ALT="Palette manager"></A><BR>
+  <FONT COLOR="#e0d0b8">
+    <I>The Palette Manager</I>
+  </FONT>
+</CENTER>
+<P>
+
+  Normally, its best to create your palette after drawing your tiles. 
+  Press Ctrl+U so you have a panel showing all the colors you have used and
+  then start the palette manager. When you create a new palette (New...),
+  it will contain the colors you have used in your tile set. However, this
+  only works if you haven't used more than 256 colors. If you have, set the
+  color depth to a lower value, for example 6 (Ctrl+6) and generate your 
+  used colors list again (Ctrl+U).
+
+</UL>
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="DrawingTools"><H3>Drawing Tools</H3>
+</FONT>
+<UL>
+  The drawing tools are displayed at the left. Here is a description of
+  these drawing tools:
+<P>
+
+
+<UL>
+<TABLE>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb1.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A><BR>
+
+</TD>
+<TD>
+
+  Select this pencil to draw pixel by pixel no matter how thick your line
+  is. If a color pattern is selected, the pencil color is the last color
+  selected in the pattern. Drawing with the transparent color is also
+  possible: click the transparent color with the left mouse button.
+  With the Shift key down, you can erase with the right mouse button.
+
+
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb2.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+
+  The brush works just like the pencil, except it can be made thicker
+  by changing the line width. When a color pattern is selected, all lines
+  drawn with a brush start with the first color and end with the last.
+
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb6.jpg" WIDTH="60" HEIGHT="36"
+     BORDER="0"></A><BR>
+
+</TD>
+<TD>
+
+  This line indicates the line width. By clicking with the left button,
+  the line can be made wider, clicking with the right button will make the
+  line narrower. This line width is used with the paint brush, lines,
+  rectangles, circles and round rectangles.
+
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb3.jpg" WIDTH="60" HEIGHT="60"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+
+  With these tools you can draw lines, rectangles, circles and round
+  circles. The thickness of the lines depends on the line width again.
+  There are also filled versions of these tools (except the line tool of course).
+  When a color pattern is selected, the shape is filled from the outside
+  to the center with colors in the pattern. Hold Shift down to only
+  overwrite colors that are not in the pattern or have a lower index
+  (try it!). You can also do a gradient fill with these tools: make sure
+  you have selected a pattern, then start drawing and type "h", "v" or
+  "d" for horizontal, vertical or diagonal. Also try holding Ctrl down
+  before you start drawing!
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb4.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+   Use this tool to fill any area with the selected color. Again, this can
+   also be used with the transparent color. You can also fill the entire
+   tile or a selection by pressing F (<I>Fill</I>).
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb7.jpg" WIDTH="60" HEIGHT="60"
+     BORDER="0"></A>
+</TD>
+<TD>
+
+   These are special effects that can be used in combination with the other
+   tools above. Whenever the "Brighten" button (with the sun) is down,
+   instead of drawing with the selected color, you will draw with light!
+   If the "Darken" button is down (the moon), everything becomes darker.
+   Both these buttons can be used in combination with the Alt key, which
+   makes the effect much smaller. The next button "Add Colors" combines the
+   selected color with the colors in your bitmap. You get the average of
+   what you draw and what was already there. Again, you can use Alt to
+   make the effect much smaller. You can also get these effects at real-time
+   (Tile | Real Time Lightening).  The last button "Smooth Random Fill"
+   normally makes everything smoother. If you also press Shift, a little
+   noise is added. If a color pattern is selected,  the area will be filled
+   with random colors from your pattern.
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb8.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+   With this tool you can make a selection in your tile. You can then
+   drag your selection to a different location, copy it or (stetch) paste
+   into it, flip it, move pixels or match colors.
+</TD></TR>
+
+</TABLE>
+</UL>
+
+</UL>
+<P>
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="MapEditor"><H3>The Map Editor</H3>
+</FONT>
+<UL>
+
+   By pressing Ctrl+Tab, you can switch between the tile editor and the
+   map editor. A map is always based on a tile set, so you should first
+   create (some of) your tiles before creating a map. Each tile set can
+   have several maps, but each map can only use tiles from one tile set.
+
+  <P>
+   Please note that the Undo function is not available for the map editor
+   in the current version of Tile Studio.
+   
+  <P>
+   Using the map editor, you can create a complete layer of tiles. As you
+   place your tiles into the map, you can mirror them horizontally and
+   vertically and also combine tiles to new ones. In the example below,
+   the grass is placed in front of the tree and the grass tile is mirrored
+   horizontally.
+
+<P>
+<CENTER>
+<IMG SRC="tut-ctx.jpg" WIDTH="117" HEIGHT="102"
+     BORDER="0" ALT="Example"> &nbsp;&nbsp;&nbsp;
+<IMG SRC="tut-ct.jpg" WIDTH="117" HEIGHT="102"
+     BORDER="0" ALT="Current Tile">
+<BR>
+  <FONT COLOR="#e0d0b8">
+    <I>Example of overlapping tiles (left) and the current tile (right)</I>
+  </FONT>
+</CENTER>
+<P>
+
+   Selecting tiles might require some practice. At the right of the screen,
+   the current tile is displayed (at the top). This is the tile you are
+   drawing with. The current tile actually has three layers, so three tiles
+   can be placed in front of each other. These are displayed from left to
+   right. All three of these tiles can be mirrored horizontally or
+   vertically. To change one of these tiles, first select the layer you want
+   to change (in the example above, the middle layer is selected) by pressing
+   the right mouse button or the Tab key, then
+   select a tile from your tile set. Finally, you can select the 'h' and 'v'
+   to mirror the tile.
+
+
+  <P>
+   The map editor has the following drawing tools:
+  <P>
+
+
+<UL>
+<TABLE>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb1.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A><BR>
+
+</TD>
+<TD>
+   When the pencil tool is selected, you can draw with the current tile.
+   Just hold the left mouse button down and move the mouse pointer through
+   the map. All three layers are completely overwritten, not only the
+   selected layer.
+   With the right mouse button, you can select a new current tile
+   from the map.
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb8.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+   With this tool you can make a selection in the map. You can easily fill
+   a whole selection with a tile by clicking on the tile in your tile set.
+   By pressing Del, you can remove all tiles in the selection. Whenever you
+   copy a selection, it appears on the clipboard at the right, see the
+   image below. To unselect, press the right mouse button.
+
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb9.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+
+   Use this tool if you have several small bitmaps that together form a
+   larger one. Select the first (top-left) tile and move the mouse pointer.
+   The area you select will be filled with separate tiles in the same order
+   as they appear in your tile set. This function works with one layer at a
+   time.
+
+
+</TD></TR>
+<TR><TD WIDTH=80>
+
+<IMG SRC="tut-tb0.jpg" WIDTH="30" HEIGHT="30"
+     BORDER="0"></A>
+
+</TD>
+<TD>
+   
+   This is a normal block fill function. Just create your current tile
+   with three layers and use this tool to draw larger areas. All three
+   layers are overwritten.
+
+
+</TD></TR>
+</TABLE>
+</UL>
+<P>
+
+  You can paste areas from the clipboard into your map by first making a
+  selection and then pressing Ctrl+V. If your selection is too large, the
+  tiles will be repeated. There is also a special Stretch Paste function to
+  paste a block of tiles into a selection with a different size. All the
+  edge tiles will be placed at the edge of the new selection.
+
+<P>
+<CENTER>
+<IMG SRC="tut-clip.jpg" WIDTH="101" HEIGHT="121"
+     BORDER="0" ALT="Clipboard"> &nbsp;&nbsp;&nbsp;
+<IMG SRC="tut-clpx.jpg" WIDTH="258" HEIGHT="121"
+     BORDER="0" ALT="Stretch Paste Example">
+<BR>
+  <FONT COLOR="#e0d0b8">
+    <I>The Clipboard (left) and example of the Stretch Paste function (right)</I>
+  </FONT>
+</CENTER>
+<P>
+
+  In this example, the large wall was made by copying the small one and then
+  Stretch-Pasting it into a much larger selection. Another interesting function
+  is Random Fill (Ctrl+R). It fills the selection with random tiles from the
+  clipboard.
+
+</UL>
+<P>
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="BoundsAndMapCodes"><H3>Bounds and Map Codes</H3>
+</FONT>
+<UL>
+
+  In Tile Studio, you can define bounds in the tile editor and in the map
+  editor. Bounds are "walls" in your map that indicate where objects can
+  move (whenever an object passes a bound, a collision occurs). Usually,
+  you will use bounds to indicate the ground, walls, platforms, etc.
+
+<P>
+<CENTER>
+<IMG SRC="tut-bndx.jpg" WIDTH="122" HEIGHT="159"
+     BORDER="0" ALT="Bounds in a level"> &nbsp;&nbsp;&nbsp;
+<IMG SRC="tut-bnds.jpg" WIDTH="68" HEIGHT="101"
+     BORDER="0" ALT="Bounds and Map Codes">
+<BR>
+  <FONT COLOR="#e0d0b8">
+    <I>Bounds in a level</I>
+  </FONT>
+</CENTER>
+<P>
+
+
+   The image above shows some bounds (the white lines).
+   Each tile can have upper, lower, left and right bounds set or not set.
+   Diagonal bounds are also possible (/ and \).
+   When you draw a tile that will always have the same bounds, you can
+   set create these bounds in the tile editor. Every time you insert this
+   tile in a map, these bounds are automatically set. You can also first
+   place a tile in your map, then select it and change the selection's
+   bounds.
+  <P>
+   Map Codes are numbers from 1 to 255 that can be placed at any position
+   in the map. These numbers can be used by your game to create objects and
+   for other things. In the map, these codes are displayed as hexadecimal
+   numbers (takes less space than decimal), from 01 to FF. To change a map
+   code, click on the button with 00.
+
+
+</UL>
+<P>
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="Animation"><H3>Animation</H3>
+</FONT>
+<UL>
+
+  Tile Studio is also very useful for designing animated sprites. You can
+  design sprites in the same way as tiles and use several tiles for the
+  separate animation frames. You can even have your animation run while you
+  are drawing! Select the first frame with Shift+[, the last with Shift+].
+  Then turn animation on (Ctrl+A) and your animation start to run.
+<P>
+
+  To create animation sequences you can use in your game, you have to create
+  a special map for the sequence. Place all the frames in a row in this map
+  and add a map code to each tile, indicating the number of frames the tile
+  should be displayed.
+
+
+<P>
+<CENTER>
+<IMG SRC="tut-tseq.jpg" WIDTH="117" HEIGHT="57"
+     BORDER="0" ALT="Bounds in a level">
+<BR>
+  <FONT COLOR="#e0d0b8">
+    <I>Tile Sequence</I>
+  </FONT>
+</CENTER>
+<P>
+
+  The sequence above consists of two tiles, which both run for 10 (hex)
+  frames. You can create a Tile Sequence by selecting these tiles (two in
+  this example) and pressing Shift+F7 (Convert to Tile Sequence).
+  You will see your new tile sequence running at the bottom-right of the
+  screen. You can insert this tile sequence by selecting an area in the map
+  and pressing F7 (Insert Tile Sequence). The number of the tile sequence
+  is displayed in red (01 in the example). This number is actually
+  everything you need to be able to use the sequence in your game. So
+  removing the separate tiles from this map (at the left) would do no harm.
+
+</UL>
+
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="PovRay"><H3>Importing PovRay animations</H3>
+</FONT>
+<UL>
+
+  If you use <A HREF="http://www.povray.org/">PovRay</A> to create your
+  animations, you can import them into Tile Studio (Animation | Import
+  PovRay Animation...). To do this, you must first render all the frames and
+  make sure you have .BMP bitmaps, with names like: Name0.bmp, Name1.bmp,
+  Name2.bmp, etc. Select one of these files (Open...) and wait for Tile 
+  Studio to find the number of frames. You can choose a divide factor and
+  X and Y shift values to make the graphics fit into your tile set.
+  Warning: importing a PovRay animation clears the entire tile set.
+
+</UL>
+
+
+
+
+<FONT COLOR="#fff8b8">
+<A NAME="CreateTSD"><H3>Creating a Tile Studio Definition (.tsd) file</H3></A>
+</FONT>
+<UL>
+
+  The output Tile Studio generates is programmable and depends on the .tsd
+  file you use. You can edit this file in Tile Studio by pressing Shift+F10. Because this
+  is rather complicated, only try this if you have some programming
+  experience.
+ <P>
+  The .tsd files are meant as source code which you can import directly into
+  your game source. A very simple .tsd file could look like this:
+
+<FONT COLOR="#fff8b8"><PRE>
+    ; My first Tile Studio Definition file
+    #file c:\\hello.txt
+    Hello, world!
+    #end file
+</PRE></FONT>
+
+  This is just to give you an idea how it works, it isn't very useful at
+  all. Every type you press F10 (Generate Code), the file
+  <B>c:\hello.txt</B> is
+  created with the text <I>"Hello, world!"</I>. Note that
+  <B><CODE>\\</CODE></B> is converted to <B><CODE>\</CODE></B>.
+  In the same way, <B><CODE>\n</CODE></B> can be used for a new line.
+  All commands are preceded by a <B><CODE>#</CODE></B> and comment
+  lines start with a <B><CODE>;</CODE></B>.
+  Everything you place between <B><CODE>#file</CODE></B>
+  and <B><CODE>#end file</CODE></B> will be written to
+  the file.
+ <P>
+
+  There are several variables, known by Tile Studio, which can be placed
+  between <B><CODE>&lt;</CODE></B> and <B><CODE>&gt;</CODE></B>.
+  These will be interpreted as the information is written to the file.
+
+<FONT COLOR="#fff8b8"><PRE>
+    ; create the graphics files
+    #tileset
+    #tilebitmap &lt;TileSetIdentifier&gt;.BMP
+    #end tilebitmap
+    #end tileset
+    
+    ; Pascal procedure to check if all graphics files exist
+    #file CHECKBMP.INC
+      procedure CheckBMPFiles;
+      begin
+    #tileset
+        if not Exists ('&lt;TileSetIdentifier&gt;.BMP') then
+          Error ('Cannot find &lt;TileSetIdentifier&gt;.BMP');
+    #end tileset
+      end;
+    #end file
+</PRE></FONT>
+
+  This example is a little more complicated. First it goes through all the
+  tile sets you have created (<B><CODE>#tileset</CODE></B> ...
+  <B><CODE>#end tileset</CODE></B>). The command
+  <B><CODE>#tilebitmap</CODE></B> makes Tile Studio create a bitmap
+  containing all the tiles
+  you have used in your maps (24-bit BMP only). Here, we use the name
+  <B><CODE>&lt;TileSetIdentifier&gt;.BMP</CODE></B>. Here,
+  <I>TileSetIdentifier</I> is a variable,
+  which is replaced by the names you gave to your tile sets. Suppose you
+  have two tile sets, named <I>Tiles1</I> and <I>Tiles2</I>,
+  then two bitmaps would be created, named <B>Tiles1.BMP</B> and
+  <B>Tiles2.BMP</B>.
+ <P>
+  In the example, a file is written named <B>CHECKBMP.INC</B>, containing a
+  Pascal procedure that checks the existence of all the graphics files.
+  If you had the two tile sets <I>Tiles1</I> and <I>Tiles2</I> again,
+  you would get the following file, which could be included into a
+  Pascal program.
+
+<FONT COLOR="#fff8b8"><PRE>
+    procedure CheckBMPFiles;
+    begin
+      if not Exists ('Tiles1.BMP') then
+        Error ('Cannot find Tiles1.BMP');
+      if not Exists ('Tiles2.BMP') then
+        Error ('Cannot find Tiles2.BMP');
+    end;
+</PRE></FONT>
+
+
+  Below is the complete list of variables and commands you can use in
+  a <B>.tsd</B> file. The syntax of all commands is
+  <B><CODE>#command</CODE></B> ... <B><CODE>#end command</CODE></B>,
+  some commands have optional parameters.
+<P>
+  The variables are usually only available within a certain scope, defined
+  by a command. For example, <B><CODE>FrameCount</CODE></B>, can only be
+  used between <B><CODE>#sequencedata</CODE></B> and <B><CODE>#end
+  sequencedata</CODE></B>.
+<P>
+  You can print a variable in a special way by adding a colon and a format
+  string to a variable. For example:
+  <B><CODE>&lt;BoundMapValue:"%4xH"&gt;</CODE></B> would print the variable
+  <I>BoundMapValue</I> as a 4-digit hexadecimal value followed
+  by the letter <B><CODE>H</CODE></B>.
+<P>
+  You can even write complete numeric expressions between the <B><CODE>&lt;</CODE></B> and 
+  <B><CODE>&gt;</CODE></B>, these are evaluated by Tile Studio, for example
+  <B><CODE>&lt;TileHeight&nbsp;-&nbsp;Overlap&gt;</CODE></B>. Normally, this feature isn't
+  really necessary, since your compiler is probably capable of calculating
+  <B><CODE>&lt;TileHeight&gt;</CODE></B>&nbsp;-&nbsp;<B><CODE>&lt;Overlap&gt;</CODE></B>.
+  However, it can make your final output file a lot smaller and more readable, like in the following example:
+  <B><CODE>&lt;(R&nbsp;shr&nbsp;2)+(G&nbsp;shr&nbsp;2)*0x100+(B&nbsp;shr&nbsp;2)*0x10000:"0%06xh"&gt;</CODE></B>.
+
+<P>
+
+
+<UL>
+<B><U>#file</U> FileName</B> - Command to start writing to an output file (text)<BR>
+<B><U>#binfile</U> FileName DefaultBitSize</B> - Command to start writing a binary file<BR>
+<U><B>ProjectName</B></U> - Name of your Tile Studio project file (without .tsp)<BR>
+<U><B>Author</B></U> - Project information: author<BR>
+<U><B>Notes</B></U> - Project information: notes<BR>
+<U><B>Copyright</B></U> - Project information: copyright notice<BR>
+<U><B>OutputDir</B></U> - Current ouput directory<BR>
+<U><B>CurrentDate</B></U> - Current date<BR>
+<U><B>CurrentTime</B></U> - Current time<BR>
+<U><B>TSVersion</B></U> - Version of Tile Studio<BR>
+<U><B>#readtextfile</B></U> <i>FileName [begin] [separator] [long-line] [end]</i> - Command to go through the lines of a text file<BR>
+<UL>
+  <U><B>TextFileLine</B></U> - The current line from the file as a string<BR>
+  <U><B>TextFileLineValue</B></U> - The current line as an integer number if valid<BR>
+  <U><B>LineNumber</B></U> - Line number in the file (0, 1, 2, ...)<BR>
+</UL>
+<U><B>#readbinfile</B></U> <i>FileName [begin] [separator] [long-line] [end]</i> - Command to go through the bytes of a binary file<BR>
+<UL>
+  <U><B>BinFileChar</B></U> - The current byte as a character<BR>
+  <U><B>BinFileByte</B></U> - The current byte as an ASCII number<BR>
+  <U><B>BinFilePos</B></U> - The position in the file (0, 1, 2, ...)<BR>
+</UL>
+<U><B>#list</B></U> <i>ListName [begin] [separator] [end]</i> - Command to go through the list <i>ListName</i><BR>
+<UL>
+  <U><B>#list</B></U> <i>ListName [begin] [separator] [end]</i> - You can use lists recursively</i><BR>
+  <U><B>Item</B></U> - The current item of the list as a string (if recursive: <U><i>ListName</i><B>Item</B><i>0, 1, 2, ...</i></U>)<BR>
+  <U><B>ItemValue</B></U> - The current item as an integer number if valid (if recursive: <U><i>ListName</i><B>ItemValue</B><i>0, 1, 2, ...</i></U>)<BR>
+  <U><B>Index</B></U> - The position in the list (0, 1, 2, ...) (if recursive: <U><i>ListName</i><B>ItemIndex</B><i>0, 1, 2, ...</i></U>)<BR>
+</UL>
+
+<U><B>PaletteCount</B></U> - Total number of palettes<BR>
+<U><B>#palette</B></U> <i>[separator]</i> - Command to go through all the palettes<BR>
+<UL>
+  <U><B>PaletteIdentifier</B></U> - The identifier of the current palette<BR>
+  <U><B>PaletteNumber</B></U> - The number of the current palette (0, 1, 2, ...)<BR>
+  <U><B>PaletteSize</B></U> - The total number of entries in the palette<BR>
+  <U><B>PalettePreset</B></U> - Number of colors defined in the palette<BR>
+  <B><U>#palettedata</U></B> <i>[begin] [separator] [end]</i> - Command to go through all the palette entries<BR>
+  <UL>
+    <U><B>Index</B></U> - Current index number<BR>
+    <U><B>RGB</B></U> - RGB color value of palette entry<BR>
+    <U><B>R</B></U> - Color value for red (0..255)<BR>
+    <U><B>G</B></U> - Color value for green<BR>
+    <U><B>B</B></U> - Color value for blue<BR>
+  </UL>
+</UL>
+<U><B>TileSetCount</B></U> - Total number of tile sets<BR>
+<U><B>#tileset</B></U> <i>[separator]</i> - Command to go through all the tile sets<BR>
+<UL>
+  <B><U>#tilebitmap</U></B> <i>FileName [MaxWidth]</i> - Creates .BMP or .PNG image with all tile combinations in your maps<BR>
+  <B><U>#tstilebitmap</U></B> <i>FileName [MaxWidth]</i> - Creates .BMP or .PNG image with the exact tiles in your tile set<BR>
+  <U><B>TileSetIdentifier</B></U> - The identifier of the current tile set<BR>
+  <U><B>TileSetNumber</B></U> - The number of the current tile set (0, 1, 2, ...)<BR>
+  <U><B>TileWidth</B></U> - Tile width in pixels<BR>
+  <U><B>TileHeight</B></U> - Tile height in pixels<BR>
+  <U><B>HorizontalTileCount</B></U> - Number of tiles horizontally<BR>
+  <U><B>VerticalTileCount</B></U> - Number of tiles vertically<BR>
+  <U><B>TileSetBitmapWidth</B></U> - Total bitmap width<BR>
+  <U><B>TileSetBitmapHeight</B></U> - Total bitmap height<BR>
+  <U><B>TransparentPosX</B></U> - X-position of a transparent pixel<BR>
+  <U><B>TransparentPosY</B></U> - Y-position of a transparent pixel<BR>
+  <U><B>TransparentColorR</B></U> - Transparent color value for red (0..255)<BR>
+  <U><B>TransparentColorG</B></U> - Transparent color value for green<BR>
+  <U><B>TransparentColorB</B></U> - Transparent color value for blue<BR>
+  <U><B>Overlap</B></U> - Height of vertical overlapping area<BR>
+  <U><B>BackgroundColorR</B></U> - Background color value for red (0..255)<BR>
+  <U><B>BackgroundColorG</B></U> - Background color value for green<BR>
+  <U><B>BackgroundColorB</B></U> - Background color value for blue<BR>
+  <U><B>PaletteIdentifier</B></U> - The identifier of the current palette<BR>
+  <U><B>PaletteNumber</B></U> - The number of the current palette (0, 1, 2, ...)<BR>
+  <U><B>PaletteSize</B></U> - The total number of entries in the palette<BR>
+  <U><B>PalettePreset</B></U> - Number of colors defined in the palette<BR>
+  <B><U>#palettedata</U></B> <i>[begin] [separator] [end]</i> - Command to go through all the palette entries<BR>
+  <UL>
+    <U><B>Index</B></U> - Current index number<BR>
+    <U><B>RGB</B></U> - RGB color value of palette entry<BR>
+    <U><B>R</B></U> - Color value for red (0..255)<BR>
+    <U><B>G</B></U> - Color value for green<BR>
+    <U><B>B</B></U> - Color value for blue<BR>
+  </UL>
+  <U><B>TSTileCount</B></U> - Total number of actual tiles in your tile set<BR>
+  <B><U>#tstile</U></B> <i>[separator]</i> - Command to go through all the tiles in your tile set<BR>
+  <UL>
+    <U><B>TileNumber</B></U> - Number of the current tile (0, 1, 2, ...)<BR>
+    <B><U>#tilemap</U></B> <i>[begin] [separator] [long-line] [next-row] [end]</i> - Map of tinytiles that form the current tile<BR>
+    <UL>
+      <U><B>TinyTileNumber</B></U> - Tinytile index number<BR>
+      <U><B>X</B></U> - Horizontal tinytile counter<BR>
+      <U><B>Y</B></U> - Vertical tinytile counter<BR>
+    </UL>
+    <B><U>#tiledata</U></B> <i>[begin] [separator] [long-line] [next-row] [end] [transparent]</i> - Command to go through the pixels of the current tile<BR>
+    <UL>
+      <U><B>X</B></U> - Current X-position within the tile<BR>
+      <U><B>Y</B></U> - Current Y-position within the tile<BR>
+      <U><B>Pixel</B></U> - Index number of closest color in palette<BR>
+      <U><B>RGB</B></U> - RGB color value of current pixel<BR>
+      <U><B>R</B></U> - Color value for red (0..255)<BR>
+      <U><B>G</B></U> - Color value for green<BR>
+      <U><B>B</B></U> - Color value for blue<BR>
+      <U><B>A</B></U> - Alpha value (0..255)<BR>
+    </UL>
+  </UL>
+  <U><B>TileCount</B></U> - Total number of tile combinations in your map(s)<BR>
+  <B><U>#tile</U></B> <i>[separator]</i> - Command to go through all the separate tile combinations<BR>
+  <UL>
+    <U><B>TileNumber</B></U> - Number of the current tile (0, 1, 2, ...)<BR>
+    <B><U>#tilemap</U></B> <i>[begin] [separator] [long-line] [next-row] [end]</i> - Map of tinytiles that form the current tile<BR>
+    <UL>
+      <U><B>TinyTileNumber</B></U> - Tinytile index number<BR>
+      <U><B>X</B></U> - Horizontal tinytile counter<BR>
+      <U><B>Y</B></U> - Vertical tinytile counter<BR>
+    </UL>
+    <B><U>#tiledata</U></B> <i>[begin] [separator] [long-line] [next-row] [end] [transparent]</i> - Command to go through the pixels of the current tile<BR>
+    <UL>
+      <U><B>X</B></U> - Current X-position within the tile<BR>
+      <U><B>Y</B></U> - Current Y-position within the tile<BR>
+      <U><B>Pixel</B></U> - Index number of closest color in palette<BR>
+      <U><B>RGB</B></U> - RGB color value of current pixel<BR>
+      <U><B>R</B></U> - Color value for red (0..255)<BR>
+      <U><B>G</B></U> - Color value for green<BR>
+      <U><B>B</B></U> - Color value for blue<BR>
+      <U><B>A</B></U> - Alpha value (0..255)<BR>
+    </UL>
+    <B><U>#textiledata</U></B> <i>[begin] [separator] [long-line] [next-row] [end] [transparent]</i> - Generate texture tiles (with extra edge pixels)<BR>
+    <UL>
+      <U><B>X</B></U> - Current X-position within the tile<BR>
+      <U><B>Y</B></U> - Current Y-position within the tile<BR>
+      <U><B>Pixel</B></U> - Index number of closest color in palette<BR>
+      <U><B>RGB</B></U> - RGB color value of current pixel<BR>
+      <U><B>R</B></U> - Color value for red (0..255)<BR>
+      <U><B>G</B></U> - Color value for green<BR>
+      <U><B>B</B></U> - Color value for blue<BR>
+      <U><B>A</B></U> - Alpha value (0..255)<BR>
+    </UL>
+    <U><B>OtherTopLeftCorners</B></U> - If 1, the top left corner can be different<BR>
+    <U><B>OtherTopEdges</B></U> - If 1, the top edge of this tile can be different<BR>
+    <U><B>OtherTopRightCorners</B></U> - If 1, the top right corner can be different<BR>
+    <U><B>OtherLeftEdges</B></U> - If 1, the left edge of this tile can be different<BR>
+    <U><B>OtherRightEdges</B></U> - If 1, the right edge of this tile can be different<BR>
+    <U><B>OtherBottomLeftCorners</B></U> - If 1, the bottom left corner can be different<BR>
+    <U><B>OtherBottomEdges</B></U> - If 1, the bottom edge of this tile can be different<BR>
+    <U><B>OtherBottomRightCorners</B></U> - If 1, the bottom right corner can be different<BR>
+    <B><U>#tilebitmap</U></B> <I>FileName</I> - Creates .BMP or .PNG image of the current tile<BR>
+    <B><U>#tstilebitmap</U></B> <I>FileName</I> - Creates .BMP or .PNG image of the current tile<BR>
+  </UL>
+  <U><B>UniequeTexTileCount</B></U> - Number of unique tile combinations with edges and corners<BR>
+  <B><U>#uniquetextile</U></B> <I>[separator]</I> - Generates all unique tile combinations with edges and corners<BR>
+  <UL>
+    <U><B>TileNumber</B></U> - Number of the current tile (0, 1, 2, ...)<BR>
+    <B><U>#tiledata</U></B> - Command to go through the pixels of the current tile<BR>
+  </UL>
+  <B><U>#tile0</U></B> - Special command to get the properties of the empty tile<BR>
+  <UL>
+    <U><B>OtherTopLeftCorners</B></U> - If 1, the top left corner can be different<BR>
+    <U><B>OtherTopEdges</B></U> - If 1, the top edge of this tile can be different<BR>
+    <U><B>OtherTopRightCorners</B></U> - If 1, the top right corner can be different<BR>
+    <U><B>OtherLeftEdges</B></U> - If 1, the left edge of this tile can be different<BR>
+    <U><B>OtherRightEdges</B></U> - If 1, the right edge of this tile can be different<BR>
+    <U><B>OtherBottomLeftCorners</B></U> - If 1, the bottom left corner can be different<BR>
+    <U><B>OtherBottomEdges</B></U> - If 1, the bottom edge of this tile can be different<BR>
+    <U><B>OtherBottomRightCorners</B></U> - If 1, the bottom right corner can be different<BR>
+  </UL>
+  <U><B>HEdgeCount</B></U> - Number of horizontal edges (textiles)<BR>
+  <B><U>#hedge</U></B> <i>[separator]</i> - Combinations of tiles that have different horizontal edges<BR>
+  <UL>
+    <U><B>HEdgeNumber</B></U> - Number (0, 1, 2, ...)<BR>
+    <U><B>TopTile</B></U> - Upper tile<BR>
+    <U><B>BottomTile</B></U> - Lower tile<BR>
+    <B><U>#hedgedata</U></B> <i>[begin] [separator] [long-line] [next-row] [end] [transparent]</i> - The horizontal edges (two pixels high)<BR>
+    <UL>
+      See <U>#tiledata</U><BR>
+    </UL>
+  </UL>
+  <U><B>VEdgeCount</B></U> - Number of vertical edges (textiles)<BR>
+  <B><U>#vedge</U></B> <i>[separator]</i> - Combinations of tiles that have different vertical edges<BR>
+  <UL>
+    <U><B>VEdgeNumber</B></U> - Number (0, 1, 2, ...)<BR>
+    <U><B>LeftTile</B></U> - Left tile<BR>
+    <U><B>RightTile</B></U> - Right tile<BR>
+    <B><U>#vedgedata</U></B> <i>[begin] [separator] [long-line] [next-row] [end] [transparent]</i> - The vertical edges (two pixels wide)<BR>
+    <UL>
+      See <U>#tiledata</U><BR>
+    </UL>
+  </UL>
+  <U><B>CornerCount</B></U> - Number of corners (textiles)<BR>
+  <B><U>#corner</U></B> <i>[separator]</i> - List of tile combinations that require corners to be redrawn<BR>
+  <UL>
+    <U><B>CornerNumber</B></U> - Number (0, 1, 2, ...)<BR>
+    <U><B>TopLeftTile</B></U> - Top left tile<BR>
+    <U><B>TopRightTile</B></U> - Top right tile<BR>
+    <U><B>BottomLeftTile</B></U> - Bottom left tile<BR>
+    <U><B>BottomRightTile</B></U> - Bottom right tile<BR>
+    <B><U>#cornerdata</U></B> <i>[begin] [separator] [end] [transparent]</i> - The corner tiles (all 2 x 2 pixels)<BR>
+    <UL>
+      See <U>#tiledata</U><BR>
+    </UL>
+  </UL>
+  <U><B>SequenceCount</B></U> - Number of sequences defined<BR>
+  <B><U>#sequence</U></B> <i>[separator]</i> - Command to go through all the sequences<BR>
+  <UL>
+    <U><B>SpriteName</B></U> - Name of sprite (if sprite has its own map)<BR>
+    <U><B>SpriteNumber</B></U> - Number of the sprite (0, 1, 2, ...)<BR>
+    <U><B>SpriteLength</B></U> - Number of frames<BR>
+    <U><B>SequenceNumber</B></U> - Number of the sequence (1, 2, 3, ...)<BR>
+    <U><B>SequenceLength</B></U> - Number of frames<BR>
+    <B><U>#sequencedata</U></B> <i>[begin] [separator] [end]</i> - Command to go through all the frames (tile by tile)<BR>
+    <UL>
+      <U><B>Frame</B></U> - Index (0, 1, 2, ...)<BR>
+      <U><B>FrameCount</B></U> - Duration of the tile in the sequence<BR>
+      <U><B>TileNumber</B></U> - Number of the tile in the bitmap<BR>
+      <U><B>TileNumberLoByte</B></U> - Tile combination number mod 256<BR>
+      <U><B>TileNumberHiByte</B></U> - Tile combination number div 256<BR>
+      <U><B>Bounds</B></U> - Bounds (see table below)<BR>  
+      <U><B>TSBackTile</B></U> - Number of the tile in your tile set (back layer)<BR>
+      <U><B>TSMidTile</B></U> - Number of the tile in your tile set (middle layer)<BR>
+      <U><B>TSFrontTile</B></U> - Number of the tile in your tile set (front layer)<BR>
+      <U><B>TSBackHF</B></U> - Horizontal flip (back layer): 0 or 1<BR>
+      <U><B>TSMidHF</B></U> - Horizontal flip (middle layer)<BR>
+      <U><B>TSFrontHF</B></U> - Horizontal flip (front layer)<BR>
+      <U><B>TSBackVF</B></U> - Vertical flip (back layer): 0 or 1<BR>
+      <U><B>TSMidVF</B></U> - Vertical flip (middle layer)<BR>
+      <U><B>TSFrontVF</B></U> - Vertical flip (front layer)<BR>
+      <U><B>TSBackR</B></U> - Rotate 90 degrees right (back layer): 0 or 1<BR>
+      <U><B>TSMidR</B></U> - Rotate 90 degrees right (middle layer)<BR>
+      <U><B>TSFrontR</B></U> - Rotate 90 degrees right (front layer)<BR>
+      <U><B>OffsetX</B></U> - X-Offset of the tile<BR>
+      <U><B>OffsetY</B></U> - Y-Offset of the tile<BR>
+    </UL>
+  </UL>
+  <B><U>#sequenceframe</U></B> <i>[begin] [separator] [end]</i> - Same as #sequence, but repeats for every frame of the sequence separately<BR>
+  <U><B>MapCount</B></U> - Number of maps that belong to the current bitmap<BR>
+  <B><U>#map</U></B> <i>[separator]</i> - Command to go through all the maps<BR>
+  <UL>
+    <U><B>MapIdentifier</B></U> - Identifier of the map<BR>
+    <U><B>MapNumber</B></U> - Number of the map (0, 1, 2, ...)<BR>
+    <U><B>MapWidth</B></U> - Number of tiles horizontally<BR>
+    <U><B>MapHeight</B></U> - Number of tiles vertically<BR>
+    <U><B>ScrollX</B></U> - Map scroll function X value<BR>
+    <U><B>ScrollY</B></U> - Map scroll function Y value<BR>
+    <B><U>#mapdata</U></B> <i>[begin] [separator] [long-line] [next-row] [end]</i> - Command to go through all the map cells<BR>
+    <UL>
+      <U><B>X</B></U> - Current X-position within the map<BR>
+      <U><B>Y</B></U> - Current Y-position within the map<BR>
+      <U><B>TileNumber</B></U> - Number of the tile combination<BR>
+      <U><B>TileNumberLoByte</B></U> - Tile combination number mod 256<BR>
+      <U><B>TileNumberHiByte</B></U> - Tile combination number div 256<BR>
+      <U><B>Bounds</B></U> - Bounds (see table below)<BR>
+      <U><B>MapCode</B></U> - Map code value (0..255)<BR>
+      <U><B>BoundMapValue</B></U> - bit 0..7: Bounds, bit 8..15: Map code <BR>
+      <U><B>TSBackTile</B></U> - Number of the tile in your tile set (back layer)<BR>
+      <U><B>TSMidTile</B></U> - Number of the tile in your tile set (middle layer)<BR>
+      <U><B>TSFrontTile</B></U> - Number of the tile in your tile set (front layer)<BR>
+      <U><B>TSBackHF</B></U> - Horizontal flip (back layer): 0 or 1<BR>
+      <U><B>TSMidHF</B></U> - Horizontal flip (middle layer)<BR>
+      <U><B>TSFrontHF</B></U> - Horizontal flip (front layer)<BR>
+      <U><B>TSBackVF</B></U> - Vertical flip (back layer): 0 or 1<BR>
+      <U><B>TSMidVF</B></U> - Vertical flip (middle layer)<BR>
+      <U><B>TSFrontVF</B></U> - Vertical flip (front layer)<BR>
+      <U><B>TSBackR</B></U> - Rotate 90 degrees right (back layer): 0 or 1<BR>
+      <U><B>TSMidR</B></U> - Rotate 90 degrees right (middle layer)<BR>
+      <U><B>TSFrontR</B></U> - Rotate 90 degrees right (front layer)<BR>
+    </UL>
+  </UL>
+  <B><U>#tinytiles</U></B> <i>Width Height</i> - Split all tiles and maps into smaller tiles<BR>
+</UL>
+</UL>
+
+<BR><BR>
+How to interpret the <B>Bounds</B> byte: <P>
+<UL>
+  Bit 7 = 0: <BR>
+  <UL>
+    Bit 0: Upper bound  <BR>
+    Bit 1: Left bound   <BR>
+    Bit 2: Lower bound  <BR>
+    Bit 3: Right bound
+  </UL>
+
+  Bit 7 = 1: <BR>
+  <UL>
+    Bit 0: Diagonal direction: 0=/, 1=\  <BR>
+    Bit 6..1:
+    <UL>
+      0: y = x              <BR>
+      <I>Not (yet) implemented:</I> <BR>
+      1: y = 2 * x          <BR>
+      2: y = 2 * (x + 1/2)  <BR>
+      3: y = x / 2          <BR>
+      4: y = x / 2 + 1/2    <P>
+
+    </UL>
+  </UL>
+
+</UL>
+
+
+</UL>
+
+<FONT COLOR="#fff8b8">
+<A NAME="GeneratingCode"><H3>Generating Code</H3></A>
+</FONT>
+<UL>
+
+  Before you can generate code for your game, you must select the Tile Studio
+  Definition file you want to use (Shift+F10) and also select an output
+  directory. This is where the output files will be placed.
+  Then press F10 and your code will be generated. Switch to your favorite
+  programming environment and finish your game!
+
+
+</UL>
+
+
+
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3></H3>
+</FONT>
+<UL>
+
+
+
+</UL>
+
+<FONT COLOR="#fff8b8">
+<H3></H3>
+</FONT>
+
+<BR>
+
+
+
+<pre>
+
+The easies way is to look in the source code. 
+Here is a copy of a table with all commands/parameters (and below is the meaning of the letters FBSLNET):
+
+        ( KeyWord: 'FILE';          Parameters: 'F';       ReqCmd: [];                  idx: nil;           NewLine: FALSE; ),
+        ( KeyWord: 'BINFILE';       Parameters: 'FW';      ReqCmd: [];                  idx: nil;           NewLine: FALSE; ),
+        ( KeyWord: 'TILESET';       Parameters: 'S';       ReqCmd: [];                  idx: @itab;         NewLine: TRUE; ),
+        ( KeyWord: 'TILE';          Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @itile;        NewLine: TRUE; ),
+        ( KeyWord: 'TSTILE';        Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @itstile;      NewLine: TRUE; ),
+        ( KeyWord: 'TINYTILES';     Parameters: 'WH';      ReqCmd: [ctTileSet];         idx: nil;           NewLine: FALSE; ),
+        ( KeyWord: 'TILEDATA';      Parameters: 'BSLNET';  ReqCmd: [ctTile, ctTSTile];  idx: @idat;         NewLine: FALSE; ),
+        ( KeyWord: 'TEXTILEDATA';   Parameters: 'BSLNET';  ReqCmd: [ctTile, ctUTTile];  idx: @idat;         NewLine: FALSE; ),
+        ( KeyWord: 'MAP';           Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @imap;         NewLine: TRUE; ),
+        ( KeyWord: 'MAPDATA';       Parameters: 'BSLNE';   ReqCmd: [ctMap];             idx: @idat;         NewLine: FALSE; ),
+        ( KeyWord: 'PALETTE';       Parameters: 'S';       ReqCmd: [];                  idx: @ipal;         NewLine: TRUE; ),
+        ( KeyWord: 'PALETTEDATA';   Parameters: 'BSE';     ReqCmd: [ctPalette];         idx: @ipaldat;      NewLine: FALSE; ),
+        ( KeyWord: 'SEQUENCE';      Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @iseq;         NewLine: TRUE; ),
+        ( KeyWord: 'SEQUENCEDATA';  Parameters: 'BSE';     ReqCmd: [ctSequence];        idx: @iseqdat;      NewLine: FALSE; ),
+        ( KeyWord: 'CORNER';        Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @icorner;      NewLine: TRUE; ),
+        ( KeyWord: 'CORNERDATA';    Parameters: 'BSET';    ReqCmd: [ctCorner];          idx: @icornerdat;   NewLine: FALSE; ),
+        ( KeyWord: 'HEDGE';         Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @ihedge;       NewLine: TRUE; ),
+        ( KeyWord: 'HEDGEDATA';     Parameters: 'BSLNET';  ReqCmd: [ctHEdge];           idx: @ihedgedat;    NewLine: FALSE; ),
+        ( KeyWord: 'VEDGE';         Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @ivedge;       NewLine: TRUE; ),
+        ( KeyWord: 'VEDGEDATA';     Parameters: 'BSLNET';  ReqCmd: [ctVEdge];           idx: @ivedgedat;    NewLine: FALSE; ),
+        ( KeyWord: 'TILEMAP';       Parameters: 'BSLNE';   ReqCmd: [ctTile, ctTSTile];  idx: @itilemap;     NewLine: FALSE; ),
+        ( KeyWord: 'TILE0';         Parameters: '';        ReqCmd: [ctTileSet];         idx: @itile0;       NewLine: TRUE; ),
+        ( KeyWord: 'UNIQUETEXTILE'; Parameters: 'S';       ReqCmd: [ctTileSet];         idx: @iutt;         NewLine: TRUE; )
+
+		'W':Width
+		'H': Hieght
+
+		'F': Filename;
+		'B': Begin;
+		'S': Separator;
+		'L': Long Line Separator;
+		'N': Next Separator;
+		'E': End;
+		'T': Transparent value;
+  
+
+
+!StartWithEmptyTile -  inserts empty tile at the start of the export image, to align with the <TileNumber> starting from 1 not 0
+!ExportDuplicateTiles -  exports duplicate tiles, ie when not using tstilemap
+
+</pre>
+
+
+<UL>
+
+
+
+</UL>
+
+
+
+
+<BR>
+<CENTER>
+  <FONT COLOR="#e0d0b8">
+    <I>Return to <A HREF="http://tilestudio.sourceforge.net/">Tile Studio Homepage</A></I> <BR>
+  </FONT>
+</CENTER>
+
+</TR></TD>
+</TABLE>
+</CENTER>
+</TD></TR>
+</TABLE>
+
+  </BODY>
+</HTML>
+

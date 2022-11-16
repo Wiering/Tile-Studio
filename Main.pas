@@ -1001,9 +1001,9 @@ type
     Sessions: Integer;
     History: string;
     CDROM: Boolean;
-    ReadParamFile: Boolean;
-    resultCMD: Integer;//CMDLINE_OP
-    ReadParamCMD: string;//CMDLINE_OP
+    ReadParamFile: Boolean;//CMDLINE_OP
+    resultCMD: Integer;//CMDLINE_OP	
+    ReadParamCMD: string;
     RecentFiles: TStringList;
     WinLeft, WinTop, WinWidth, WinHeight: Integer;  // 2.55
     TileSelX1, TileSelY1,          // 2.0
@@ -8952,7 +8952,7 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 
     // options
     StartWithEmptyTile: Boolean;
-
+	ExportDuplicateTiles: Boolean; // ignore unique tile check
 
 
   const
@@ -12039,7 +12039,8 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 
 
     StartWithEmptyTile := FALSE;
-
+	ExportDuplicateTiles  := FALSE; // ignore unique tile check
+	
     SetNumVar ('TRUE', 1);
     SetNumVar ('FALSE', 0);
 
@@ -13166,29 +13167,32 @@ procedure TMainForm.Generate1Click(Sender: TObject);
     var
       i: Integer;
       s: string;
-  begin
+	begin
 
     for i := 0 to lines.Count - 1 do
     begin
       s := UpCaseStr (Trim(lines.Strings[i]));
-      if (s <> '') then
-      begin
-        if (s[1] = '!') then
-        begin
-          Delete (s, 1, 1);
+		if (s <> '') then
+		begin
+			if (s[1] = '!') then
+			begin
+			  Delete (s, 1, 1);
 
+			  if (s = 'STARTWITHEMPTYTILE') then
+			  begin
+				StartWithEmptyTile := TRUE;
+			  end;
+			
+			   if (s = 'EXPORTDUPLICATETILES') then
+			   begin
+					ExportDuplicateTiles := TRUE; // ignore unique tile check
+			   end;
+			
+			end;
+		end;
 
-
-          if (s = 'STARTWITHEMPTYTILE') then
-            StartWithEmptyTile := TRUE;
-
-
-        end;
-      end;
-    end;
-
-  end;
-
+	end;
+end;
 
 
 { TMainForm.Generate1Click }
@@ -13394,7 +13398,7 @@ begin
         for j := 0 to N - 1 do
           if not found then
           begin
-            diff := FALSE;
+            diff := ExportDuplicateTiles; // ignore unique tile check
             for y := 0 to tbr.H - 1 do
               if not diff then
                 for x := 0 to tbr.W - 1 do
