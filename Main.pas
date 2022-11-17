@@ -8954,6 +8954,7 @@ procedure TMainForm.Generate1Click(Sender: TObject);
     StartWithEmptyTile: Boolean;
 	ExportDuplicateTiles: Boolean; // ignore unique tile check
 
+	RunCMDLine: string; // run command line 
 
   const
     MAX_COUNTER = 100;
@@ -13176,8 +13177,14 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 		begin
 			if (s[1] = '!') then
 			begin
-			  Delete (s, 1, 1);
+			   Delete (s, 1, 1);
 
+ 			   if (s = 'RUNCMDLINE') then // run command line 
+			   begin
+					RunCMDLine := UpCaseStr (Trim(lines.Strings[i+1])); // read next line
+					Delete (RunCMDLine, 1, 1);		// remove first char			
+			   end;
+			   
 			  if (s = 'STARTWITHEMPTYTILE') then
 			  begin
 				StartWithEmptyTile := TRUE;
@@ -13187,6 +13194,8 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 			   begin
 					ExportDuplicateTiles := TRUE; // ignore unique tile check
 			   end;
+			   
+			   
 			
 			end;
 		end;
@@ -13194,6 +13203,38 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 	end;
 end;
 
+	
+// from https://stackoverflow.com/questions/32211723/why-delphi-app-cant-run-a-bat-file-and-make-it-work?noredirect=1&lq=1
+procedure StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
+var
+  StartInfo: TStartupInfo;
+  ProcInfo: TProcessInformation;
+begin
+  //Simple wrapper for the CreateProcess command
+  //returns the process id of the started process.
+  FillChar(StartInfo,SizeOf(TStartupInfo),#0);
+  FillChar(ProcInfo,SizeOf(TProcessInformation),#0);
+  StartInfo.cb := SizeOf(TStartupInfo);
+
+  if not(ShowWindow) then begin
+    StartInfo.dwFlags := STARTF_USESHOWWINDOW;
+    StartInfo.wShowWindow := SW_HIDE;
+  end;
+
+  CreateProcess(nil,PChar(ExeName + ' ' + CmdLineArgs),nil,nil,False,
+    CREATE_NEW_PROCESS_GROUP + NORMAL_PRIORITY_CLASS,nil,nil,StartInfo,
+    ProcInfo);
+
+  //Result := ProcInfo.dwProcessId;
+
+  if WaitForFinish then begin
+    WaitForSingleObject(ProcInfo.hProcess,Infinite);
+  end;
+
+  //close process & thread handles
+  CloseHandle(ProcInfo.hProcess);
+  CloseHandle(ProcInfo.hThread);
+end;
 
 { TMainForm.Generate1Click }
 
@@ -13684,7 +13725,14 @@ begin
 
   ErrMsg := RunCode;
 
-
+	// run cmd line if not empty and no errors
+	if (RunCMDLine <> '') AND (ErrMsg = '') then
+		begin	 
+		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
+		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, FALSE); // execute, show window and wait?
+		end;
+	 
+	 
   for itab := 0 to Tab.Tabs.Count - 1 do
     with TileTab[itab].tbr do
     begin

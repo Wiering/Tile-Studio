@@ -13194,11 +13194,14 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 			   begin
 					ExportDuplicateTiles := TRUE; // ignore unique tile check
 			   end;
+			   
+			   
 			
 			end;
-			
+		end;
+
 	end;
-	
+end;
 	
 // from https://stackoverflow.com/questions/32211723/why-delphi-app-cant-run-a-bat-file-and-make-it-work?noredirect=1&lq=1
 procedure StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
@@ -13722,7 +13725,7 @@ begin
   ErrMsg := RunCode;
 
 	// run cmd line if not empty and no errors
-	if RunCMDLine <> '' AND ErrMsg = '' then
+	if (RunCMDLine <> '') AND (ErrMsg = '') then
 		begin	 
 		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
 		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, FALSE); // execute, show window and wait?

@@ -1082,8 +1082,24 @@ Here is a copy of a table with all commands/parameters (and below is the meaning
   
 
 
-!StartWithEmptyTile -  inserts empty tile at the start of the export image, to align with the <TileNumber> starting from 1 not 0
-!ExportDuplicateTiles -  exports duplicate tiles, ie when not using tstilebitmap
+!StartWithEmptyTile 
+-  inserts empty tile at the start of the export image, to align with the <TileNumber> starting from 1 not 0
+
+!ExportDuplicateTiles 
+-  exports duplicate tiles, ie when not using tstilemap
+
+!RunCMDLine 
+- run a command line executable after the export script has finished, put command on following line, ie:
+#end file
+; --------------------------------------------------------
+!RunCMDLine 
+;"C:\Users\My Name\Desktop\My Project\convert.bat" "C:\Documents and Settings\My Name\Desktop\My Project\file01.png" true
+
+Tips:
+0) Path and command must be full qualified and in quotes on the next line, with the first character skipped
+1) Execution directory is where the excutable is launched from (where your ts.exe is, ie C:\ts\) not your project folder
+2) If you use a batch file, the first command should be a cd command into your project folder, put pause to debug it et
+3) if the cmd box flashes and does nothing, it's most likely your paths are wrong, test first on the command line.
 
 </pre>
 
