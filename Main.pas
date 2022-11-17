@@ -13729,7 +13729,7 @@ begin
 	if (RunCMDLine <> '') AND (ErrMsg = '') then
 		begin	 
 		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
-		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, FALSE); // execute, show window and wait?
+		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, TRUE); // execute, show window and wait?
 		end;
 	 
 	 
