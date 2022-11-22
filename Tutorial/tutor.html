@@ -33,6 +33,7 @@
 <H3>Contents</H3>
 </FONT>
 <UL>
+	<A HREF="drawing.html">Tile Studio Drawing Tutorial</A><BR>
    <A HREF="#WhenToUseTS">When to use Tile Studio</A><BR>
    <A HREF="#ImportingTiles">Importing Tiles</A><BR>
    <A HREF="#Colors">Selecting Colors</A><BR>
@@ -45,6 +46,87 @@
    <A HREF="#CreateTSD">Creating a Tile Studio Definition (.tsd) file</A><BR>
    <A HREF="#GeneratingCode">Generating Code</A><BR>
 </UL>
+
+
+  
+
+
+
+<TABLE WIDTH="92%" BACKGROUND="back3.jpg" BORDERCOLOR="#c0d0e0" BORDER="1">
+<TR><TD>
+
+<BR>
+<P ALIGN="CENTER"><IMG SRC="logo.gif" WIDTH=48 HEIGHT=48></P>
+
+<CENTER>
+
+<FONT COLOR="#fff8b8">
+<H1>TILE STUDIO</H1>
+</FONT>
+<I>by Mike Wiering, <A HREF="http://www.wieringsoftware.nl/" TARGET="_blank">Wiering Software</A></I>
+<BR><BR>
+
+<TABLE WIDTH="94%" BORDER="0">
+<TR><TD>
+
+<FONT COLOR="#fff8b8">
+<H3>Introduction</H3>
+</FONT>
+
+
+
+<UL>
+  Tile Studio is a complete development utility for graphics of tile-based games.
+  The application contains a bitmap editor for creating tiles and sprites and
+  a map editor for designing level maps.
+<P>
+<!-- 
+  Tile Studio was originally designed to be used with the
+  <A HREF="http://cleangl.sourceforge.net/" TARGET="_blank">Game Library</A> for the
+  language <A HREF="http://www.cs.kun.nl/~clean/" TARGET="_blank">Clean</A> (a functional 
+  language, developped by the University of Nijmegen). But 
+ -->
+  Tile Studio can be used together with ANY programming language, since
+  the output is completely programmable!
+  You can program Tile Studio to output your maps, animation sequences,
+  bitmaps, palettes, etc. in any format and include the output directly
+  into your source code!
+
+
+</UL>
+
+<CENTER>
+  <A HREF="ts_tile.png"><IMG SRC="ts_tile_s.png"
+     BORDER="0" ALT="tile editor"></A>
+  &nbsp;&nbsp;&nbsp;
+  <A HREF="ts_map.png"><IMG SRC="ts_map_s.png"
+     BORDER="0" ALT="map editor"></A>
+  <BR>
+  <FONT COLOR="#e0d0b8">
+    <I>Tile Studio - tile editor (left) and map editor (right).<BR>
+       Click to enlarge images.</I>
+  </FONT>
+</CENTER>
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>Tutorial Video</H3>
+</FONT>
+
+<UL>
+  This video gives an introduction to Tile Studio and a demonstration how graphics can be exported and used with HaxeFlixel.
+
+  <P>
+  <center>
+    <iframe src="http://www.youtube.com/embed/rrSc7mG4aHw"
+     width="560" height="315" frameborder="0" allowfullscreen></iframe>
+  </center>
+
+</UL>
+
+
 
 <FONT COLOR="#fff8b8">
 <A NAME="WhenToUseTS"><H3>When to use Tile Studio</H3></A>
@@ -86,6 +168,11 @@
   </FONT>
 </CENTER>
 <P>
+
+
+
+
+
 
 
   There is an auto-detect button that can often find the size of the tiles
@@ -214,6 +301,7 @@
 <A NAME="DrawingTools"><H3>Drawing Tools</H3>
 </FONT>
 <UL>
+  <A HREF="drawing.html">Complete Tile Studio Drawing Tutorial.</A><BR>
   The drawing tools are displayed at the left. Here is a description of
   these drawing tools:
 <P>
@@ -727,7 +815,7 @@
   <U><B>BinFileByte</B></U> - The current byte as an ASCII number<BR>
   <U><B>BinFilePos</B></U> - The position in the file (0, 1, 2, ...)<BR>
 </UL>
-<U><B>#list</B></U> <i>ListName [begin] [separator] [end]</i> - Command to go through the list <i>ListName</i><BR>
+<U><B>#list</B></U> <i>ListName [begin] [separator] [end]</i> - Command to go through the list <i>ListName</i>. See July 27, 2008 below for examples.<BR>
 <UL>
   <U><B>#list</B></U> <i>ListName [begin] [separator] [end]</i> - You can use lists recursively</i><BR>
   <U><B>Item</B></U> - The current item of the list as a string (if recursive: <U><i>ListName</i><B>Item</B><i>0, 1, 2, ...</i></U>)<BR>
@@ -1126,6 +1214,655 @@ Tips:
 </CENTER>
 </TD></TR>
 </TABLE>
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>News</H3>
+</FONT>
+
+
+<UL>
+
+  <B>December 25, 2017 - Tile Studio II first release!</B>
+  <P>
+   <UL>
+
+      Tile Studio II is now available: <a href="http://wieringsoftware.com/ts2/">Tile Studio II</a>
+
+   </UL>
+  <P>
+
+
+  <B>February 21, 2017 - Tile Studio source code now on Github!</B>
+  <P>
+   <UL>
+
+      The source code has now been moved to <a href="https://github.com/Wiering/Tile-Studio.git">Github</a>, now under the MIT license.
+
+   </UL>
+  <P>
+
+
+  <B>September 26, 2012 - Another update</B>
+  <P>
+   <UL>
+     This is another quick update with some extra features and fixes:
+        
+    <p>
+    <ul>
+
+    <li>
+	There is now an opacity slider at the top, so you can set the opacity of most drawing tools (when drawing on a transparent area, the opacity is always 100%).
+    </li>
+
+    <li>
+	Added a simple kind of onion skinning: right-click on a different tile at the bottom to see it vaguely through the current tile.
+    </li>
+
+    <li>
+	Added Tile | Replace Color Under Cursor (Ctrl+R).
+    </li>
+
+    <li>
+	Added View | Used Color Patterns (Ctrl+P), shows the patterns you've used before, you can select (left mouse button) or remove (right mouse button).
+    </li>
+
+    <li>
+	Select next or previous clips in the map editor with Ctrl+Shift+Alt Left or Right.
+    </li>
+
+    <li>
+	Added RGB Color Conversion Scripts (tile editor, bottom right).
+    </li>
+
+    <li>
+	Quotes in .tsd files can now be "..." or '...' instead of only "...".
+    </li>
+
+    <li>
+	Added Tile | Use As Alpha Channel (Shift+A).
+    </li>
+
+    <li>
+	Added <B>&lt;Counter1&gt;</B>, <B>&lt;Counter2&gt;</B>, etc. (up to 99), automatically increment.
+    </li>
+
+    <li>
+	Added option <B>!StartWithEmptyTile</B> for if you want the first tile in your tileset to be blank (use at the top of your .tsd file).
+    </li>
+
+    <li>
+	Import Palette in the palette manager works correctly now. You can also set up a default palette by naming it DEFAULT.PAL (F8 to switch to palette).
+    </li>
+
+    </ul>
+    <p>
+     Download <A href="https://tilestudio.sourceforge.net/ts.zip" TARGET="_blank">ts.zip</a> (or just replace <A href="https://github.com/Wiering/Tile-Studio/blob/master/ts.exe" TARGET="_blank">ts.exe</a>).
+    <BR>
+       Tile Studio II is being planned now, if you have suggestions how to make the program better, please list them at
+        <A HREF="https://github.com/Wiering/Tile-Studio/issues" TARGET="_blank">Tile Studio Forum - Open Discussion</A>.
+
+   </UL>
+  <P>
+
+
+
+
+  <B>July 27, 2008 - Quick update</B>
+  <P>
+   <UL>
+     This is a very early alpha version of 3.0, and it doesn't have many of the features that I planned
+     for 3.0, but you still might find it useful.
+    <p>
+    <ul>
+    <li>
+     You can now type <i>lists</i> of anything you like (Ctrl+F10),
+     which you can then export using #list ... #end list. For example, you could make a list of
+     sounds for your game: <b>[Sounds]</b>, <b>JUMP</b>, <b>COIN</b>, <b>FINISH</b> (each on a separate line). Then you could
+     export <b>#list "Sounds" "\n" ",\n" ""</b> and inside that you can use <b>&lt;Item&gt;</b> and <b>&lt;Index&gt;</b>
+     (also <b>&lt;ItemValue&gt;</b> if your list items are integer numbers),
+     for example: <b>const SND_&lt;Item&gt; = "&lt;Item&gt;.WAV";</b>. If you have multiple lists,
+     you can also add the name of the list as a prefix, for example <b>&lt;SoundsItem&gt;</b>. You can even
+     use the same list recursively, then add a number (0, 1, ...) at the end: <b>&lt;SoundsItem0&gt;</b>. 
+     You can also use lists (with 0 or 1 item) for conditional compilation or as global constants.
+    </li>
+    <li>
+     Also, you go through a text file line-by-line (<b>#readtextfile ... #end readtextfile</b>)
+     or a binary file byte-by-byte (<b>#readbinfile ... #end readbinfile</b>) to export it in some way.
+     For text, you can use <b>&lt;TextFileLine&gt;</b> (<b>&lt;TextFileLineValue&gt;</b> in case it is a number) and
+     <b>&lt;LineNumber&gt;</b>. For binary files: <b>&lt;BinFileChar&gt;</b>, <b>&lt;BinFileByte&gt;</b> and
+     <b>&lt;BinFilePos&gt;</b>.
+    </li>
+    <li>
+     You can now use <b>IF</b> <i>a</i> <b>THEN</b> <i>b</i> <b>ELSE</b> <i>c</i> in numeric expressions! The result is
+     <i>b</i> if <i>a</i> is not zero, otherwise <i>c</i> (note that ELSE is always required).
+     Further keywords are <b>NOT</b>, <b>EQUALS</b>, <b>ABOVE</b>, <b>BELOW</b>, <b>AND</b> and <b>OR</b> (only works for numbers though, not for strings).
+     For example: <br>const &lt;MapIdentifier&gt;: array[0..&lt;MapHeight * MapHeight - 1&gt;] of &lt;IF (TileCount ABOVE 255) THEN 16 ELSE 8 : "UInt%d"&gt; = ...
+    </li>
+    <li>
+     In edit mode, the coordinates of shapes you draw are now logged (at the bottom right). This is meant for
+     drawing animations, where you want to make slight changes per frame. On a new frame, you can press SHOW to
+     see where you drew each shape before.
+    </li>
+    <li>
+     Other changes include (limited) .PCX support, replace current tile sequence in map mode (Ctrl+Shift+F7), 
+     new <b>#sequenceframe ... #end sequenceframe</b> (same as #sequencedata, but goes through each frame duration+1 times).
+    </li>
+    </ul>
+    <p>
+     Download <A href="https://tilestudio.sourceforge.net/ts.zip" TARGET="_blank">ts.zip</a> (or just replace <A href="https://github.com/Wiering/Tile-Studio/blob/master/ts.exe" TARGET="_blank">ts.exe</a>), enjoy!
+
+   </UL>
+  <P>
+
+
+  <B>December 1, 2006 - New BlitzMax example</B>
+  <P>
+   <UL>
+     I just made a complete new example of scrolling layers in BlitzMax, which is 
+     far easier than the previous examples. It includes a new definition file BMXPNG.tsd:
+        <A HREF="https://tilestudio.sourceforge.net/tilemap.zip">tilemap.zip</A>.
+
+   </UL>
+  <P>
+
+  <B>November 16, 2006 - Version 2.55</B>
+  <P>
+   <UL>
+     This is another update with some fixed bugs and changes. Download the newest version from
+        <A href="https://sourceforge.net/projects/tilestudio/" TARGET="_blank">SourceForge</a>
+          or simply replace your ts.exe with the <A href="https://github.com/Wiering/Tile-Studio/blob/master/ts.exe" TARGET="_blank">new version</a>.
+        <P>
+
+     <UL>
+       <LI>   Fixed: Replace Colors (Edit menu), Replace All didn't work properly.
+       </LI>
+
+       <LI>   Added: Quick keys "0" - "9" for toolbox functions (pencil, paintbrush, ..., selection).
+       </LI>
+
+       <LI>   Fixed problem introduced in 2.53: conflict between bounds and sequences (certain
+              bounds would change into sequence code 00).
+       </LI>
+
+       <LI>   Fixed: starting a new selection in the map doesn't change the bounds anymore.
+       </LI>
+
+       <LI>   Added: Sequences can now have bounds. When exporting data, 
+              <B>#sequencedata</B> .. <B>#end sequencedata</B> can now contains variable 
+              <B>&lt;Bounds&gt;</B> (the bounds of the tiles used to make the sequence).
+       </LI>
+
+       <LI>   Fixed: <B>&lt;MapCount&gt;</B> was still not working correctly.
+       </LI>
+
+       <LI>   Fixed: config file not loaded when starting from other directory.
+       </LI>
+
+       <LI>   Added: transparent color can be changed by editing the config file TS.TSC.
+       </LI>
+
+       <LI>   Added: Paste half size image (Edit | Scaled Paste), perhaps more to come.
+       </LI>
+
+       <LI>   Fixed bug introduced in 2.54: <B>#bitmapfile</B> used current directory 
+              instead of target directory.
+       </LI>
+
+
+      </UL>
+
+   </UL>
+  <P>
+
+
+
+<!--
+  <B>July 24, 2006 - Tile Studio Wiki</B>
+  <P>
+   <UL>
+
+      Sam Cartwright has made a section on his wiki for Tile Studio: <P>
+      <UL>
+        <LI><A HREF="http://www.sarucode.com/index.php?title=Category:TileStudio"
+             TARGET="_blank">http://www.sarucode.com/index.php?title=Category:TileStudio</A></LI>
+      </UL>
+
+   </UL>
+  <P>
+-->
+
+
+
+  <B>July 23, 2006 - Version 2.54</B>
+  <P>
+   <UL>
+     This is an update with some fixed bugs and changes. Simply replace your ts.exe with this
+        <A href="https://github.com/Wiering/Tile-Studio/blob/master/ts.exe" TARGET="_blank">new version</a>.
+        <P>
+
+     <UL>
+       <LI>   New: You can now export tiles as separate image files (use <b>#tilebitmap .. #end tilebitmap</b>
+              within <b>#tile .. #end tile</b>).
+       </LI>
+
+       <LI>   <b>#file</b> now creates the target directory if it doesn't exist.
+       </LI>
+
+       <LI>   New: <B>Replace colors</B> works differently now: first you need a color pattern containing
+              the colors you want to replace (or make one with Ctrl + Right mouse button), press
+              Shift + Tab (split color pattern), make a new color pattern with colors you want to
+              use and then press the Replace Colors button at the top.
+       </LI>
+
+       <LI>   Fixed: placing a mirrored tile in the map sometimes gave a range check error.
+       </LI>
+
+       <LI>   You can turn the back / mid / front layer off in the map editor (<i>View</i> | <i>Show
+              Map Layer...</i>), this is reset automatically when you switch back to tile mode.
+       </LI>
+
+       <LI>   In the map editor, you can copy the current tile combination to the clipboard
+              (and paste it as a new tile in the tile editor).
+       </LI>
+
+       <LI>   Fixed: <B>&lt;TilesetBitmapWidth&gt;</B> and <B>&lt;TilesetBitmapHeight&gt;</B>
+              are updated directly when you use <B>#tilebitmap</B>.
+       </LI>
+
+       <LI>   New: You can set guidelines in the map grid (<i>Map</i> | <i>Set Grid Guidelines...</i>).
+       </LI>
+
+
+
+
+     </UL>
+
+   </UL>
+  <P>
+
+
+
+
+
+  <A HREF="https://tilestudio.sourceforge.net/oldnews.html">Old news...</A>
+
+</UL>
+
+
+
+
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>Tutorial</H3>
+</FONT>
+
+<UL>
+
+   Here is a quick tutorial to help you learn to work with Tile Studio.
+   Most of it should be easy to understand for anybody. However, the part
+   about writing your own Tile Studio Definition files is meant for
+   people who have some programming experience.
+
+  <P>
+   <UL>
+      <A HREF="https://tilestudio.sourceforge.net/tutor.html">Tile Studio Tutorial</A>
+     <br>
+      <A HREF="https://tilestudio.sourceforge.net/drawing.html">Tile Studio Drawing Tutorial</A> (NEW!)
+   </UL>
+  <P>
+
+   This tutorial is also included in the .ZIP file, so you can read
+   it off-line.
+
+</UL>
+
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>Download</H3>
+</FONT>
+
+<UL>
+   To run Tile Studio, you will need a PC with Windows (any version)
+   with HiColor or TrueColor display (Tile Studio cannot be used with 256-color
+   display). Tile Studio works best on a desktop of at least 1024x768. If you
+   have only 800x600 (or less), be sure to maximize the window when you start
+   (so you also see the Tile Set panel and the status line).
+  <P>
+
+   <UL>
+      <li>Tile Studio: <A HREF="https://tilestudio.sourceforge.net/ts.zip">ts.zip</A> (unpack this into a new folder and start ts.exe)</li>
+      <li>Source code: <A HREF="https://github.com/Wiering/Tile-Studio.git">https://github.com/Wiering/Tile-Studio.git</A> (Delphi 5 Source code)</li>
+   </UL>
+
+  <P>
+
+    Older versions are available on <A HREF="http://sourceforge.net/project/showfiles.php?group_id=48488" TARGET="_blank">sourceforge</A>.
+ 
+  <P>
+
+  And here are some examples of .tsp project files:
+    <A HREF="https://tilestudio.sourceforge.net/examples.zip">examples.zip</A> (includes Worms.tsp, Charlie.tsp and Sint.tsp).
+  You can find the actual games (written in Clean) at the
+    <A HREF="http://cleangl.sourceforge.net/" TARGET="_blank">Clean Game Library</A> site (Games section).
+
+</UL>
+
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>Examples</H3>
+</FONT>
+
+<UL>
+
+   Here are some examples of how to use Tile Studio with different programming languages.
+   The demo is very simple, it shows two layers scrolling at different speeds. 
+   There is one animated tile sequence (used for the water).
+
+  <P>
+     <CENTER>
+         <IMG SRC="scroll.jpg" BORDER="1">
+         <BR>
+         <FONT COLOR="#e0d0b8">
+           <I>Scroll demo for several programming langauges</I>
+         </FONT>
+     </CENTER>
+  <P>
+
+   These examples contain a .TSP file (with the graphics and maps), a .TSD file (which
+   specifies the output format for that particular programming language) and the source
+   code for the project. Most examples also include a working executable.
+  <P>
+   Note that the .TSD files here are only examples. Normally, you would write
+   a separate .TSD file for each project. But you could start with one of these.
+
+  <P>
+   If you have written a .TSD file for a specific language or library, which you'ld like
+   to add to this list, please send it together with a working demo (source + executable).
+
+  <P>
+    <UL>
+
+      <TABLE BORDER="1" CELLPADDING="4">
+      <TR>  <TH> Platform / Compiler </TH>      <TH> Framework / Library </TH>      <TH> Example </TH>  </TR>
+
+
+
+
+
+      <TR>
+        <TD><A HREF="http://www.blitzmax.com/" TARGET="_blank">BlitzMax</A>
+        </TD>
+        <TD>None
+        </TD>
+        <TD>
+
+		    <A HREF="https://tilestudio.sourceforge.net/tsbmx.zip">tsbmx.zip</A> &nbsp; / &nbsp;
+                    <A HREF="https://tilestudio.sourceforge.net/tsbm2.zip">tsbm2.zip</A> &nbsp; / &nbsp;
+                    <A HREF="https://tilestudio.sourceforge.net/tilemap.zip">tilemap.zip</A>
+                         &nbsp;<FONT SIZE="-1" COLOR="#FFE080"><B>NEW!</B></FONT>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD> DoCoMo's i-mode mobile phone
+        </TD>
+        <TD><A HREF="http://www.sarucode.com/index.php?title=Main_Page" TARGET="_blank">DoJa</A>
+        </TD>
+        <TD>
+          <A HREF="https://tilestudio.sourceforge.net/tsdoja.zip">tsdoja.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD> .NET 1.0, 2.0 and Mono
+        </TD>
+        <TD><A HREF="http://boogame.sourceforge.net/index.php/Home" TARGET="_blank">BooGame</A>
+        </TD>
+        <TD>
+             <A HREF="http://boogame.sourceforge.net/index.php/Category:Examples">examples</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD><A HREF="http://www.digitalmars.com/d/" TARGET="_blank">D</A>
+        </TD>
+        <TD><A HREF="http://www.dsource.org/projects/derelict" TARGET="_blank">Derelict</A>
+        </TD>
+        <TD>
+		    <A HREF="https://tilestudio.sourceforge.net/tsd.zip">tsd.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>Flash / ActionScript
+        </TD>
+        <TD><A HREF="http://www.haxe.org/" TARGET="_blank">haXe</A>
+        </TD>
+        <TD>
+            <A HREF="http://tilestudio.sourceforge.net/flash/Demo.html">demo</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>Java
+        </TD>
+        <TD>None
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tsjava.zip">tsjava.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>C (gcc, <A HREF="http://www.bloodshed.net/" TARGET="_blank">dev-c++</A>)
+        </TD>
+        <TD><A HREF="http://www.libsdl.org/" TARGET="_blank">SDL</A>
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tssdl.zip">tssdl.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>Delphi
+        </TD>
+        <TD><A HREF="http://www.opengl.org/" TARGET="_blank">OpenGL</A>
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tsgl.zip">tsgl.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>Clean
+        </TD>
+        <TD><A HREF="http://cleangl.sourceforge.net/" TARGET="_blank">Clean Game Library</A>
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tscl.zip">tscl.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>MS Visual C++
+        </TD>
+        <TD>DirectX
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tsvc.zip">tsvc.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>Delphi
+        </TD>
+        <TD><A HREF="http://www.yks.ne.jp/~hori/index-e.html" TARGET="_blank">DelphiX</A>
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tsdx.zip">tsdx.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>C (<A HREF="http://www.delorie.org/djgpp/" TARGET="_blank">DJGPP</A>)
+        </TD>
+        <TD><A HREF="http://alleg.sourceforge.net/" TARGET="_blank">Allegro</A>
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tsal.zip">tsal.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD><A HREF="http://www.blitzbasic.com/" TARGET="_blank">Blitz Basic</A>
+        </TD>
+        <TD>None
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tsbb.zip">tsbb.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD><A HREF="http://www.gapidraw.com/" TARGET="_blank">GapiDraw</A>
+        </TD>
+        <TD>None
+        </TD>
+        <TD>Included in archive (folder samples/TileDemo)
+        </TD>
+      </TR>
+
+      <TR>
+        <TD><A HREF="http://darkbasicpro.thegamecreators.com/" TARGET="_blank">DarkBASIC Pro</A>
+        </TD>
+        <TD>None
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/dbpro.zip">dbpro.zip</A>
+        </TD>
+      </TR>
+
+      <TR>
+        <TD>Turbo Pascal
+        </TD>
+        <TD>None
+        </TD>
+        <TD><A HREF="https://tilestudio.sourceforge.net/tstp.zip">tstp.zip</A> *
+        </TD>
+      </TR>
+
+      </TABLE>
+
+    </UL>
+    <P>
+       * &nbsp; The Turbo Pascal example is different from the others, it demonstrates overlapping tiles and
+         the use of palettes.
+
+    <P>
+</UL>
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>Forum</H3>
+</FONT>
+
+<UL>
+  If you want to discuss anything that has to do with Tile Studio with other users, post a message here:
+  <P>
+  <UL>
+   <A HREF="https://github.com/Wiering/Tile-Studio/issues" TARGET="_blank">Tile Studio Forum - Open Discussion</A>
+  </UL>
+  <P>
+  If you have bug reports or feature requests, you can post them 
+  at the <A href="https://github.com/Wiering/Tile-Studio/issues" TARGET="_blank">SourceForge</a> page.
+</UL>
+
+
+     <CENTER>
+
+       <A href="https://sourceforge.net/projects/tilestudio/" TARGET="_blank"> <IMG src="http://sourceforge.net/sflogo.php?group_id=48488&type=5" width="210" height="62" border="0" alt="SourceForge Logo"></A>
+
+     </CENTER>
+
+
+
+
+
+<FONT COLOR="#fff8b8">
+<H3>Links</H3>
+</FONT>
+
+<UL>
+<!--
+   Everything you need to make your game really work and some example games:
+  <P>
+   <UL>
+   <A HREF="http://cleangl.sourceforge.net/" TARGET="_blank">Clean Game Library</A> <BR>
+   </UL>
+  <P>
+-->
+
+   Other map/tile editors:
+  <P>
+   <UL>
+   <A HREF="http://mapeditor.org/" TARGET="_blank">Tiled</A> <BR>
+   <A HREF="http://tide.codeplex.com/" TARGET="_blank">tIde</A> <BR>
+   <A HREF="http://www.tilemap.co.uk/" TARGET="_blank">Mappy</A> <BR>
+   </UL>
+  <P>
+   Game development links:
+  <P>
+   <UL>
+   <A HREF="http://www.ambrosine.com/resource.html" TARGET="_blank">Ambrosine's Game Creation Resources</A> <BR>
+   <A HREF="http://forums.indiegamer.com/" TARGET="_blank">IndieGamer Development Forums</A><BR>
+
+   </UL>
+  <P>
+   Be sure to read the Tile Studio tutorials:
+  <P>
+   <UL>
+      <A HREF="https://tilestudio.sourceforge.net/tutor.html">Tile Studio Complete Tutorial</A> 
+      <BR>
+      <A HREF="https://tilestudio.sourceforge.net/drawing.html">Drawing Tutorial</A>
+      <BR>
+   </UL>
+
+
+
+</UL>
+
+
+
+<BR>
+<CENTER>
+  <FONT COLOR="#e0d0b8">
+    <I>Return to <A HREF="http://www.wieringsoftware.nl/" TARGET="_blank">Wiering Software</A></I> <BR>
+  </FONT>
+</CENTER>
+
+</TR></TD>
+</TABLE>
+</CENTER>
+
+
+<BR>
+
+</TD></TR>
+</TABLE>
+
+
+
+
+
+<P>
+<CENTER>
+
+<P>
 
   </BODY>
 </HTML>

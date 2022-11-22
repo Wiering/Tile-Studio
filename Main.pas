@@ -13724,14 +13724,6 @@ begin
   // generate the code
 
   ErrMsg := RunCode;
-
-	// run cmd line if not empty and no errors
-	if (RunCMDLine <> '') AND (ErrMsg = '') then
-		begin	 
-		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
-		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, TRUE); // execute, show window and wait?
-		end;
-	 
 	 
   for itab := 0 to Tab.Tabs.Count - 1 do
     with TileTab[itab].tbr do
@@ -13741,17 +13733,26 @@ begin
     end;
 
 // CMDLINE_OP
-	 if ReadParamCMD <> 'F10' then
+	if ReadParamCMD <> 'F10' then
 		  begin	 
-		  if ErrMsg <> '' then
+		  
+		  
+		// run cmd line if not empty and no errors
+		if (RunCMDLine <> '') AND (ErrMsg = '') then
+		begin	 
+		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
+		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, TRUE); // execute, show window and wait?
+		end;
+		
+		if ErrMsg <> '' then
 			ShowMessage (ErrMsg)
-		  else
-		  begin
+		else
+		begin
 			with ProgressBar do
 			  Position := Max;
 			  ShowMessage ('Code generated successfully');
-		  end;
-	  end;
+		 end;
+	end;
 // CMDLINE_OP
 
   // clean up and release memory
