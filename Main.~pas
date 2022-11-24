@@ -13194,15 +13194,11 @@ procedure TMainForm.Generate1Click(Sender: TObject);
 			   begin
 					ExportDuplicateTiles := TRUE; // ignore unique tile check
 			   end;
-			   
-			   
 			
 			end;
-		end;
-
+			
 	end;
-end;
-
+	
 	
 // from https://stackoverflow.com/questions/32211723/why-delphi-app-cant-run-a-bat-file-and-make-it-work?noredirect=1&lq=1
 procedure StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
@@ -13724,6 +13720,14 @@ begin
   // generate the code
 
   ErrMsg := RunCode;
+
+	// run cmd line if not empty and no errors
+	if RunCMDLine <> '' AND ErrMsg = '' then
+		begin	 
+		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
+		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, FALSE); // execute, show window and wait?
+		end;
+	 
 	 
   for itab := 0 to Tab.Tabs.Count - 1 do
     with TileTab[itab].tbr do
@@ -13733,26 +13737,17 @@ begin
     end;
 
 // CMDLINE_OP
-	if ReadParamCMD <> 'F10' then
+	 if ReadParamCMD <> 'F10' then
 		  begin	 
-		  
-		  
-		// run cmd line if not empty and no errors
-		if (RunCMDLine <> '') AND (ErrMsg = '') then
-		begin	 
-		// StartProcess(ExeName: string; CmdLineArgs: string = ''; ShowWindow: boolean = True; WaitForFinish: boolean = False);
-		StartProcess('cmd.exe', '/C ' +  RunCMDLine, TRUE, TRUE); // execute, show window and wait?
-		end;
-		
-		if ErrMsg <> '' then
+		  if ErrMsg <> '' then
 			ShowMessage (ErrMsg)
-		else
-		begin
+		  else
+		  begin
 			with ProgressBar do
 			  Position := Max;
 			  ShowMessage ('Code generated successfully');
-		 end;
-	end;
+		  end;
+	  end;
 // CMDLINE_OP
 
   // clean up and release memory
